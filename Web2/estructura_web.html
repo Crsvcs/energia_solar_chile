@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Electricidad</title>
+    <link rel="stylesheet" href="estilo_web.css">
+</head>
+
+<body>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 1 — PORTADA
+════════════════════════════════════════════════ -->
+<section class="slide activo">
+
+    <div class="encabezado">
+        <h2>Módulo 1</h2>
+    </div>
+
+    <div class="subtitulo-portada">
+        APRENDAMOS SOBRE LA ENERGÍA ELÉCTRICA
+    </div>
+
+    <div class="panelin-fijo">
+        <img src="panelin_feliz.png" class="panelin-decorativo">
+        <div class="globo-fijo">
+            Usa las flechas para avanzar, la casa para volver a los módulos y la ampolleta por si tienes dudas.
+        </div>
+    </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 2 — ¿QUÉ ES LA ENERGÍA ELÉCTRICA?
+════════════════════════════════════════════════ -->
+<section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 1</h2>
+        <h1>¿QUÉ ES LA ENERGÍA ELÉCTRICA?</h1>
+    </div>
+
+    <div class="panelin-fijo">
+        <img src="panelin_feliz.png" class="panelin-decorativo">
+        <div class="globo-fijo">
+            La energía eléctrica es un tipo de energía que viaja a través de los cables y permite que funcionen las luces, los aparatos y los dispositivos que usamos todos los días.
+            <br><br>
+            ¡Todo lo que enchufas usa energía eléctrica!
+        </div>
+    </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 3 — ¿CUÁNTA ELECTRICIDAD USAN LOS OBJETOS?
+════════════════════════════════════════════════ -->
+<section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 1</h2>
+        <h1>¿CUÁNTA ELECTRICIDAD USAN LOS OBJETOS?</h1>
+    </div>
+
+    <div class="contenedor difuminado" id="contenedorSlide3">
+
+        <div class="objeto">
+            <div class="caja-imagen">
+                <img src="ampolleta.png" onclick="toggleInfo('info1')">
+            </div>
+            <div id="info1" class="info">Usa muy poca electricidad: 10 W</div>
+        </div>
+
+        <div class="objeto">
+            <div class="caja-imagen">
+                <img src="tv.png" onclick="toggleInfo('info2')">
+            </div>
+            <div id="info2" class="info">Usa un poco más de electricidad: 100 W</div>
+        </div>
+
+        <div class="objeto">
+            <div class="caja-imagen">
+                <img src="microondas.png" onclick="toggleInfo('info3')">
+            </div>
+            <div id="info3" class="info">Usa mucha más electricidad: 1.000 W</div>
+        </div>
+
+    </div>
+
+    <div class="panelin-fijo" id="panelinSlide3">
+        <img src="panelin_feliz.png" class="panelin-decorativo">
+        <div class="globo-fijo" id="textoSlide3">
+            Los watts (W) nos ayudan a saber cuánta electricidad usa un objeto. Mientras más watts tiene un objeto, más electricidad necesita para funcionar.
+        </div>
+    </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 4 — CORRIENTE ALTERNA Y CONTINUA
+════════════════════════════════════════════════ -->
+<section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 1</h2>
+        <h1>CORRIENTE ALTERNA Y CONTINUA</h1>
+    </div>
+
+    <div class="corrientes-row">
+
+        <div class="corriente-card">
+            <h3>Corriente Alterna (CA)</h3>
+            <p>
+                La electricidad cambia de dirección constantemente.
+                Es la que viene del enchufe de tu casa.
+            </p>
+        </div>
+
+        <div class="corriente-card">
+            <h3>Corriente Continua (CC)</h3>
+            <p>
+                La electricidad siempre va en la misma dirección.
+                La usan las baterías y los cargadores.
+            </p>
+        </div>
+
+    </div>
+
+    <img src="panelin_feliz.png" class="panelin-derecha">
+
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 5 — CORRIENTES Y DISPOSITIVOS
+════════════════════════════════════════════════ -->
+<section class="slide slide2" id="slide2">
+
+    <div class="encabezado">
+        <h2>Módulo 1</h2>
+        <h1>CORRIENTES Y DISPOSITIVOS</h1>
+    </div>
+
+    <div class="panelin-fijo" id="panelinSlide5">
+        <img src="panelin_feliz.png" class="panelin-decorativo">
+        <div class="globo-fijo">
+            Selecciona uno de los dispositivos y observa con el tipo de corriente que trabaja.
+        </div>
+    </div>
+
+    <!-- Estado 1: grilla con 6 artefactos -->
+    <div class="objetos-slide2 difuminado" id="objetosSlide2">
+
+        <div class="artefacto-card" onclick="mostrarDetalle('tablet')">
+            <div class="artefacto-caja">
+                <img src="tablet.png" class="artefacto">
+            </div>
+            <span class="artefacto-nombre">Tablet</span>
+        </div>
+
+        <div class="artefacto-card" onclick="mostrarDetalle('refrigerador')">
+            <div class="artefacto-caja">
+                <img src="refrigerador.png" class="artefacto">
+            </div>
+            <span class="artefacto-nombre">Refrigerador</span>
+        </div>
+
+        <div class="artefacto-card" onclick="mostrarDetalle('nintendo')">
+            <div class="artefacto-caja">
+                <img src="nintendo.png" class="artefacto">
+            </div>
+            <span class="artefacto-nombre">Nintendo Switch</span>
+        </div>
+
+        <div class="artefacto-card" onclick="mostrarDetalle('microonda')">
+            <div class="artefacto-caja">
+                <img src="microondas.png" class="artefacto">
+            </div>
+            <span class="artefacto-nombre">Microondas</span>
+        </div>
+
+        <div class="artefacto-card" onclick="mostrarDetalle('teclado')">
+            <div class="artefacto-caja">
+                <img src="teclado.png" class="artefacto">
+            </div>
+            <span class="artefacto-nombre">Teclado</span>
+        </div>
+
+        <div class="artefacto-card" onclick="mostrarDetalle('xbox')">
+            <div class="artefacto-caja">
+                <img src="xbox.png" class="artefacto">
+            </div>
+            <span class="artefacto-nombre">Xbox</span>
+        </div>
+
+    </div>
+
+    <!-- Estado 2: artefacto enchufado / cargándose -->
+    <div class="detalle-artefacto" id="detalleArtefacto" onclick="mostrarPanelinArtefacto()">
+        <img id="imagenCargando" class="imagen-cargando">
+    </div>
+
+    <!-- Estado 3: Panelín explicando -->
+    <div class="panelin-explica" id="panelinArtefacto" onclick="volverObjetosSlide2()">
+        <img src="panelin_feliz.png" class="panelin">
+        <div class="globo" id="textoPanelin"></div>
+    </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 6 — FIN DEL MÓDULO
+════════════════════════════════════════════════ -->
+<section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 1</h2>
+    </div>
+
+    <div class="panelin-final">
+        <img src="panelin_feliz.png" class="panelin-final-img">
+        <div class="globo-final">
+            ¡Muy bien! Completaste el primer módulo.
+            <br><br>
+            Prepárate… ahora viene algo increíble: ¡cómo el sol se transforma en energía!
+            <br><br>
+            Para continuar, pincha la casita y elige el siguiente módulo.
+        </div>
+    </div>
+
+</section>
+
+<!-- ── Iconos superiores (ampolleta + casa) ─── -->
+<div class="nav-top">
+    <button class="btn-nav" title="Ayuda">💡</button>
+    <button class="btn-nav" onclick="window.location.href='modulos.html'" title="Inicio">🏠</button>
+</div>
+
+<!-- ── Flechas de navegación ────────────────── -->
+<div class="flechas" id="flechas">
+    <button onclick="cambiarSlide(-1)" id="flechaIzquierda">←</button>
+    <button onclick="cambiarSlide(1)" id="flechaDerecha">→</button>
+</div>
+
+<script src="interaccion_web.js"></script>
+</body>
+</html>

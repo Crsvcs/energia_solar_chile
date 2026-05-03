@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Módulos de Aprendizaje</title>
+    <link rel="stylesheet" href="modulos.css">
+</head>
+<body>
+
+    <h1 class="titulo-principal">MÓDULOS DE APRENDIZAJE</h1>
+
+    <div class="modulos-row" id="modulosRow">
+
+        <div class="modulo bloqueado" id="modulo1" onclick="irModulo(1)">
+            <p class="modulo-nombre">Módulo 1</p>
+            <div class="circulo">
+                <img src="img_modulo1.jpg" class="modulo-img">
+                <div class="overlay-lock" id="lock1">🔒</div>
+            </div>
+            <p class="modulo-desc">¿Qué es la<br>energía eléctrica?</p>
+        </div>
+
+        <div class="modulo bloqueado" id="modulo2" onclick="irModulo(2)">
+            <p class="modulo-nombre">Módulo 2</p>
+            <div class="circulo">
+                <img src="img_modulo2.jpg" class="modulo-img">
+                <div class="overlay-lock" id="lock2">🔒</div>
+            </div>
+            <p class="modulo-desc">¿Qué es la<br>energía solar?</p>
+        </div>
+
+        <div class="modulo bloqueado" id="modulo3" onclick="irModulo(3)">
+            <p class="modulo-nombre">Módulo 3</p>
+            <div class="circulo">
+                <img src="img_modulo3.jpg" class="modulo-img">
+                <div class="overlay-lock" id="lock3">🔒</div>
+            </div>
+            <p class="modulo-desc">¿Cómo funcionan los<br>paneles solares?</p>
+        </div>
+
+        <div class="modulo bloqueado" id="modulo4" onclick="irModulo(4)">
+            <p class="modulo-nombre">Módulo 4</p>
+            <div class="circulo">
+                <img src="img_modulo4.jpg" class="modulo-img">
+                <div class="overlay-lock" id="lock4">🔒</div>
+            </div>
+            <p class="modulo-desc">Energía solar<br>en Chile</p>
+        </div>
+
+    </div>
+
+    <!-- Panelín intro -->
+    <div class="panelin-modulos" id="panelinModulos" style="display:none">
+        <img src="panelin_feliz.png" class="panelin-mod-img">
+        <div class="globo-mod" id="globoMod"></div>
+    </div>
+
+    <!-- Botón de reset solo para desarrollo — eliminar antes de publicar -->
+    <button onclick="localStorage.clear(); location.reload();"
+            style="position:fixed; bottom:10px; right:10px; font-size:11px;
+                   opacity:0.35; cursor:pointer; padding:4px 8px;">
+        Reset prueba
+    </button>
+
+    <script src="modulos.js"></script>
+</body>
+</html>
