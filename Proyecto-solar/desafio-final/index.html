@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salva tu Ciudad Solar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0f2e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Nunito', sans-serif;
+    }
+    #game-container canvas {
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 0 60px rgba(239, 159, 39, 0.15);
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.60.0/phaser.min.js"></script>
+  <script src="escena1.js"></script>
+  <script>
+    const config = {
+      type: Phaser.AUTO,
+      width: 900,
+      height: 600,
+      parent: 'game-container',
+      backgroundColor: '#1a2744',
+      scene: [Escena1],
+      scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+      }
+    };
+    const game = new Phaser.Game(config);
+  </script>
+</body>
+</html>
