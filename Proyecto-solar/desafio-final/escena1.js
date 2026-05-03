@@ -69,7 +69,7 @@ class Escena1 extends Phaser.Scene {
 
     // ── Layout del mapa ──────────────────────────────────────
     // Escala elegida para que el total (510px) quepa en ~490px con margen
-    const MAP_SCALE = 0.96;
+    const MAP_SCALE = 0.82;
 
     // Alturas escaladas de cada región
     const norteH  = 162 * MAP_SCALE;  // ~155px
@@ -83,18 +83,18 @@ class Escena1 extends Phaser.Scene {
     const mapStartY = 105;
 
     // Centros Y de cada región
-    const norteY  = mapStartY + norteH / 2;
-    const centroY = norteY + norteH / 2 + centroH / 2;
-    const surY    = centroY + centroH / 2 + surH / 2;
+    const norteY  = mapStartY + norteH / 2+0;
+    const centroY = mapStartY + norteH + centroH / 2+0;
+    const surY    = mapStartY + norteH + centroH + surH / 2+ (-5);
 
     // ── Zonas interactivas invisibles (más anchas que la imagen) ─
     // Facilita el click para niños — área clickable de 160px de ancho
     const HIT_W = 160;
 
     // ── Imágenes de cada región ──────────────────────────────
-    const imgNorte  = this.add.image(mapX, norteY,  'norte').setScale(MAP_SCALE);
-    const imgCentro = this.add.image(mapX, centroY, 'centro').setScale(MAP_SCALE);
-    const imgSur    = this.add.image(mapX, surY,    'sur').setScale(MAP_SCALE);
+    const imgNorte  = this.add.image(mapX + 12, norteY,  'norte').setScale(MAP_SCALE);
+    const imgCentro = this.add.image(mapX + 0, centroY, 'centro').setScale(MAP_SCALE);
+    const imgSur    = this.add.image(mapX + 3, surY,    'sur').setScale(MAP_SCALE);
 
     // ── Zonas clickables (rectángulos invisibles sobre las imágenes) ─
     const zoneNorte  = this.add.zone(mapX, norteY,  HIT_W, norteH).setInteractive();
@@ -110,12 +110,13 @@ class Escena1 extends Phaser.Scene {
 
     // ── Labels (Zona Norte / Centro / Sur) ───────────────────
     const labelScale = 0.75;
-    const labelX = mapX + 115; // a la derecha del mapa
+    const labelX = mapX + 140; // a la derecha del mapa
 
     Object.entries(regiones).forEach(([key, data]) => {
-      data.labelImg = this.add.image(labelX, data.y, data.label)
+      const labelOffsets = { norte: 0, centro: 0, sur: 0 };
+      data.labelImg = this.add.image(labelX, data.y + labelOffsets[key], data.label)
         .setScale(labelScale)
-        .setAlpha(0.6);
+        .setAlpha(1);
     });
 
     // ── Panel de info (derecha) ───────────────────────────────
@@ -221,12 +222,12 @@ class Escena1 extends Phaser.Scene {
         });
 
         // Efecto de destellos en la región seleccionada
-        this.crearDestellos(mapX, data.y);
+        //this.crearDestellos(mapX, data.y);
       });
     });
 
     // ── Instrucción inicial con flecha ───────────────────────
-    this.flechaTxt = this.add.text(mapX + HIT_W / 2 + 10, H / 2 - 10, '← toca\nel mapa', {
+    this.flechaTxt = this.add.text(350, H - 40, '↑ toca el mapa', {
       fontFamily: 'Nunito, sans-serif', fontSize: '12px',
       color: '#7ab0ff', align: 'left', lineSpacing: 4
     });
@@ -277,26 +278,26 @@ class Escena1 extends Phaser.Scene {
   // ----------------------------------------------------------
   // Destellos visuales al seleccionar una región
   // ----------------------------------------------------------
-  crearDestellos(x, y) {
-    for (let i = 0; i < 8; i++) {
-      const angle = (i / 8) * Math.PI * 2;
-      const dist = Phaser.Math.Between(30, 80);
-      const star = this.add.text(x, y, '✦', {
-        fontSize: '12px', color: '#EF9F27'
-      }).setOrigin(0.5);
+ // crearDestellos(x, y) {
+    // for (let i = 0; i < 8; i++) {
+      // const angle = (i / 8) * Math.PI * 2;
+   //    const dist = Phaser.Math.Between(30, 80);
+      // const star = this.add.text(x, y, '✦', {
+   //      fontSize: '12px', color: '#EF9F27'
+   //    }).setOrigin(0.5);
 
-      this.tweens.add({
-        targets: star,
-        x: x + Math.cos(angle) * dist,
-        y: y + Math.sin(angle) * dist,
-        alpha: 0,
-        scale: 0.2,
-        duration: 600,
-        ease: 'Power2',
-        onComplete: () => star.destroy()
-      });
-    }
-  }
+   //    this.tweens.add({
+    //     targets: star,
+    //     x: x + Math.cos(angle) * dist,
+      //   y: y + Math.sin(angle) * dist,
+    //     alpha: 0,
+    //     scale: 0.2,
+    //     duration: 600,
+    //     ease: 'Power2',
+    //     onComplete: () => star.destroy()
+    //   });
+    // }
+  // }
 
   // ----------------------------------------------------------
   // Partículas decorativas de sol en el fondo
@@ -332,7 +333,7 @@ class Escena1 extends Phaser.Scene {
       // Cuando tengas la Escena 2 lista, cámbiala aquí:
       // this.scene.start('Escena2', { region: this.selectedRegion });
       console.log('Región elegida:', this.selectedRegion);
-      alert(`Región elegida: ${this.selectedRegion}\n(Aquí irá la Escena 2 del juego)`);
+      this.scene.start('Escena2', { region: this.selectedRegion });
     });
   }
 }

@@ -28,6 +28,7 @@
   <div id="game-container"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.60.0/phaser.min.js"></script>
   <script src="escena1.js"></script>
+  <script src="escena2.js"></script>
   <script>
     const config = {
       type: Phaser.AUTO,
@@ -35,7 +36,7 @@
       height: 600,
       parent: 'game-container',
       backgroundColor: '#1a2744',
-      scene: [Escena1],
+      scene: [Escena1, Escena2],
       scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
