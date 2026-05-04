@@ -1,0 +1,452 @@
+/* ═══════════════════════════════════════════════════════
+   VARIABLES & RESET
+═══════════════════════════════════════════════════════ */
+:root {
+  /* Colores de radiación solar */
+  --c-muy-alta:   #D62828;   /* rojo   > 800 W/m² */
+  --c-alta:       #F77F00;   /* naranja 600–800   */
+  --c-media-alta: #FCBF49;   /* amarillo 400–600  */
+  --c-media:      #6DB33F;   /* verde   200–400   */
+  --c-baja:       #5B8BDF;   /* azul    < 200     */
+
+  /* Paleta principal */
+  --negro:  #1a1a2e;
+  --blanco: #ffffff;
+  --gris:   #f4f4f4;
+  --amarillo-acento: #FFD200;
+
+  /* Tipografía */
+  --font-display: 'Black Han Sans', sans-serif;
+  --font-body:    'Nunito', sans-serif;
+
+  /* Sombras */
+  --sombra-card: 0 6px 24px rgba(0,0,0,.12);
+  --sombra-region: 0 4px 16px rgba(0,0,0,.25);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--blanco);
+  color: var(--negro);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════════════════ */
+.mod-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 32px;
+  border-bottom: 3px solid var(--negro);
+  background: var(--blanco);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.mod-label {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 1rem;
+  color: #666;
+}
+
+.mod-title {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  letter-spacing: .03em;
+  flex: 1;
+}
+
+.header-icons {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: none;
+  border: 2px solid var(--negro);
+  border-radius: 8px;
+  font-size: 1.3rem;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.icon-btn:hover {
+  background: var(--amarillo-acento);
+}
+
+/* ═══════════════════════════════════════════════════════
+   MAIN LAYOUT
+═══════════════════════════════════════════════════════ */
+.mod-main {
+  flex: 1;
+  display: flex;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* ── LEFT PANEL ── */
+.left-panel {
+  width: 340px;
+  flex-shrink: 0;
+  padding: 24px 20px;
+  border-right: 3px solid var(--negro);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+/* ── MAP SECTION ── */
+.map-section {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 16px;
+  overflow-y: auto;
+  background: var(--negro);
+}
+
+/* ═══════════════════════════════════════════════════════
+   INFO CARD
+═══════════════════════════════════════════════════════ */
+.info-card {
+  background: var(--blanco);
+  border: 2.5px solid var(--negro);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--sombra-card);
+  min-height: 180px;
+  position: relative;
+  transition: all .3s ease;
+}
+
+/* Estado inicial */
+.info-initial p {
+  font-size: .95rem;
+  line-height: 1.5;
+}
+
+.panelin-tip {
+  margin-top: 16px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.tip-bubble {
+  background: var(--blanco);
+  border: 2.5px solid var(--negro);
+  border-radius: 16px 16px 16px 4px;
+  padding: 12px 16px;
+  font-size: .88rem;
+  font-weight: 700;
+  box-shadow: 3px 3px 0 var(--negro);
+  max-width: 240px;
+}
+
+/* Detalle de región */
+.info-region {
+  animation: fadeSlideIn .35s ease both;
+}
+
+.info-region.hidden {
+  display: none;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--negro);
+  color: var(--blanco);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: .9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+}
+.close-btn:hover { background: #333; }
+
+.region-nombre {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  margin-bottom: 14px;
+  padding-right: 32px;
+  line-height: 1.2;
+}
+
+.region-datos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.dato-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gris);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.dato-icon { font-size: 1.4rem; }
+
+.dato-label {
+  font-size: .75rem;
+  color: #666;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.dato-valor {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+/* ── PANELES SOLARES ── */
+.paneles-titulo {
+  font-size: .85rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.panel-icono {
+  font-size: 1rem;
+  color: var(--negro);
+}
+
+.paneles-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.panel-svg {
+  width: 26px;
+  height: 26px;
+  opacity: 0;
+  animation: popIn .3s ease forwards;
+}
+
+.panel-svg.parcial {
+  opacity: .4;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(.5); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.paneles-total {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--negro);
+}
+
+/* ═══════════════════════════════════════════════════════
+   LEYENDA
+═══════════════════════════════════════════════════════ */
+.leyenda {
+  background: var(--blanco);
+  border: 2.5px solid var(--negro);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: var(--sombra-card);
+}
+
+.leyenda-titulo {
+  font-weight: 800;
+  font-size: .9rem;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+}
+
+.leyenda-color {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 2px solid rgba(0,0,0,.15);
+  flex-shrink: 0;
+}
+
+.leyenda-texto {
+  font-size: .88rem;
+  font-weight: 700;
+}
+
+/* Colores de nivel */
+.nivel-muy-alta  { background: var(--c-muy-alta); }
+.nivel-alta      { background: var(--c-alta); }
+.nivel-media-alta{ background: var(--c-media-alta); }
+.nivel-media     { background: var(--c-media); }
+.nivel-baja      { background: var(--c-baja); }
+
+/* ═══════════════════════════════════════════════════════
+   MAPA DE CHILE
+═══════════════════════════════════════════════════════ */
+.chile-map {
+  position: relative;
+  /*
+    AJUSTA width y height según el tamaño de tus PNGs.
+    Las posiciones en map.js usan estas dimensiones como referencia.
+  */
+  width: 300px;
+  height: 500px;
+}
+
+/* ── Cada región ── */
+.region-btn {
+  position: absolute;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+  /* Permite que el clic pase por zonas transparentes del PNG */
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .18s ease, filter .18s ease;
+}
+
+.region-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  /* Color base: se sobreescribe con inline style en cada región */
+  filter: none;
+  transition: filter .2s ease;
+  /* Asegura que las zonas transparentes del PNG no reciban clics */
+  pointer-events: auto;
+}
+
+/* Hover */
+.region-btn:hover img {
+  filter: brightness(1.15) drop-shadow(0 0 8px rgba(255,200,0,.7));
+  transform: scale(1.03);
+}
+
+/* Activa / seleccionada */
+.region-btn.activa img {
+  filter: brightness(1.2) drop-shadow(0 0 12px rgba(255,220,0,.9)) !important;
+  outline: 3px solid var(--amarillo-acento);
+}
+
+.region-btn:hover {
+  z-index: 10;
+}
+
+.region-btn.activa {
+  z-index: 20;
+}
+
+/* Tooltip de nombre al hacer hover */
+.region-btn::after {
+  content: attr(data-nombre);
+  position: absolute;
+  left: 50%;
+  top: -32px;
+  transform: translateX(-50%);
+  background: var(--negro);
+  color: var(--blanco);
+  font-family: var(--font-body);
+  font-size: .78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s;
+  z-index: 50;
+}
+
+.region-btn:hover::after {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════
+   NAV INFERIOR
+═══════════════════════════════════════════════════════ */
+.mod-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 32px;
+  border-top: 3px solid var(--negro);
+  background: var(--blanco);
+}
+
+.nav-btn {
+  background: var(--negro);
+  color: var(--blanco);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 28px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 800;
+  transition: background .2s, transform .15s;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: #333;
+  transform: scale(1.05);
+}
+
+.nav-btn:disabled {
+  background: #bbb;
+  cursor: not-allowed;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVO BÁSICO
+═══════════════════════════════════════════════════════ */
+@media (max-width: 860px) {
+  .mod-main {
+    flex-direction: column;
+  }
+  .left-panel {
+    width: 100%;
+    border-right: none;
+    border-bottom: 3px solid var(--negro);
+  }
+  .chile-map {
+    width: 220px;
+    height: 690px;
+  }
+}
