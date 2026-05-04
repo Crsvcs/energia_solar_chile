@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@700;800;900&display=swap');
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -5,94 +7,126 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(150deg, #01579B 0%, #0288D1 35%, #81D4FA 65%, #FFF3B0 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Sol decorativo arriba-derecha */
+body::before {
+    content: "";
+    position: fixed;
+    top: -90px;
+    right: -90px;
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(circle at center, #FFD54F 35%, rgba(255,143,0,0.55) 58%, transparent 72%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+/* Burbuja decorativa abajo-izquierda */
+body::after {
+    content: "";
+    position: fixed;
+    bottom: -80px;
+    left: -80px;
+    width: 260px;
+    height: 260px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    z-index: 0;
 }
 
 /* ── TARJETA PRINCIPAL ───────────────────────── */
 
 .portada-card {
-    background: white;
-    border: 4px solid #a78bfa;
-    border-radius: 28px;
-    width: 85vw;
-    max-width: 1100px;
-    height: 78vh;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.93);
+    border-radius: 40px;
+    width: 94vw;
+    max-width: 1300px;
+    height: 82vh;
     display: flex;
     flex-direction: row;
-    padding: 50px 60px;
-    gap: 20px;
+    padding: 50px 60px 50px 86px;
+    gap: 24px;
+    box-shadow: 0 24px 70px rgba(1, 87, 155, 0.25);
     overflow: hidden;
 }
 
-/* ── LADO IZQUIERDO ─────────────────────────── */
+/* Franja lateral izquierda */
+.portada-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 18px;
+    background: linear-gradient(180deg, #FFD54F 0%, #FF8F00 100%);
+    border-radius: 40px 0 0 40px;
+}
+
+/* ── COLUMNA IZQUIERDA ───────────────────────── */
 
 .portada-izq {
-    flex: 1.1;
+    flex: 1.6;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 28px;
+    justify-content: flex-start;
+    padding-left: 10px;
+    padding-top: 10px;
 }
 
 .portada-titulo {
-    font-size: 68px;
-    font-weight: 900;
-    line-height: 1.05;
-    color: #111;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 160px;
+    line-height: 0.91;
+    color: #01579B;
+    letter-spacing: 0px;
 }
 
 .portada-subtitulo {
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: 2.5px;
-    color: #555;
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #FF8F00;
     text-transform: uppercase;
+    margin-top: 18px;
 }
 
-/* ── LADO DERECHO ───────────────────────────── */
+/* ── COLUMNA DERECHA (contenedor de referencia) ── */
 
 .portada-der {
     flex: 1;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding-bottom: 10px;
+    position: relative; /* referencia para los hijos absolutos */
 }
 
-.panelin-grupo {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.panelin-fila {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-
-/* ── GLOBO DE PANELÍN ───────────────────────── */
+/* ── GLOBO DE PANELÍN (posición absoluta) ───── */
 
 .globo-inicio {
-    width: 240px;
-    margin-left: 55px;
-    margin-bottom: 6px;
-    background: white;
-    border: 2.5px solid #222;
+    position: absolute;
+    top: 25%;
+    left: 25px;
+    width: 270px;
+    background: #FFD54F;
+    border: 3px solid #FF8F00;
     border-radius: 22px;
-    padding: 16px 18px;
-    font-size: 17px;
+    padding: 14px 18px;
+    font-size: 16px;
+    font-weight: 800;
     line-height: 1.55;
     text-align: center;
-    position: relative;
+    color: #424242;
 }
 
-/* Cola apuntando abajo-izquierda hacia Panelín */
+/* Cola del globo apuntando hacia abajo (hacia Panelín) */
 .globo-inicio::before {
     content: "";
     position: absolute;
@@ -101,7 +135,7 @@ body {
     width: 0; height: 0;
     border-left: 13px solid transparent;
     border-right: 13px solid transparent;
-    border-top: 22px solid #222;
+    border-top: 22px solid #FF8F00;
 }
 
 .globo-inicio::after {
@@ -112,30 +146,39 @@ body {
     width: 0; height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-top: 17px solid white;
+    border-top: 17px solid #FFD54F;
 }
 
-/* ── PANELÍN ────────────────────────────────── */
+/* ── PANELÍN (posición absoluta) ─────────────── */
 
 .portada-panelin-img {
-    width: 180px;
+    position: absolute;
+    width: 280px;
+    bottom: 11%;
+    left: -190px;
 }
 
-/* ── BOTÓN COMENZAR ─────────────────────────── */
+/* ── BOTÓN COMENZAR (posición absoluta) ──────── */
 
 .btn-comenzar {
-    background-color: #f5c842;
+    position: absolute;
+    bottom: 3%;
+    left: 40px;
+    background: linear-gradient(135deg, #FFD54F, #FF8F00);
     border: none;
     border-radius: 50px;
-    padding: 16px 32px;
+    padding: 18px 36px;
+    font-family: 'Nunito', sans-serif;
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 900;
+    color: #01579B;
     cursor: pointer;
-    transition: transform 0.2s, background-color 0.15s;
+    box-shadow: 0 8px 24px rgba(255, 143, 0, 0.45);
+    transition: transform 0.2s, box-shadow 0.2s;
     white-space: nowrap;
 }
 
 .btn-comenzar:hover {
-    background-color: #e6b800;
-    transform: scale(1.05);
+    transform: scale(1.07) translateY(-3px);
+    box-shadow: 0 14px 32px rgba(255, 143, 0, 0.55);
 }

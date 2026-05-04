@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@700;800;900&display=swap');
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -5,32 +7,54 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: white;
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(150deg, #01579B 0%, #0288D1 35%, #81D4FA 65%, #FFF3B0 100%);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 60px 40px;
+    padding: 60px 40px 160px;
     overflow: hidden;
+    position: relative;
 }
 
+/* Sol decorativo */
+body::before {
+    content: "";
+    position: fixed;
+    top: -90px;
+    right: -90px;
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(circle at center, #FFD54F 35%, rgba(255,143,0,0.55) 58%, transparent 72%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+/* ── TÍTULO ──────────────────────────────────── */
+
 .titulo-principal {
-    font-size: 48px;
-    font-weight: 900;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 68px;
+    font-weight: normal;
+    letter-spacing: 4px;
+    color: white;
     text-align: center;
-    margin-bottom: 60px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    text-shadow: 0 4px 20px rgba(1, 87, 155, 0.5);
+    margin-bottom: 50px;
+    position: relative;
+    z-index: 1;
 }
 
 /* ── MÓDULOS ─────────────────────────────────── */
 
 .modulos-row {
     display: flex;
-    gap: 60px;
+    gap: 36px;
     justify-content: center;
+    position: relative;
+    z-index: 1;
     transition: filter 0.4s, opacity 0.4s;
 }
 
@@ -40,39 +64,65 @@ body {
     user-select: none;
 }
 
+/* ── TARJETA DE MÓDULO ───────────────────────── */
+
 .modulo {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 18px;
+    gap: 14px;
     cursor: pointer;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 28px;
+    padding: 28px 20px 24px;
+    width: 210px;
+    box-shadow: 0 12px 36px rgba(1, 87, 155, 0.22);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-top: 8px solid #FF8F00;
 }
 
 .modulo.bloqueado {
     cursor: default;
 }
 
-.modulo-nombre {
-    font-size: 26px;
-    font-weight: bold;
-    color: #111;
+.modulo:not(.bloqueado):hover {
+    transform: translateY(-8px);
+    box-shadow: 0 22px 50px rgba(1, 87, 155, 0.3);
 }
 
+/* Colores distintos por módulo */
+.modulo:nth-child(1) { border-top-color: #FF8F00; }
+.modulo:nth-child(2) { border-top-color: #0288D1; }
+.modulo:nth-child(3) { border-top-color: #43A047; }
+.modulo:nth-child(4) { border-top-color: #FFD54F; }
+
+/* ── NOMBRE DEL MÓDULO ───────────────────────── */
+
+.modulo-nombre {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1.5px;
+    color: #424242;
+    text-align: center;
+}
+
+/* ── CÍRCULO CON IMAGEN ──────────────────────── */
+
 .circulo {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    border: 5px solid #2a8a5c;
+    border: 5px solid #FF8F00;
     overflow: hidden;
     position: relative;
-    background: linear-gradient(135deg, #1a6b45, #4abf7a);
+    background: linear-gradient(135deg, #FFD54F, #FF8F00);
     transition: transform 0.2s;
 }
 
-.modulo:not(.bloqueado):hover .circulo {
-    transform: scale(1.05);
-    border-color: #1a5c3a;
-}
+.modulo:nth-child(1) .circulo { border-color: #FF8F00; background: linear-gradient(135deg, #FFD54F, #FF8F00); }
+.modulo:nth-child(2) .circulo { border-color: #0288D1; background: linear-gradient(135deg, #81D4FA, #0288D1); }
+.modulo:nth-child(3) .circulo { border-color: #43A047; background: linear-gradient(135deg, #A5D6A7, #43A047); }
+.modulo:nth-child(4) .circulo { border-color: #FFD54F; background: linear-gradient(135deg, #FFF3B0, #FFD54F); }
 
 .modulo-img {
     width: 100%;
@@ -83,11 +133,11 @@ body {
 .overlay-lock {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.55);
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 70px;
+    font-size: 56px;
     border-radius: 50%;
     transition: opacity 0.6s ease;
 }
@@ -97,10 +147,13 @@ body {
     pointer-events: none;
 }
 
+/* ── DESCRIPCIÓN ─────────────────────────────── */
+
 .modulo-desc {
-    font-size: 18px;
+    font-size: 15px;
+    font-weight: 700;
     text-align: center;
-    color: #333;
+    color: #555;
     line-height: 1.5;
 }
 
@@ -123,13 +176,15 @@ body {
 }
 
 .globo-mod {
-    background-color: white;
-    border: 3px solid black;
+    background-color: #FFD54F;
+    border: 3px solid #FF8F00;
     border-radius: 30px;
     padding: 22px 26px;
     font-size: 20px;
+    font-weight: 700;
     line-height: 1.65;
     max-width: 420px;
+    color: #424242;
     position: relative;
     margin-bottom: 40px;
     white-space: pre-line;
@@ -143,7 +198,7 @@ body {
     width: 0; height: 0;
     border-top: 14px solid transparent;
     border-bottom: 14px solid transparent;
-    border-right: 24px solid black;
+    border-right: 24px solid #FF8F00;
 }
 
 .globo-mod::after {
@@ -154,5 +209,5 @@ body {
     width: 0; height: 0;
     border-top: 11px solid transparent;
     border-bottom: 11px solid transparent;
-    border-right: 19px solid white;
+    border-right: 19px solid #FFD54F;
 }
