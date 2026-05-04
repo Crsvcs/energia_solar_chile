@@ -2,16 +2,27 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Módulo 3 - En construcción</title>
+    <title>Módulo 3 - Paneles Solares</title>
     <link rel="stylesheet" href="estilo_web.css">
 </head>
-<body style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f7f9fc; font-family: 'Nunito', sans-serif;">
+<body style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f7f9fc; font-family: 'Nunito', sans-serif; margin: 0;">
 
     <h1 style="color: #0f2d3c; font-family: 'Bebas Neue', sans-serif; font-size: 50px;">MÓDULO 3: PANELES SOLARES</h1>
-    <p style="font-size: 18px; color: #555; margin-bottom: 30px;">(Prototipo en construcción)</p>
+    <p style="font-size: 18px; color: #555; margin-bottom: 30px; text-align: center; max-width: 600px;">
+        ¡Genial! Ya sabes cómo funcionan los paneles. ¿Quieres ver una simulación de cómo los fotones se convierten en electrones?
+    </p>
 
-    <button onclick="completarYVolver(4)" style="background-color: #EF9F27; color: white; border: none; border-radius: 12px; padding: 15px 30px; font-size: 20px; font-weight: bold; cursor: pointer;">
-        Simular que completé el Módulo 3 ➡️
+    <!-- Este botón lleva a la visualización de Kaplay -->
+    <!-- Este botón lleva a la carpeta específica de la visualización -->
+<!-- Este botón lleva a la carpeta específica de la visualización -->
+    <button onclick="window.location.href='../visualizacion_kplay/index.html'" style="background-color: #EF9F27; color: white; border: none; border-radius: 12px; padding: 15px 30px; font-size: 20px; font-weight: bold; cursor: pointer; transition: transform 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        Ver Visualización Interactiva ☀️➔⚡
+    </button>
+
+    <br>
+    <!-- Botón opcional para solo marcar como completado y seguir en el menú -->
+    <button onclick="completarYVolver(4)" style="background: none; border: none; color: #888; text-decoration: underline; cursor: pointer; font-size: 14px;">
+        Saltar al Módulo 4
     </button>
 
     <script>
@@ -20,7 +31,7 @@
             if (actual < siguiente) {
                 localStorage.setItem('modulos_desbloqueados', siguiente.toString());
             }
-            window.location.href = 'modulos.html'; // Vuelve a la casita
+            window.location.href = 'modulos.html';
         }
     </script>
 </body>
