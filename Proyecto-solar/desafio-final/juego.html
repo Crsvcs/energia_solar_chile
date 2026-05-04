@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Construye tu Central Solar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <div id="game-container"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.60.0/phaser.min.js"></script>
+  <script src="escena2.js"></script>
+  <script>
+    // Lee la región guardada desde la escena 1
+    const region = localStorage.getItem('regionElegida') || 'norte';
+
+    const config = {
+      type: Phaser.AUTO,
+      width: 1200,
+      height: 700,
+      parent: 'game-container',
+      backgroundColor: '#ffffff',
+      scene: {
+        create() {
+          this.scene.start('Escena2', { region });
+        }
+      }
+    };
+
+    // Registrar Escena2 y arrancar
+    const game = new Phaser.Game(config);
+    game.scene.add('Escena2', Escena2, false);
+    game.scene.start('Escena2', { region });
+  </script>
+</body>
+</html>

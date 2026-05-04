@@ -34,6 +34,11 @@ class Escena1 extends Phaser.Scene {
     this.load.image('label_centro',  'assets/Frame_5.png');
     this.load.image('label_sur',     'assets/Frame_6.png');
     this.load.image('btn_comenzar',  'assets/Frame_7.png');
+    this.load.image('panelin_1',      'assets/panelin_1.png');
+    this.load.image('panelin_2',      'assets/panelin_2.png');
+    this.load.image('panelin_3',      'assets/panelin_3.png');
+    this.load.image('panelin_4',      'assets/panelin_4.png');
+    this.load.image('panelin_5',      'assets/panelin_5.png');
   }
 
   // ----------------------------------------------------------
@@ -55,10 +60,9 @@ class Escena1 extends Phaser.Scene {
 
     // ── Título ───────────────────────────────────────────────
     this.add.text(W / 2, 38, 'SALVA TU CIUDAD SOLAR', {
-      fontFamily: 'Poppins, sans-serif',
-      fontSize: '28px',
-      fontStyle: 'bold',
-      color: '#ffffff'
+      fontFamily: 'Bebas Neue, sans-serif',
+      fontSize: '52px',
+      color: '#000000'
     }).setOrigin(0.5);
 
     this.add.text(W / 2, 74, 'Elige la región de Chile donde instalarás tu sistema solar', {
@@ -150,18 +154,40 @@ class Escena1 extends Phaser.Scene {
     }).setOrigin(0.5);
 
     // Panelín mensaje
-    this.panelinBox = this.add.graphics();
-    this.panelinBox.fillStyle(0xFAEEDA, 0.95);
-    this.panelinBox.fillRoundedRect(panelX - 130, 390, 260, 56, 8);
+    // Panelín
+    this.add.image(120, H - 90, 'panelin_1')
+      .setScale(0.06).setDepth(20);
 
-    this.add.text(panelX - 110, 400, '☀', {
-      fontSize: '18px'
-    });
+    // Bocadillo
+    const boc = this.add.graphics().setDepth(19);
+    boc.fillStyle(0xffffff, 1);
+    boc.fillRoundedRect(180, H - 150, 320, 90, 10);
+    boc.lineStyle(1, 0xcccccc, 1);
+    boc.strokeRoundedRect(180, H - 150, 320, 90, 10);
 
-    this.panelinMsg = this.add.text(panelX - 85, 400, '¡Toca una región\ndel mapa para empezar!', {
-      fontFamily: 'Nunito, sans-serif', fontSize: '12px',
-      color: '#633806', lineSpacing: 3
+    this.add.text(340, H - 105,
+      '¡Hola! Elige una región del mapa\npara comenzar tu aventura solar.', {
+      fontFamily: 'Nunito, sans-serif', fontSize: '13px',
+      color: '#412402', align: 'center', lineSpacing: 4
+    }).setOrigin(0.5).setDepth(20);
+
+    // Flecha para avanzar (igual que módulo 1)
+    const flechaBtn = this.add.graphics().setDepth(20).setInteractive(
+      new Phaser.Geom.Rectangle(W - 70, H - 70, 54, 54),
+      Phaser.Geom.Rectangle.Contains
+    );
+    flechaBtn.fillStyle(0x1a2744, 1);
+    flechaBtn.fillRoundedRect(W - 70, H - 70, 54, 54, 8);
+    this.add.text(W - 43, H - 43, '→', {
+      fontSize: '22px', color: '#ffffff'
+    }).setOrigin(0.5).setDepth(21);
+    flechaBtn.on('pointerup', () => {
+      if (!this.selectedRegion) {
+        this.mostrarMensaje('panelin_1', '¡Primero debes elegir una región tocando el mapa!');
+      }
     });
+    flechaBtn.on('pointerover', () => this.input.setDefaultCursor('pointer'));
+    flechaBtn.on('pointerout', () => this.input.setDefaultCursor('default'));
 
     // ── Botón Comenzar (oculto hasta seleccionar) ────────────
     this.btnComentar = this.add.image(panelX, 510, 'btn_comenzar')
@@ -227,23 +253,23 @@ class Escena1 extends Phaser.Scene {
     });
 
     // ── Instrucción inicial con flecha ───────────────────────
-    this.flechaTxt = this.add.text(350, H - 40, '↑ toca el mapa', {
-      fontFamily: 'Nunito, sans-serif', fontSize: '12px',
-      color: '#7ab0ff', align: 'left', lineSpacing: 4
-    });
+    //this.flechaTxt = this.add.text(350, H - 40, '↑ toca el mapa', {
+     //     fontFamily: 'Nunito, sans-serif', fontSize: '12px',
+       //   color: '#7ab0ff', align: 'left', lineSpacing: 4
+       // });
 
-    this.tweens.add({
-      targets: this.flechaTxt,
-      x: mapX + HIT_W / 2 + 4,
-      duration: 700,
-      yoyo: true,
-      repeat: -1,
-      ease: 'Sine.InOut'
-    });
+      //  this.tweens.add({
+       //   targets: this.flechaTxt,
+        //  x: mapX + HIT_W / 2 + 4,
+        //  duration: 700,
+       //   yoyo: true,
+       //   repeat: -1,
+       //   ease: 'Sine.InOut'
+       // });
 
     // ── Partículas de sol en el fondo ────────────────────────
-    this.crearParticulasSol(W, H);
-  }
+      //  this.crearParticulasSol(W, H);
+      }
 
   // ----------------------------------------------------------
   // Actualiza el panel derecho con info de la región
@@ -302,27 +328,8 @@ class Escena1 extends Phaser.Scene {
   // ----------------------------------------------------------
   // Partículas decorativas de sol en el fondo
   // ----------------------------------------------------------
-  crearParticulasSol(W, H) {
-    for (let i = 0; i < 12; i++) {
-      const x = Phaser.Math.Between(300, W - 20);
-      const y = Phaser.Math.Between(20, H - 20);
-      const size = Phaser.Math.Between(2, 5);
-      const alpha = Phaser.Math.FloatBetween(0.1, 0.3);
-
-      const p = this.add.graphics();
-      p.fillStyle(0xEF9F27, alpha);
-      p.fillCircle(x, y, size);
-
-      this.tweens.add({
-        targets: p,
-        alpha: 0,
-        duration: Phaser.Math.Between(2000, 4000),
-        yoyo: true,
-        repeat: -1,
-        delay: Phaser.Math.Between(0, 2000)
-      });
-    }
-  }
+   // }
+  //}
 
   // ----------------------------------------------------------
   // Transición a la Escena 2 con fade

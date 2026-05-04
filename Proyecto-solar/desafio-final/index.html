@@ -5,44 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Salva tu Ciudad Solar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: #0a0f2e;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      font-family: 'Nunito', sans-serif;
-    }
-    #game-container canvas {
-      display: block;
-      border-radius: 12px;
-      box-shadow: 0 0 60px rgba(239, 159, 39, 0.15);
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="game-container"></div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.60.0/phaser.min.js"></script>
-  <script src="escena1.js"></script>
-  <script src="escena2.js"></script>
-  <script>
-    const config = {
-      type: Phaser.AUTO,
-      width: 900,
-      height: 600,
-      parent: 'game-container',
-      backgroundColor: '#1a2744',
-      scene: [Escena1, Escena2],
-      scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
-      }
-    };
-    const game = new Phaser.Game(config);
-  </script>
+
+  <!-- ── OVERLAY PANELÍN INTRO ───────────────── -->
+  <div id="overlay-intro" class="panelin-explica">
+    <img class="panelin" src="assets/panelin_1.png" alt="Panelín">
+    <div class="globo">
+      ¡Hola! Soy <strong>Panelín</strong>. En este juego debes elegir una región de Chile y construir tu central solar para abastecer una ciudad.<br><br>
+      Toca el mapa para elegir tu región y luego presiona <strong>Comenzar juego</strong>. ¡Recuerda instalar lo justo!
+    </div>
+    <div class="flechas">
+      <span></span>
+      <button onclick="cerrarIntro()">→</button>
+    </div>
+  </div>
+
+  <!-- ── CONTENIDO PRINCIPAL ────────────────── -->
+  <div id="contenido">
+
+    <div class="encabezado">
+      <h1>SALVA TU CIUDAD SOLAR</h1>
+      <p class="subtitulo">Elige la región de Chile donde instalarás tu sistema solar</p>
+    </div>
+
+    <div class="mapa-wrap">
+
+      <!-- Mapa de Chile con zonas clicables -->
+      <div class="mapa-chile">
+        <img src="assets/Mp_N.png" alt="Norte"  class="region-img" id="img-norte"  onclick="seleccionar('norte')">
+        <img src="assets/Mp_C.png" alt="Centro" class="region-img" id="img-centro" onclick="seleccionar('centro')">
+        <img src="assets/Mp_S.png" alt="Sur"    class="region-img" id="img-sur"    onclick="seleccionar('sur')">
+      </div>
+
+      <!-- Labels de zona -->
+      <div class="labels-col">
+        <img src="assets/Frame_4.png" class="label-zona" onclick="seleccionar('norte')" alt="Zona Norte">
+        <img src="assets/Frame_5.png" class="label-zona" onclick="seleccionar('centro')" alt="Zona Centro">
+        <img src="assets/Frame_6.png" class="label-zona" onclick="seleccionar('sur')" alt="Zona Sur">
+      </div>
+
+      <!-- Panel de info derecho -->
+      <div class="panel-info">
+        <div id="info-default">
+          <p class="info-hint">Toca una región<br>del mapa para ver sus datos</p>
+        </div>
+        <div id="info-region" style="display:none">
+          <h2 id="info-nombre"></h2>
+          <div class="info-rad" id="info-rad"></div>
+          <p class="info-rad-label">Radiación solar promedio</p>
+          <p class="info-desc" id="info-desc"></p>
+          <img src="assets/Frame_7.png" alt="Comenzar juego"
+               onclick="comenzar()" class="btn-comenzar" id="btn-comenzar">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── PANELÍN FIJO ABAJO ─────────────────── -->
+  <div class="panelin-fijo" id="panelin-fijo" style="display:none">
+    <img class="panelin-decorativo" src="assets/panelin_1.png" id="panelin-img" alt="Panelín">
+    <div class="globo-fijo" id="panelin-msg">
+      ¡Toca una región del mapa para empezar!
+    </div>
+  </div>
+
+  <script src="escena1-html.js"></script>
 </body>
 </html>

@@ -1,37 +1,20 @@
 // ============================================================
 // ESCENA 2 — Mapa isométrico: construye tu central solar
 // ============================================================
-// Assets:
-//   Tiles:       277x147px  → escala 0.52 = ~144x76px
-//   Panel_Solar: 29x34px   → escala 3.0  = ~87x102px
-//   Battery:     32x32px   → escala 2.5  = ~80x80px
-//   Casas:       ~60x67px  → escala 1.4
-//   Cielos:      790x589px → cubre canvas 900x600
-//   Panelín:     varios    → escala ~0.25
-// ============================================================
 
 class Escena2 extends Phaser.Scene {
   constructor() {
     super({ key: 'Escena2' });
   }
 
-  // ----------------------------------------------------------
-  // INIT — recibe la región elegida desde Escena1
-  // ----------------------------------------------------------
   init(data) {
     this.regionElegida = data.region || 'norte';
   }
 
-  // ----------------------------------------------------------
-  // PRELOAD
-  // ----------------------------------------------------------
   preload() {
     this.load.image('cielo_norte',    'assets/Cielo_norte.png');
     this.load.image('cielo_centro',   'assets/Cielo_centro.png');
     this.load.image('cielo_sur',      'assets/Cielo_sur.png');
-    this.load.image('tile_n',         'assets/Tile_N.png');
-    this.load.image('tile_h',         'assets/Tile_H.png');
-    this.load.image('tile_o',         'assets/Tile_O.png');
     this.load.image('panel_solar',    'assets/Panel_Solar.png');
     this.load.image('battery',        'assets/Battery.png');
     this.load.image('casa_apagada',   'assets/Casa_apagada.png');
@@ -43,285 +26,217 @@ class Escena2 extends Phaser.Scene {
     this.load.image('panelin_5',      'assets/panelin_5.png');
   }
 
-  // ----------------------------------------------------------
-  // CREATE
-  // ----------------------------------------------------------
   create() {
-    const W = this.scale.width;   // 900
-    const H = this.scale.height;  // 600
+    const W = this.scale.width;
+    const H = this.scale.height;
 
-    // Datos por región
-    const REGION_DATA = {
+    // ── Datos por región ──────────────────────────────────
+    const DATOS = {
       norte:  { rad: 950, panelKwh: 15, nombre: 'Zona Norte',  cielo: 'cielo_norte'  },
       centro: { rad: 600, panelKwh: 10, nombre: 'Zona Centro', cielo: 'cielo_centro' },
       sur:    { rad: 320, panelKwh:  6, nombre: 'Zona Sur',    cielo: 'cielo_sur'    },
     };
-    this.region     = REGION_DATA[this.regionElegida];
+    this.reg        = DATOS[this.regionElegida];
     this.energia    = 0;
-    this.energiaMeta = 80;   // kWh necesarios para abastecer las 3 casas
-    this.BAT_KWH    = 10;    // cada batería aporta 10 kWh fijos
+    this.META       = 80;
+    this.BAT_KWH    = 10;
     this.casasLit   = 0;
     this.winShown   = false;
 
-    // ── Fondo cielo ────────────────────────────────────────
-    this.add.image(W / 2, H / 2, this.region.cielo)
-      .setDisplaySize(W, H)
-      .setDepth(0);
+    // ── Dimensiones del tile isométrico ───────────────────
+    this.TW = 144;   // ancho visual del rombo
+    this.TH = 72;    // alto visual del rombo
+    this.COLS = 6;
+    this.ROWS = 4;
 
-    // Franja de suelo (parte inferior)
-    const suelo = this.add.graphics().setDepth(1);
-    suelo.fillStyle(0x4a7c3f, 1);
-    suelo.fillRect(0, H - 80, W, 80);
+    // Origen del grid — ajusta estos dos números para mover el mapa
+    this.OX = 430;
+    this.OY = 290;
 
-    // ── Título y región ────────────────────────────────────
-    this.add.text(W / 2, 18, `CONSTRUYE TU CENTRAL SOLAR — ${this.region.nombre}`, {
-      fontFamily: 'Poppins, sans-serif', fontSize: '16px',
-      fontStyle: 'bold', color: '#ffffff',
-      stroke: '#0a0f2e', strokeThickness: 4
+    // ── Fondo ─────────────────────────────────────────────
+    this.add.image(W / 2, H / 2, this.reg.cielo)
+      .setDisplaySize(W, H).setDepth(0);
+
+    // Suelo
+    this.add.graphics().setDepth(1)
+      .fillStyle(0x3d6b35, 1)
+      .fillRect(0, H - 70, W, 70);
+
+    // ── Título ────────────────────────────────────────────
+    this.add.text(W / 2, 18,
+      `CONSTRUYE TU CENTRAL SOLAR — ${this.reg.nombre}`, {
+      fontFamily: 'Bebas Neue, sans-serif', fontSize: '17px',
+      fontStyle: 'bold', color: '#000000'
     }).setOrigin(0.5).setDepth(10);
 
-    // ── Grid isométrico ────────────────────────────────────
-    const TILE_SCALE = 0.52;
-    const TILE_W     = 267 * TILE_SCALE * 0.90;  // ~144px
-    const TILE_H     = 147 * TILE_SCALE * 0.7;  //  ~76px
-    const COLS       = 4;
-    const ROWS       = 4;
-
-    // Origen del grid (centro-inferior del canvas, zona izquierda-central)
-    const originX = 370;
-    const originY = 310;
-
-    // // // // // // this.tiles = [];
-
+    // ── Grid isométrico ───────────────────────────────────
     this.tiles = [];
+    this._dibujarGrid();
 
-    for (let row = 0; row < ROWS; row++) {
-     for (let col = 0; col < COLS; col++) {
-        const tx = originX + (col - row) * TILE_W / 2;
-        const ty = originY + (col + row) * TILE_H / 2;
+    // ── Casas ─────────────────────────────────────────────
+    this.casas = [];
+    [{ x: 1100, y: 500 }, { x: 1100, y: 400 }, { x: 1000, y: 400 }]
+      .forEach(pos => {
+        this.casas.push(
+          this.add.image(pos.x, pos.y, 'casa_apagada')
+            .setScale(0.1).setDepth(15)
+        );
+      });
 
-        const g = this.add.graphics().setDepth(2 + row + col);
+    // ── Panel inventario izquierdo ─────────────────────────
+    this.add.graphics().setDepth(20)
+      .fillStyle(0x0d1b3e, 0.9)
+      .fillRoundedRect(8, 50, 120, 340, 10)
+      .lineStyle(1, 0x4a7adf, 0.8)
+      .strokeRoundedRect(8, 50, 120, 340, 10);
 
-        // Dibuja el rombo directamente en código
-        g.fillStyle(0x3a7d44, 1);
-        g.fillPoints([
-          { x: tx,             y: ty - TILE_H / 2 },
-          { x: tx + TILE_W/2, y: ty               },
-          { x: tx,             y: ty + TILE_H / 2 },
-          { x: tx - TILE_W/2, y: ty               },
-        ], true);
+    this.add.text(68, 67, 'INVENTARIO', {
+      fontFamily: 'Bebas Neue, sans-serif', fontSize: '9px', color: '#7ab0ff'
+    }).setOrigin(0.5).setDepth(21);
 
-        // Borde sutil
-        g.lineStyle(0.5, 0x2d6535, 1);
-        g.strokePoints([
-          { x: tx,             y: ty - TILE_H / 2 },
-          { x: tx + TILE_W/2, y: ty               },
-          { x: tx,             y: ty + TILE_H / 2 },
-          { x: tx - TILE_W/2, y: ty               },
-        ], true);
+    // Items arrastrables
+    this._crearItem(68, 155, 'panel_solar', 'PANEL SOLAR',
+      `+${this.reg.panelKwh} kWh`, 0.18, 'panel');
+    this._crearItem(68, 305, 'battery', 'BATERÍA',
+      `+${this.BAT_KWH} kWh`, 0.18, 'battery');
 
-        g.row      = row;
-        g.col      = col;
-        g.worldX   = tx;
-        g.worldY   = ty;
-        g.occupied = false;
-        g.itemType = null;
-        g.itemImg  = null;
-        g.baseColor   = (row + col) % 2 === 0 ? 0x3a7d44 : 0x2d6535;
-        g.hoverColor  = 0x5aad64;
-        g.occupiedColor = 0x1a4a2a;
+    // ── Panel info derecho ────────────────────────────────
+    this.add.graphics().setDepth(20)
+      .fillStyle(0x0d1b3e, 0.9)
+      .fillRoundedRect(W - 180, 50, 170, 280, 10)
+      .lineStyle(1, 0x4a7adf, 0.8)
+      .strokeRoundedRect(W - 180, 50, 170, 280, 10);
+
+    this.add.text(W - 95, 68, 'ENERGÍA', {
+      fontFamily: 'Bebas Neue, sans-serif', fontSize: '10px', color: '#7ab0ff'
+    }).setOrigin(0.5).setDepth(21);
+
+    // Barra fondo
+    this.add.graphics().setDepth(21)
+      .fillStyle(0x1a2d5a, 1)
+      .fillRoundedRect(W - 170, 84, 145, 16, 4);
+
+    this.barraG = this.add.graphics().setDepth(22);
+    this.txtKwh = this.add.text(W - 95, 107, '0 / 80 kWh', {
+      fontFamily: 'Nunito, sans-serif', fontSize: '11px', color: '#fff'
+    }).setOrigin(0.5).setDepth(22);
+
+    this.add.text(W - 95, 130, 'Radiación solar:', {
+      fontFamily: 'Nunito, sans-serif', fontSize: '11px', color: '#aac4ff'
+    }).setOrigin(0.5).setDepth(21);
+    this.add.text(W - 95, 150, `${this.reg.rad} W/m²`, {
+      fontFamily: 'Poppins, sans-serif', fontSize: '20px',
+      fontStyle: 'bold', color: '#EF9F27'
+    }).setOrigin(0.5).setDepth(21);
+
+    this.add.text(W - 95, 182, 'Casas abastecidas:', {
+      fontFamily: 'Nunito, sans-serif', fontSize: '11px', color: '#aac4ff'
+    }).setOrigin(0.5).setDepth(21);
+    this.txtCasas = this.add.text(W - 95, 206, '0 / 3', {
+      fontFamily: 'Poppins, sans-serif', fontSize: '26px',
+      fontStyle: 'bold', color: '#fff'
+    }).setOrigin(0.5).setDepth(21);
+
+    this.add.text(W - 95, 242, 'Meta: 80 kWh / día', {
+      fontFamily: 'Nunito, sans-serif', fontSize: '12px', color: '#fff'
+    }).setOrigin(0.5).setDepth(21);
+
+    // Botón reiniciar
+    this._boton(W - 95, 284, 'Reiniciar mapa', () => this._reiniciar());
+
+    // ── Panelín ───────────────────────────────────────────
+    this.panelinImg = this.add.image(72, H - 80, 'panelin_1')
+      .setScale(0.04).setDepth(30);
+    this.bubbleBg  = this.add.graphics().setDepth(29);
+    this.bubbleTxt = this.add.text(0, 0, '', {
+      fontFamily: 'Nunito, sans-serif', fontSize: '13px',
+      color: '#412402', wordWrap: { width: 320 }, lineSpacing: 3
+    }).setDepth(30);
+
+    this._mensaje('panelin_1',
+      `¡Hola! Estás en el ${this.reg.nombre}. Arrastra paneles y baterías al mapa para abastecer las 3 casas. ¡Recuerda no instalar de más!`);
+
+    this._actualizarBarra();
+  }
+
+  // ── Dibuja el grid isométrico en código ─────────────────
+  _dibujarGrid() {
+    const TW = this.TW, TH = this.TH;
+    const OX = this.OX, OY = this.OY;
+
+    for (let row = 0; row < this.ROWS; row++) {
+      for (let col = 0; col < this.COLS; col++) {
+        const tx = OX + (col - row) * TW / 2;
+        const ty = OY + (col + row) * TH / 2;
+
+        const colorBase = (row + col) % 2 === 0 ? 0x3a7d44 : 0x2a6535;
+        const g = this.add.graphics().setDepth(3 + row + col);
+        this._relleno(g, tx, ty, colorBase);
+
+        g.worldX    = tx;
+        g.worldY    = ty;
+        g.occupied  = false;
+        g.itemType  = null;
+        g.itemImg   = null;
+        g.colorBase = colorBase;
+        g.row = row; g.col = col;
+
         g.setInteractive(
           new Phaser.Geom.Polygon([
-            tx, ty - TILE_H/2,
-            tx + TILE_W/2, ty,
-            tx, ty + TILE_H/2,
-            tx - TILE_W/2, ty
+            tx,        ty - TH / 2,
+            tx + TW/2, ty,
+            tx,        ty + TH / 2,
+            tx - TW/2, ty
           ]),
           Phaser.Geom.Polygon.Contains
         );
 
         g.on('pointerover', () => {
-          if (!g.occupied) {
-            g.clear();
-            g.fillStyle(g.hoverColor, 1);
-            g.fillPoints([
-              { x: tx, y: ty - TILE_H/2 },
-              { x: tx + TILE_W/2, y: ty },
-              { x: tx, y: ty + TILE_H/2 },
-              { x: tx - TILE_W/2, y: ty }
-            ], true);
-          }
+          if (!g.occupied) this._relleno(g, tx, ty, 0x5ab86a);
         });
-
         g.on('pointerout', () => {
-          if (!g.occupied) {
-            g.clear();
-            g.fillStyle(g.baseColor, 1);
-            g.fillPoints([
-              { x: tx, y: ty - TILE_H/2 },
-              { x: tx + TILE_W/2, y: ty },
-              { x: tx, y: ty + TILE_H/2 },
-              { x: tx - TILE_W/2, y: ty }
-            ], true);
-            g.lineStyle(0.5, 0x2d6535, 1);
-            g.strokePoints([
-              { x: tx, y: ty - TILE_H/2 },
-              { x: tx + TILE_W/2, y: ty },
-              { x: tx, y: ty + TILE_H/2 },
-              { x: tx - TILE_W/2, y: ty }
-            ], true);
-          }
+          if (!g.occupied) this._relleno(g, tx, ty, g.colorBase);
         });
 
         this.tiles.push(g);
       }
     }
-
-        // ── Casas (esquina derecha del mapa) ───────────────────
-        this.casas = [];
-        const casaPos = [
-          { x: 860, y: 400 },
-          { x: 800, y: 500 },
-          { x: 760, y: 400 },
-        ];
-        casaPos.forEach((pos, i) => {
-          const c = this.add.image(pos.x, pos.y, 'casa_apagada')
-            .setScale(0.08
-            )
-            .setDepth(15);
-          this.casas.push(c);
-        });
-
-    // ── Panel izquierdo — inventario ───────────────────────
-    const inv = this.add.graphics().setDepth(20);
-    inv.fillStyle(0x0d1b3e, 0.88);
-    inv.fillRoundedRect(8, 50, 115, 320, 10);
-    inv.lineStyle(1, 0x4a7adf, 0.8);
-    inv.strokeRoundedRect(8, 50, 115, 320, 10);
-
-    this.add.text(65, 65, 'INVENTARIO', {
-      fontFamily: 'Poppins, sans-serif', fontSize: '9px',
-      color: '#7ab0ff', letterSpacing: 1
-    }).setOrigin(0.5).setDepth(21);
-
-    // Separador
-    const sep = this.add.graphics().setDepth(21);
-    sep.lineStyle(0.5, 0x4a7adf, 0.4);
-    sep.lineBetween(18, 80, 113, 80);
-
-    // Ítem Panel Solar
-    this.crearItemInventario(65, 150, 'panel_solar', 'PANEL\nSOLAR', `+${this.region.panelKwh} kWh`, 0.18, 'panel');
-
-    // Separador
-    const sep2 = this.add.graphics().setDepth(21);
-    sep2.lineStyle(0.5, 0x4a7adf, 0.4);
-    sep2.lineBetween(18, 240, 113, 240);
-
-    // Ítem Batería
-    this.crearItemInventario(65, 300, 'battery', 'BATERÍA', `+${this.BAT_KWH} kWh`, 0.18, 'battery');
-
-    // ── Panel derecho — info ───────────────────────────────
-    const info = this.add.graphics().setDepth(20);
-    info.fillStyle(0x0d1b3e, 0.88);
-    info.fillRoundedRect(W - 175, 50, 165, 260, 10);
-    info.lineStyle(1, 0x4a7adf, 0.8);
-    info.strokeRoundedRect(W - 175, 50, 165, 260, 10);
-
-    this.add.text(W - 92, 68, 'ENERGÍA', {
-      fontFamily: 'Poppins, sans-serif', fontSize: '10px',
-      color: '#7ab0ff', letterSpacing: 1
-    }).setOrigin(0.5).setDepth(21);
-
-    // Barra de energía
-    const barBg = this.add.graphics().setDepth(21);
-    barBg.fillStyle(0x1a2d5a, 1);
-    barBg.fillRoundedRect(W - 165, 85, 145, 16, 4);
-
-    this.barraEnergia = this.add.graphics().setDepth(22);
-    this.textoEnergia = this.add.text(W - 92, 108, '0 / 80 kWh', {
-      fontFamily: 'Poppins, sans-serif', fontSize: '11px', color: '#ffffff'
-    }).setOrigin(0.5).setDepth(22);
-
-    // Radiación info
-    this.add.text(W - 92, 130, 'Radiación solar:', {
-      fontFamily: 'Nunito, sans-serif', fontSize: '11px', color: '#aac4ff'
-    }).setOrigin(0.5).setDepth(21);
-
-    this.add.text(W - 92, 148, `${this.region.rad} W/m²`, {
-      fontFamily: 'Poppins, sans-serif', fontSize: '18px',
-      fontStyle: 'bold', color: '#EF9F27'
-    }).setOrigin(0.5).setDepth(21);
-
-    // Casas info
-    this.add.text(W - 92, 178, 'Casas abastecidas:', {
-      fontFamily: 'Nunito, sans-serif', fontSize: '11px', color: '#aac4ff'
-    }).setOrigin(0.5).setDepth(21);
-
-    this.textoCasas = this.add.text(W - 92, 198, '0 / 3', {
-      fontFamily: 'Poppins, sans-serif', fontSize: '22px',
-      fontStyle: 'bold', color: '#ffffff'
-    }).setOrigin(0.5).setDepth(21);
-
-    // Meta de energía
-    this.add.text(W - 92, 230, 'Meta:', {
-      fontFamily: 'Nunito, sans-serif', fontSize: '11px', color: '#aac4ff'
-    }).setOrigin(0.5).setDepth(21);
-    this.add.text(W - 92, 248, '80 kWh / día', {
-      fontFamily: 'Nunito, sans-serif', fontSize: '13px', color: '#ffffff'
-    }).setOrigin(0.5).setDepth(21);
-
-    // Botón reiniciar
-    const btnRst = this.add.graphics().setDepth(21).setInteractive(
-      new Phaser.Geom.Rectangle(W - 165, 278, 145, 26), Phaser.Geom.Rectangle.Contains
-    );
-    btnRst.fillStyle(0x1a2d5a, 1);
-    btnRst.fillRoundedRect(W - 165, 278, 145, 26, 6);
-    btnRst.lineStyle(0.5, 0x4a7adf, 1);
-    btnRst.strokeRoundedRect(W - 165, 278, 145, 26, 6);
-    this.add.text(W - 92, 291, 'Reiniciar mapa', {
-      fontFamily: 'Nunito, sans-serif', fontSize: '11px', color: '#7ab0ff'
-    }).setOrigin(0.5).setDepth(22);
-    btnRst.on('pointerup', () => this.reiniciarMapa());
-    btnRst.on('pointerover', () => { this.input.setDefaultCursor('pointer'); });
-    btnRst.on('pointerout',  () => { this.input.setDefaultCursor('default'); });
-
-    // ── Panelín ────────────────────────────────────────────
-    this.panelin = this.add.image(75, H - 95, 'panelin_1')
-      .setScale(0.28)
-      .setDepth(30);
-
-    // Burbuja de mensaje
-    this.bubbleBg = this.add.graphics().setDepth(29);
-    this.bubbleText = this.add.text(200, H - 130, '', {
-      fontFamily: 'Nunito, sans-serif', fontSize: '13px',
-      color: '#412402', wordWrap: { width: 320 }, lineSpacing: 3
-    }).setDepth(30);
-
-    this.mostrarMensaje('panelin_1',
-      `¡Hola! Estás en el ${this.region.nombre}. Arrastra paneles y baterías al mapa para abastecer las 3 casas. ¡Recuerda no instalar de más!`
-    );
-
-    // ── Inicializar barra ──────────────────────────────────
-    this.actualizarBarra();
   }
 
-  // ----------------------------------------------------------
-  // Crea un ítem arrastrable en el inventario
-  // ----------------------------------------------------------
-  crearItemInventario(x, y, texture, label, bonus, escala, tipo) {
+  // ── Dibuja un rombo isométrico en un graphics ────────────
+  _relleno(g, tx, ty, color) {
+    const TW = this.TW, TH = this.TH;
+    g.clear();
+    g.fillStyle(color, 1);
+    g.fillPoints([
+      { x: tx,        y: ty - TH / 2 },
+      { x: tx + TW/2, y: ty           },
+      { x: tx,        y: ty + TH / 2 },
+      { x: tx - TW/2, y: ty           },
+    ], true);
+    g.lineStyle(0.8, 0x1a4a25, 0.5);
+    g.strokePoints([
+      { x: tx,        y: ty - TH / 2 },
+      { x: tx + TW/2, y: ty           },
+      { x: tx,        y: ty + TH / 2 },
+      { x: tx - TW/2, y: ty           },
+    ], true);
+  }
+
+  // ── Crea un item arrastrable en el inventario ────────────
+  _crearItem(x, y, texture, label, bonus, escala, tipo) {
     const img = this.add.image(x, y, texture)
-      .setScale(escala)
-      .setDepth(25)
+      .setScale(escala).setDepth(25)
       .setInteractive({ draggable: true });
 
     img.itemType  = tipo;
     img.baseX     = x;
     img.baseY     = y;
-    img.itemScale = escala;
+    img.escala    = escala;
 
-    this.add.text(x, y + 38, label, {
+    this.add.text(x, y + 44, label, {
       fontFamily: 'Poppins, sans-serif', fontSize: '9px',
-      color: '#ffffff', align: 'center'
+      color: '#fff', align: 'center'
     }).setOrigin(0.5).setDepth(25);
 
     this.add.text(x, y + 58, bonus, {
@@ -332,265 +247,214 @@ class Escena2 extends Phaser.Scene {
     this.input.setDraggable(img);
 
     img.on('dragstart', () => {
-      img.setScale(escala * 1.15).setDepth(50);
-      this.input.setDefaultCursor('grabbing');
+      img.setScale(escala * 1.1).setDepth(50);
     });
-
-    img.on('drag', (pointer, dragX, dragY) => {
-      img.x = dragX;
-      img.y = dragY;
+    img.on('drag', (ptr, dx, dy) => {
+      img.x = dx; img.y = dy;
     });
-
-    img.on('dragend', (pointer) => {
+    img.on('dragend', (ptr) => {
       img.setScale(escala).setDepth(25);
-      this.input.setDefaultCursor('default');
-
-      const tile = this.tileMasCercano(pointer.x, pointer.y);
+      const tile = this._tileCercano(ptr.x, ptr.y);
       if (tile && !tile.occupied) {
-        this.colocarEnTile(tile, img.itemType);
+        this._colocar(tile, img.itemType);
         img.x = img.baseX;
         img.y = img.baseY;
       } else {
-        // Devolver al inventario con animación
         this.tweens.add({
           targets: img, x: img.baseX, y: img.baseY,
           duration: 200, ease: 'Back.Out'
         });
-        if (tile && tile.occupied) {
-          this.mostrarMensaje('panelin_3', '¡Esa casilla ya tiene algo! Elige otra casilla vacía.');
-        }
+        if (tile && tile.occupied)
+          this._mensaje('panelin_3', '¡Esa casilla ya tiene algo! Elige una casilla vacía.');
       }
     });
   }
 
-  // ----------------------------------------------------------
-  // Coloca un ítem en un tile del mapa
-  // ----------------------------------------------------------
-  colocarEnTile(tile, tipo) {
+  // ── Coloca un item en un tile ────────────────────────────
+  _colocar(tile, tipo) {
     tile.occupied = true;
     tile.itemType = tipo;
-    tile.setTexture('tile_o');
 
-    const escItem = tipo === 'panel' ? 0.15 : 0.15;
-    const texture = tipo === 'panel' ? 'panel_solar' : 'battery';
-    const offsetY = tipo === 'panel' ? -52 : -44;
+    // Tile ocupado en color oscuro
+    this._relleno(tile, tile.worldX, tile.worldY, 0x1a4a25);
 
-    const itemImg = this.add.image(tile.worldX, tile.worldY + offsetY, texture)
-      .setScale(escItem)
-      .setDepth(tile.depth + 1);
+    const esc  = tipo === 'panel' ? 0.17 : 0.17;
+    const tex  = tipo === 'panel' ? 'panel_solar' : 'battery';
+    const offY = tipo === 'panel' ? -50 : -42;
 
-    // Animación de aparición
-    itemImg.setAlpha(0).setScale(escItem * 0.5);
-    this.tweens.add({
-      targets: itemImg, alpha: 1, scale: escItem,
-      duration: 250, ease: 'Back.Out'
-    });
+    const it = this.add.image(tile.worldX, tile.worldY + offY, tex)
+      .setScale(esc)
+      .setDepth(tile.depth + 2);
 
-    tile.itemImg = itemImg;
+    it.setAlpha(0).setScale(esc * 0.5);
+    this.tweens.add({ targets: it, alpha: 1, scale: esc, duration: 220, ease: 'Back.Out' });
+    tile.itemImg = it;
 
-    // Calcular energía
-    const kwh = tipo === 'panel' ? this.region.panelKwh : this.BAT_KWH;
+    const kwh = tipo === 'panel' ? this.reg.panelKwh : this.BAT_KWH;
     this.energia += kwh;
-    this.actualizarBarra();
-    this.actualizarCasas();
-    this.verificarExceso();
+    this._actualizarBarra();
+    this._actualizarCasas();
+    this._checkExceso();
   }
 
-  // ----------------------------------------------------------
-  // Encuentra el tile más cercano al punto dado
-  // ----------------------------------------------------------
-  tileMasCercano(px, py) {
-    let mejor = null;
-    let menorDist = 65;
+  // ── Tile más cercano al puntero ──────────────────────────
+  _tileCercano(px, py) {
+    let best = null, dist = 60;
     for (const t of this.tiles) {
       const d = Phaser.Math.Distance.Between(px, py, t.worldX, t.worldY);
-      if (d < menorDist) { menorDist = d; mejor = t; }
+      if (d < dist) { dist = d; best = t; }
     }
-    return mejor;
+    return best;
   }
 
-  // ----------------------------------------------------------
-  // Actualiza la barra de energía
-  // ----------------------------------------------------------
-  actualizarBarra() {
-    this.barraEnergia.clear();
-    const W = this.scale.width;
-    const pct = Math.min(1, this.energia / this.energiaMeta);
-    const color = pct < 0.4 ? 0xE24B4A : pct < 0.8 ? 0xEF9F27 : 0x1D9E75;
-    this.barraEnergia.fillStyle(color, 1);
-    this.barraEnergia.fillRoundedRect(W - 165, 85, Math.round(145 * pct), 16, 4);
-    this.textoEnergia.setText(`${this.energia} / ${this.energiaMeta} kWh`);
+  // ── Actualiza barra de energía ───────────────────────────
+  _actualizarBarra() {
+    const W   = this.scale.width;
+    const pct = Math.min(1, this.energia / this.META);
+    const col = pct < 0.4 ? 0xE24B4A : pct < 0.8 ? 0xEF9F27 : 0x1D9E75;
+    this.barraG.clear()
+      .fillStyle(col, 1)
+      .fillRoundedRect(W - 170, 84, Math.round(145 * pct), 16, 4);
+    this.txtKwh.setText(`${this.energia} / ${this.META} kWh`);
   }
 
-  // ----------------------------------------------------------
-  // Actualiza casas encendidas según energía
-  // ----------------------------------------------------------
-  actualizarCasas() {
-    const nuevasCasas = Math.min(3, Math.floor((this.energia / this.energiaMeta) * 3));
-    if (nuevasCasas !== this.casasLit) {
-      this.casasLit = nuevasCasas;
-      this.casas.forEach((c, i) => {
-        const encendida = i < nuevasCasas;
-        c.setTexture(encendida ? 'casa_encendida' : 'casa_apagada');
-        if (encendida) {
-          this.tweens.add({ targets: c, scaleX: c.scaleX * 1.08, scaleY: c.scaleY * 1.08, duration: 150, yoyo: true });
-        }
+  // ── Actualiza casas encendidas ───────────────────────────
+  _actualizarCasas() {
+    const n = Math.min(3, Math.floor((this.energia / this.META) * 3));
+    if (n === this.casasLit) return;
+    this.casasLit = n;
+    this.casas.forEach((c, i) => {
+      const enc = i < n;
+      c.setTexture(enc ? 'casa_encendida' : 'casa_apagada');
+      if (enc) this.tweens.add({
+        targets: c, scaleX: c.scaleX * 1.08, scaleY: c.scaleY * 1.08,
+        duration: 140, yoyo: true
       });
-      this.textoCasas.setText(`${nuevasCasas} / 3`);
-      this.textoCasas.setColor(nuevasCasas === 3 ? '#1D9E75' : '#ffffff');
+    });
+    this.txtCasas.setText(`${n} / 3`)
+      .setColor(n === 3 ? '#1D9E75' : '#ffffff');
 
-      // Mensaje de Panelín según progreso
-      if (nuevasCasas === 1) {
-        this.mostrarMensaje('panelin_2', '¡La primera casa tiene luz! Sigue instalando para abastecer las demás.');
-      } else if (nuevasCasas === 2) {
-        this.mostrarMensaje('panelin_5', '¡Dos casas encendidas! Ya casi llegas, solo falta una más.');
-      } else if (nuevasCasas === 3 && !this.winShown) {
-        this.time.delayedCall(400, () => this.mostrarVictoria());
-      }
-    }
+    if (n === 1) this._mensaje('panelin_2', '¡Primera casa con luz! Sigue instalando para abastecer las demás.');
+    else if (n === 2) this._mensaje('panelin_5', '¡Dos casas encendidas! Ya casi. Solo falta una más.');
+    else if (n === 3 && !this.winShown) this.time.delayedCall(400, () => this._victoria());
   }
 
-  // ----------------------------------------------------------
-  // Verifica si el jugador está instalando de más
-  // ----------------------------------------------------------
-  verificarExceso() {
-    const exceso = this.energia - this.energiaMeta;
-    if (exceso > 30 && exceso <= 50) {
-      this.mostrarMensaje('panelin_4', `Estás generando ${this.energia} kWh pero solo necesitas ${this.energiaMeta}. Estás usando más de lo necesario.`);
-    } else if (exceso > 50) {
-      this.mostrarMensaje('panelin_3', `¡Demasiados elementos! Estás generando ${this.energia} kWh pero la ciudad solo necesita ${this.energiaMeta}. ¡Estás desperdiciando recursos!`);
-    }
+  // ── Revisa exceso de instalación ─────────────────────────
+  _checkExceso() {
+    const ex = this.energia - this.META;
+    if (ex > 50)
+      this._mensaje('panelin_3', `¡Demasiado! Generas ${this.energia} kWh pero la ciudad solo necesita ${this.META}. ¡Estás desperdiciando!`);
+    else if (ex > 25)
+      this._mensaje('panelin_4', `Estás generando ${this.energia} kWh, más de los ${this.META} que necesitas. Considera si realmente hace falta.`);
   }
 
-  // ----------------------------------------------------------
-  // Muestra un mensaje de Panelín con su pose
-  // ----------------------------------------------------------
-  mostrarMensaje(pose, msg) {
-    this.panelin.setTexture(pose);
+  // ── Muestra mensaje de Panelín ───────────────────────────
+  _mensaje(pose, txt) {
     const H = this.scale.height;
-
-    this.bubbleBg.clear();
-    this.bubbleBg.fillStyle(0xFAEEDA, 0.96);
-    this.bubbleBg.fillRoundedRect(130, H - 148, 370, 68, 8);
-    this.bubbleBg.lineStyle(0.5, 0xEF9F27, 1);
-    this.bubbleBg.strokeRoundedRect(130, H - 148, 370, 68, 8);
-
-    this.bubbleText.setText(msg);
-    this.bubbleText.setPosition(142, H - 140);
+    this.panelinImg.setTexture(pose);
+    this.bubbleBg.clear()
+      .fillStyle(0xFAEEDA, 0.97)
+      .fillRoundedRect(130, H - 152, 370, 72, 8)
+      .lineStyle(0.5, 0xEF9F27, 1)
+      .strokeRoundedRect(130, H - 152, 370, 72, 8);
+    this.bubbleTxt.setText(txt).setPosition(144, H - 144);
   }
 
-  // ----------------------------------------------------------
-  // Reinicia el mapa limpiando todos los tiles
-  // ----------------------------------------------------------
-  reiniciarMapa() {
+  // ── Crea botón simple ─────────────────────────────────────
+  _boton(cx, cy, label, cb) {
+    const W2 = 145, H2 = 28;
+    const g = this.add.graphics().setDepth(21).setInteractive(
+      new Phaser.Geom.Rectangle(cx - W2/2, cy - H2/2, W2, H2),
+      Phaser.Geom.Rectangle.Contains
+    );
+    g.fillStyle(0x1a2d5a, 1).fillRoundedRect(cx - W2/2, cy - H2/2, W2, H2, 6)
+      .lineStyle(0.5, 0x4a7adf, 1).strokeRoundedRect(cx - W2/2, cy - H2/2, W2, H2, 6);
+    this.add.text(cx, cy, label, {
+      fontFamily: 'Nunito, sans-serif', fontSize: '11px', color: '#7ab0ff'
+    }).setOrigin(0.5).setDepth(22);
+    g.on('pointerup', cb);
+    g.on('pointerover', () => this.input.setDefaultCursor('pointer'));
+    g.on('pointerout',  () => this.input.setDefaultCursor('default'));
+  }
+
+  // ── Reinicia el mapa ──────────────────────────────────────
+  _reiniciar() {
     this.tiles.forEach(t => {
       if (t.occupied) {
         if (t.itemImg) t.itemImg.destroy();
-        t.occupied = false;
-        t.itemType = null;
-        t.itemImg  = null;
-        t.setTexture('tile_n');
+        t.occupied = false; t.itemType = null; t.itemImg = null;
+        this._relleno(t, t.worldX, t.worldY, t.colorBase);
       }
     });
-    this.energia   = 0;
-    this.casasLit  = 0;
-    this.winShown  = false;
-    this.casas.forEach(c => c.setTexture('casa_apagada'));
-    this.textoCasas.setText('0 / 3').setColor('#ffffff');
-    this.actualizarBarra();
-    this.mostrarMensaje('panelin_1', '¡Mapa reiniciado! Vuelve a intentarlo. Recuerda instalar lo justo para las 3 casas.');
+    this.energia = 0; this.casasLit = 0; this.winShown = false;
+    this.casas.forEach(c => c.setTexture('casa_apagada').setScale(0.1));
+    this.txtCasas.setText('0 / 3').setColor('#ffffff');
+    this._actualizarBarra();
+    this._mensaje('panelin_1', '¡Mapa reiniciado! Vuelve a intentarlo. Recuerda instalar lo justo para las 3 casas.');
   }
 
-  // ----------------------------------------------------------
-  // Pantalla de victoria
-  // ----------------------------------------------------------
-  mostrarVictoria() {
+  // ── Pantalla de victoria ──────────────────────────────────
+  _victoria() {
     if (this.winShown) return;
     this.winShown = true;
-
-    const W = this.scale.width;
-    const H = this.scale.height;
-
+    const W = this.scale.width, H = this.scale.height;
     const paneles  = this.tiles.filter(t => t.itemType === 'panel').length;
     const baterias = this.tiles.filter(t => t.itemType === 'battery').length;
     const total    = paneles + baterias;
-    const estrellas = total <= 5 ? '★★★' : total <= 8 ? '★★☆' : '★☆☆';
+    const stars    = total <= 5 ? '★★★' : total <= 8 ? '★★☆' : '★☆☆';
     const badge    = total <= 5 ? '¡Ingeniero Solar Experto!' : total <= 8 ? 'Ingeniero Solar Junior' : 'Aprendiz Solar';
 
-    // Panelín feliz
-    this.mostrarMensaje('panelin_5', `¡Increíble! Usaste ${paneles} paneles y ${baterias} baterías. ¡Tu ciudad tiene luz!`);
+    this._mensaje('panelin_5', `¡Increíble! Usaste ${paneles} paneles y ${baterias} baterías. ¡Tu ciudad tiene luz!`);
 
-    // Overlay
-    const ov = this.add.graphics().setDepth(60);
-    ov.fillStyle(0x000000, 0.65);
-    ov.fillRect(0, 0, W, H);
+    const ov = this.add.graphics().setDepth(60).fillStyle(0x000000, 0.65).fillRect(0,0,W,H);
+    const cx = W/2, cy = H/2;
 
-    // Caja de victoria
-    const cx = W / 2, cy = H / 2;
-    const box = this.add.graphics().setDepth(61);
-    box.fillStyle(0x0d1b3e, 0.98);
-    box.fillRoundedRect(cx - 200, cy - 155, 400, 310, 14);
-    box.lineStyle(2, 0xEF9F27, 1);
-    box.strokeRoundedRect(cx - 200, cy - 155, 400, 310, 14);
+    this.add.graphics().setDepth(61)
+      .fillStyle(0x0d1b3e, 0.98).fillRoundedRect(cx-200, cy-160, 400, 320, 14)
+      .lineStyle(2, 0xEF9F27, 1).strokeRoundedRect(cx-200, cy-160, 400, 320, 14);
 
-    this.add.text(cx, cy - 118, '⚡', { fontSize: '44px' }).setOrigin(0.5).setDepth(62);
-    this.add.text(cx, cy - 62, '¡Ciudad abastecida!', {
-      fontFamily: 'Poppins, sans-serif', fontSize: '22px',
-      fontStyle: 'bold', color: '#EF9F27'
+    this.add.text(cx, cy-118, '⚡', { fontSize:'44px' }).setOrigin(0.5).setDepth(62);
+    this.add.text(cx, cy-68, '¡Ciudad abastecida!', {
+      fontFamily:'Poppins,sans-serif', fontSize:'22px', fontStyle:'bold', color:'#EF9F27'
+    }).setOrigin(0.5).setDepth(62);
+    this.add.text(cx, cy-30, stars, { fontSize:'30px', color:'#EF9F27' }).setOrigin(0.5).setDepth(62);
+    this.add.text(cx, cy+4, badge, {
+      fontFamily:'Poppins,sans-serif', fontSize:'15px', color:'#fff'
+    }).setOrigin(0.5).setDepth(62);
+    this.add.text(cx, cy+36, `${paneles} paneles + ${baterias} baterías = ${this.energia} kWh`, {
+      fontFamily:'Nunito,sans-serif', fontSize:'13px', color:'#aac4ff'
     }).setOrigin(0.5).setDepth(62);
 
-    this.add.text(cx, cy - 26, estrellas, {
-      fontSize: '30px', color: '#EF9F27'
-    }).setOrigin(0.5).setDepth(62);
-
-    this.add.text(cx, cy + 8, badge, {
-      fontFamily: 'Poppins, sans-serif', fontSize: '15px', color: '#ffffff'
-    }).setOrigin(0.5).setDepth(62);
-
-    this.add.text(cx, cy + 40, `${paneles} paneles + ${baterias} baterías = ${this.energia} kWh`, {
-      fontFamily: 'Nunito, sans-serif', fontSize: '13px', color: '#aac4ff'
-    }).setOrigin(0.5).setDepth(62);
-
-    // Botón volver a elegir región
-    const btnBox = this.add.graphics().setDepth(62).setInteractive(
-      new Phaser.Geom.Rectangle(cx - 130, cy + 72, 260, 36), Phaser.Geom.Rectangle.Contains
-    );
-    btnBox.fillStyle(0xEF9F27, 1);
-    btnBox.fillRoundedRect(cx - 130, cy + 72, 260, 36, 8);
-    this.add.text(cx, cy + 90, 'Jugar con otra región', {
-      fontFamily: 'Poppins, sans-serif', fontSize: '14px',
-      fontStyle: 'bold', color: '#412402'
+    // Botón volver
+    const btnV = this.add.graphics().setDepth(62).setInteractive(
+      new Phaser.Geom.Rectangle(cx-130, cy+68, 260, 36), Phaser.Geom.Rectangle.Contains);
+    btnV.fillStyle(0xEF9F27,1).fillRoundedRect(cx-130, cy+68, 260, 36, 8);
+    this.add.text(cx, cy+86, 'Jugar con otra región', {
+      fontFamily:'Poppins,sans-serif', fontSize:'14px', fontStyle:'bold', color:'#412402'
     }).setOrigin(0.5).setDepth(63);
-
-    btnBox.on('pointerup', () => {
-      this.cameras.main.fadeOut(400, 0, 0, 0);
-      this.time.delayedCall(400, () => this.scene.start('Escena1'));
+    btnV.on('pointerup', () => {
+      this.cameras.main.fadeOut(400,0,0,0);
+      this.time.delayedCall(400, () => window.location.href = 'index.html');
     });
-    btnBox.on('pointerover', () => this.input.setDefaultCursor('pointer'));
-    btnBox.on('pointerout',  () => this.input.setDefaultCursor('default'));
+    btnV.on('pointerover', () => this.input.setDefaultCursor('pointer'));
+    btnV.on('pointerout',  () => this.input.setDefaultCursor('default'));
 
     // Botón reintentar
-    const btnRtry = this.add.graphics().setDepth(62).setInteractive(
-      new Phaser.Geom.Rectangle(cx - 130, cy + 118, 260, 32), Phaser.Geom.Rectangle.Contains
-    );
-    btnRtry.fillStyle(0x1a2d5a, 1);
-    btnRtry.fillRoundedRect(cx - 130, cy + 118, 260, 32, 8);
-    btnRtry.lineStyle(0.5, 0x4a7adf, 1);
-    btnRtry.strokeRoundedRect(cx - 130, cy + 118, 260, 32, 8);
-    this.add.text(cx, cy + 134, 'Intentar de nuevo', {
-      fontFamily: 'Nunito, sans-serif', fontSize: '13px', color: '#7ab0ff'
+    const btnR = this.add.graphics().setDepth(62).setInteractive(
+      new Phaser.Geom.Rectangle(cx-130, cy+114, 260, 32), Phaser.Geom.Rectangle.Contains);
+    btnR.fillStyle(0x1a2d5a,1).fillRoundedRect(cx-130, cy+114, 260, 32, 8)
+      .lineStyle(0.5,0x4a7adf,1).strokeRoundedRect(cx-130, cy+114, 260, 32, 8);
+    this.add.text(cx, cy+130, 'Intentar de nuevo', {
+      fontFamily:'Nunito,sans-serif', fontSize:'13px', color:'#7ab0ff'
     }).setOrigin(0.5).setDepth(63);
-
-    btnRtry.on('pointerup', () => {
-      ov.destroy(); box.destroy();
-      this.children.list
-        .filter(c => c.depth >= 60)
-        .forEach(c => c.destroy());
+    btnR.on('pointerup', () => {
+      [ov, btnV, btnR].forEach(o => o.destroy());
+      this.children.list.filter(c => c.depth >= 61).forEach(c => c.destroy());
       this.winShown = false;
-      this.reiniciarMapa();
+      this._reiniciar();
     });
-    btnRtry.on('pointerover', () => this.input.setDefaultCursor('pointer'));
-    btnRtry.on('pointerout',  () => this.input.setDefaultCursor('default'));
+    btnR.on('pointerover', () => this.input.setDefaultCursor('pointer'));
+    btnR.on('pointerout',  () => this.input.setDefaultCursor('default'));
   }
 
   update() {}

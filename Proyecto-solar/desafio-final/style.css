@@ -1,0 +1,342 @@
+/* ── RESET ──────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Nunito', sans-serif;
+  background: #ffffff;
+}
+
+/* ── ENCABEZADO ─────────────────────────────── */
+.encabezado {
+  padding: 32px 0 12px 80px;
+}
+
+.encabezado h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 58px;
+  color: #0f2d3c;
+  letter-spacing: 2px;
+}
+
+.subtitulo {
+  font-size: 16px;
+  color: #555;
+  margin-top: 4px;
+}
+
+/* ── LAYOUT PRINCIPAL ────────────────────────── */
+.mapa-wrap {
+  display: flex;
+  align-items: center;      /* Centra todo verticalmente */
+  justify-content: center;  /* Centra todo horizontalmente */
+  gap: 50px;                /* Espacio limpio entre el panel, el mapa y las etiquetas */
+  padding: 0 60px;
+  height: calc(100vh - 130px);
+}
+
+/* ── PANEL INFO (A LA IZQUIERDA) ─────────────── */
+.panel-info {
+  order: -1;                /* Lo fuerza a ser el elemento #1 (Izquierda) */
+  flex: 1;
+  max-width: 340px;
+  margin: 0;                /* Sin márgenes forzados */
+  background: #f7f9fc;
+  border: 2px solid #dde4ee;
+  border-radius: 18px;
+  padding: 28px 24px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ── MAPA DE CHILE (AL CENTRO) ───────────────── */
+/* ── MAPA DE CHILE ───────────────────────────── */
+.mapa-chile {
+  order: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  margin: 0;
+  padding: 0;
+}
+
+.region-img {
+  display: block;
+  width: 5vh; /* <--- ESTA ES LA CLAVE */
+  height: auto;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: filter 0.15s, transform 0.15s;
+} /* <--- ¡ESTA LLAVE ES IMPORTANTE! Cierra la regla principal */
+
+/* ── AJUSTE DE ROMPECABEZAS (Márgenes y tamaños individuales) ── */
+
+/* 1. Zona Norte: Le damos margen negativo para subirla mucho en la pantalla */
+.region-img:nth-child(1) {
+  margin-top: -12vh; /* Aumenta este número (ej: -12vh) si necesitas subirla más */
+}
+
+/* 2. Zona Centro: La acercamos hacia la Zona Norte */
+.region-img:nth-child(2) {
+  margin-top: -0.1vh;
+  margin-left: -5vh; /* Juega con este número para que encaje perfecto con el norte */
+}
+
+/* 3. Zona Sur: La hacemos más grande y la acercamos a la Zona Centro */
+.region-img:nth-child(3) {
+  width: 9vh; /* Hacemos solo esta pieza más grande (la original es 5vh) */
+  margin-top: -1vh;
+  margin-left: -4.5vh; /* Ajustamos para que se pegue al centro */
+  
+  /* NOTA: A veces al agrandar una pieza, se desalinea hacia un lado. 
+     Si el sur te queda muy a la derecha, descomenta la línea de abajo y ajusta el número: */
+  /* margin-left: -1vh; */ 
+}
+
+.region-img:hover {
+  filter: brightness(1.15);
+  transform: scaleX(1.04);
+}
+
+.region-img.seleccionada {
+  filter: brightness(1.3) drop-shadow(0 0 8px rgba(239,159,39,0.8));
+}
+
+/* ── LABELS DE ZONA (A LA DERECHA) ───────────── */
+.labels-col {
+  order: 2;                 /* Lo fuerza a ser el elemento #3 (Derecha) */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly; /* Separa las etiquetas equitativamente */
+  align-items: flex-start;
+  margin: 10;                /* Quitamos el margen negativo que rompía todo */
+  padding: 0;          
+  height: 90vh; 
+  margin-top: -30vh           /* Altura fija para que coincidan con lo largo del mapa */
+}
+
+.label-zona {
+  height: 44px;
+  cursor: pointer;
+  transition: transform 0.15s;
+  object-fit: contain;
+}
+
+.label-zona:hover {
+  transform: scale(1.06);
+}
+
+/* ── PANEL INFO ──────────────────────────────── */
+
+.panel-info {
+  flex: 1;
+  max-width: 340px;
+  order: -2; /* ¡ESTO LO MUEVE A LA IZQUIERDA! */
+  background: #f7f9fc;
+  border: 2px solid #dde4ee;
+  border-radius: 18px;
+  padding: 28px 24px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Eliminamos los márgenes forzados */
+  position: relative; /* Nos deja mover la caja sin empujar al mapa */
+  top: -10vh;          /* Número negativo = lo mueve hacia ARRIBA */
+  left: -6vw;         /* Número negativo = lo mueve hacia la IZQUIERDA */
+}
+
+.info-hint {
+  font-size: 16px;
+  color: #aaa;
+  text-align: center;
+  line-height: 1.6;
+}
+
+#info-region h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: #0f2d3c;
+  margin-bottom: 12px;
+}
+
+.info-rad {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: #EF9F27;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.info-rad-label {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 16px;
+}
+
+.info-desc {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.btn-comenzar {
+  height: 52px;
+  cursor: pointer;
+  transition: transform 0.15s, filter 0.15s;
+  display: block;
+  object-fit: contain;
+}
+
+.btn-comenzar:hover {
+  transform: scale(1.04);
+  filter: brightness(1.08);
+}
+
+/* ── PANELÍN FIJO ────────────────────────────── */
+.panelin-fijo {
+  position: fixed;
+  left: 80px;
+  bottom: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 20px;
+  z-index: 5;
+}
+
+.panelin-decorativo {
+  width: 150px;
+  filter: brightness(1.1);
+}
+
+.globo-fijo {
+  background: white;
+  border: 3px solid black;
+  border-radius: 20px;
+  padding: 16px 20px;
+  font-size: 15px;
+  line-height: 1.5;
+  max-width: 320px;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.globo-fijo::before {
+  content: "";
+  position: absolute;
+  left: -22px;
+  bottom: 18px;
+  width: 0; height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-right: 22px solid black;
+}
+
+.globo-fijo::after {
+  content: "";
+  position: absolute;
+  left: -16px;
+  bottom: 19px;
+  width: 0; height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-right: 17px solid white;
+}
+
+/* ── OVERLAY PANELÍN INTRO (igual al CSS compañeras) ── */
+.panelin-explica {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  cursor: default;
+}
+
+.panelin-explica::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(3px);
+}
+
+.panelin-explica .panelin {
+  position: absolute;
+  width: 240px;
+  left: 80px;
+  bottom: 50px;
+  z-index: 101;
+  filter: brightness(1.1);
+}
+
+.panelin-explica .globo {
+  position: absolute;
+  left: 340px;
+  bottom: 160px;
+  width: 460px;
+  background: white;
+  border: 3px solid black;
+  border-radius: 30px;
+  padding: 28px 32px;
+  font-size: 18px;
+  line-height: 1.6;
+  z-index: 102;
+  color: #111;
+}
+
+.panelin-explica .globo::before {
+  content: "";
+  position: absolute;
+  left: -24px;
+  bottom: 24px;
+  width: 0; height: 0;
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  border-right: 24px solid black;
+}
+
+.panelin-explica .globo::after {
+  content: "";
+  position: absolute;
+  left: -18px;
+  bottom: 25px;
+  width: 0; height: 0;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  border-right: 19px solid white;
+}
+
+/* ── FLECHAS (igual compañeras) ─────────────── */
+.flechas {
+  position: fixed;
+  bottom: 30px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 60px;
+  z-index: 103;
+}
+
+.flechas button {
+  background: #0f2d3c;
+  color: white;
+  border: none;
+  font-size: 28px;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.flechas button:hover {
+  background: #1a4a63;
+}
