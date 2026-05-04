@@ -361,3 +361,15 @@ document.head.appendChild(style);
 
 /* ── 8. ARRANCAR ─────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', generarMapa);
+
+/* ── 9. NAVEGACIÓN HACIA EL RESUMEN (MÓDULO 5) ───────────────── */
+document.getElementById('nextBtn').addEventListener('click', function() {
+  // 1. Guardar que se desbloqueó el módulo 5 (el Resumen)
+  let actual = parseInt(localStorage.getItem('modulos_desbloqueados') || '1');
+  if (actual < 5) {
+    localStorage.setItem('modulos_desbloqueados', '5');
+  }
+  
+  // 2. Viajar hacia la carpeta Web2 para abrir modulo5.html
+  window.location.href = '../Web2/modulo5.html';
+});

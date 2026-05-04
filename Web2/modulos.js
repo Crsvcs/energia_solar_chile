@@ -50,6 +50,10 @@ function mostrarEstadoNormal() {
             modulo.classList.remove('bloqueado');
         }
     }
+    // 👇 AGREGA ESTAS 3 LÍNEAS AQUÍ 👇
+    if (n >= 5) {
+        document.getElementById('zonaDesafioFinal').style.display = 'block';
+    }
 }
 
 function irModulo(num) {

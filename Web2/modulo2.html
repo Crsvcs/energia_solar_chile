@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Módulo 2 - En construcción</title>
+    <link rel="stylesheet" href="estilo_web.css">
+</head>
+<body style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f7f9fc; font-family: 'Nunito', sans-serif;">
+
+    <h1 style="color: #0f2d3c; font-family: 'Bebas Neue', sans-serif; font-size: 50px;">MÓDULO 2: ENERGÍA SOLAR</h1>
+    <p style="font-size: 18px; color: #555; margin-bottom: 30px;">(Prototipo en construcción)</p>
+
+    <button onclick="completarYVolver(3)" style="background-color: #EF9F27; color: white; border: none; border-radius: 12px; padding: 15px 30px; font-size: 20px; font-weight: bold; cursor: pointer;">
+        Simular que completé el Módulo 2 ➡️
+    </button>
+
+    <script>
+        function completarYVolver(siguiente) {
+            let actual = parseInt(localStorage.getItem('modulos_desbloqueados') || '1');
+            if (actual < siguiente) {
+                localStorage.setItem('modulos_desbloqueados', siguiente.toString());
+            }
+            window.location.href = 'modulos.html'; // Vuelve a la casita
+        }
+    </script>
+</body>
+</html>
