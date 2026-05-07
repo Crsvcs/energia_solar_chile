@@ -151,12 +151,12 @@ html, body {
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 150px;
+    font-size: 100px;
     font-weight: normal;
     color: #01579B;
     letter-spacing: 3px;
     text-align: center;
-    width: 100%;
+    width: 70%;
     line-height: 1.0;
 }
 
@@ -165,7 +165,7 @@ html, body {
 .panelin-fijo {
     position: absolute;
     left: 80px;
-    bottom: 120px;
+    bottom: 30px;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
@@ -246,135 +246,6 @@ html, body {
     padding: 0 80px;
 }
 
-
-
-/* ── SLIDE 3: CONSUMO ELÉCTRICO ──────────────── */
-
-.difuminado {
-    filter: blur(3px) opacity(0.4);
-    pointer-events: none;
-    user-select: none;
-}
-
-
-.contenedor {
-    display: flex;
-    justify-content: center;
-    gap: 60px;
-    margin-top: 40px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.objeto {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 280px;
-}
-
-.caja-imagen {
-    width: 280px;
-    height: 260px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.caja-imagen img {
-    max-width: 240px;
-    max-height: 240px;
-    object-fit: contain;
-    cursor: pointer;
-    transition: transform 0.2s;
-    mix-blend-mode: multiply;
-}
-
-.caja-imagen img:hover {
-    transform: scale(1.08);
-}
-
-.info {
-    display: none;
-    margin-top: 22px;
-    background-color: #FFD54F;
-    border: 2px solid #FF8F00;
-    padding: 14px 20px;
-    border-radius: 20px;
-    font-size: 18px;
-    font-weight: 700;
-    width: 280px;
-    text-align: center;
-    color: #424242;
-}
-
-/* ── SLIDE 5: CORRIENTES Y DISPOSITIVOS ──────── */
-
-
-.objetos-slide2 {
-    display: grid;
-    grid-template-columns: repeat(3, 200px);
-    grid-template-rows: repeat(2, auto);
-    gap: 20px 60px;
-    margin: 30px auto 0 auto;
-    width: fit-content;
-}
-
-.artefacto-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-}
-
-.artefacto-caja {
-    background-color: #E3F2FD;
-    border-radius: 20px;
-    width: 200px;
-    height: 160px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.2s;
-}
-
-.artefacto-card:hover .artefacto-caja {
-    transform: scale(1.06);
-}
-
-.artefacto {
-    width: 130px;
-    height: 130px;
-    object-fit: contain;
-    mix-blend-mode: multiply;
-}
-
-.artefacto-nombre {
-    font-size: 18px;
-    font-weight: 800;
-    text-align: center;
-    color: #01579B;
-}
-
-/* ── DETALLE: ARTEFACTO ENCHUFADO ───────────── */
-
-.detalle-artefacto {
-    display: none;
-    position: relative;
-    height: calc(100vh - 180px);
-    margin-top: 20px;
-}
-
-.imagen-cargando {
-    position: absolute;
-    width: 460px;
-    left: 50%;
-    top: 40px;
-    transform: translateX(-50%);
-    mix-blend-mode: multiply;
-}
-
 /* ── PANELÍN INTERACCIÓN (blur overlay) ──────── */
 
 .panelin-explica {
@@ -420,82 +291,8 @@ html, body {
     filter: brightness(1.12);
 }
 
-.globo-final {
-    background-color: #FFD54F;
-    border: 3px solid #FF8F00;
-    border-radius: 30px;
-    padding: 30px 36px;
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 1.65;
-    max-width: 600px;
-    color: #424242;
-    position: relative;
-    margin-bottom: 60px;
-}
+/* ── MAPA ───────────────────────── */
 
-.globo-final::before {
-    content: "";
-    position: absolute;
-    left: -24px;
-    bottom: 24px;
-    width: 0; height: 0;
-    border-top: 14px solid transparent;
-    border-bottom: 14px solid transparent;
-    border-right: 24px solid #FF8F00;
-}
-
-.globo-final::after {
-    content: "";
-    position: absolute;
-    left: -18px;
-    bottom: 25px;
-    width: 0; height: 0;
-    border-top: 11px solid transparent;
-    border-bottom: 11px solid transparent;
-    border-right: 19px solid #FFD54F;
-}
-
-/* ── GLOBO INTERACCIÓN ───────────────────────── */
-
-.globo {
-    position: absolute;
-    left: 360px;
-    bottom: 220px;
-    width: 440px;
-    background-color: #FFD54F;
-    border: 3px solid #FF8F00;
-    border-radius: 30px;
-    padding: 28px;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.5;
-    text-align: center;
-    color: #424242;
-    z-index: 21;
-}
-
-.globo::before {
-    content: "";
-    position: absolute;
-    left: 32px;
-    bottom: -24px;
-    width: 0; height: 0;
-    border-left: 17px solid transparent;
-    border-right: 17px solid transparent;
-    border-top: 24px solid #FF8F00;
-}
-
-.globo::after {
-    content: "";
-    position: absolute;
-    left: 36px;
-    bottom: -19px;
-    width: 0; height: 0;
-    border-left: 14px solid transparent;
-    border-right: 14px solid transparent;
-    border-top: 19px solid #FFD54F;
-}
 
 .iframe-mapa {
     width: 90%;
