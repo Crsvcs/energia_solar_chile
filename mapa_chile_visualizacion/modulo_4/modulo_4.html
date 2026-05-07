@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Módulo 4</title>
+    <link rel="stylesheet" href="estilo_web.css">
+</head>
+
+<body>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 1 — PORTADA
+════════════════════════════════════════════════ -->
+<section class="slide activo">
+
+    <div class="encabezado">
+        <h2>Módulo 4</h2>
+    </div>
+
+    <div class="subtitulo-portada">
+        APRENDEREMOS SOBRE CHILE Y SU INCREÍBLE ENERGÍA SOLAR
+    </div>
+
+    <div class="panelin-fijo">
+        <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
+
+        <div class="globo-fijo">
+            Usa las flechas para avanzar, la casa para volver a los módulos y la ampolleta por si tienes dudas.
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 2 — ¿POR QUÉ CHILE?
+════════════════════════════════════════════════ -->
+<section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 4</h2>
+        <h1>¿POR QUÉ CHILE?</h1>
+    </div>
+
+    <div class="panelin-fijo">
+        <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
+
+        <div class="globo-fijo">
+            Chile tiene mucha radiación solar, que es cuánta energía del sol llega a un lugar.
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 3 — DESIERTO DE ATACAMA
+════════════════════════════════════════════════ -->
+<section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 4</h2>
+        <h1>NORTE DE CHILE</h1>
+    </div>
+
+    <div class="contenedor">
+
+        <div class="objeto">
+            <div class="caja-imagen">
+                <img src="atacama.png">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="panelin-fijo">
+        <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
+
+        <div class="globo-fijo">
+            En el desierto de Atacama, el sol brilla casi siempre y tiene mucha radiación.
+            <br><br>
+            ¡Por eso hay muchas plantas solares!
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 4 — INTRO MAPA
+════════════════════════════════════════════════ -->
+<section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 4</h2>
+        <h1>SOL EN CHILE</h1>
+    </div>
+
+    <div class="panelin-fijo">
+
+        <img src="panelin_feliz.png" class="panelin-decorativo">
+
+        <div class="globo-fijo">
+            En la siguiente visualización haz click en las regiones para saber información sobre la capacidad instalada.
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 5 — MAPA INTERACTIVO
+════════════════════════════════════════════════ -->
+<section class="slide">
+
+    <iframe
+        src="mapa/index.html"
+        class="iframe-mapa">
+    </iframe>
+
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 6 — FUTURO
+════════════════════════════════════════════════ -->
+<section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 4</h2>
+        <h1>¡NUESTRO FUTURO BRILLANTE!</h1>
+    </div>
+
+    <div class="panelin-fijo">
+
+        <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
+
+        <div class="globo-fijo">
+            Con la energía solar, Chile podría llegar a ser un líder en energías renovables.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE FINAL
+════════════════════════════════════════════════ -->
+<section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 4</h2>
+    </div>
+
+    <div class="panelin-final">
+
+        <img src="panelin_feliz.png" class="panelin-final-img">
+
+        <div class="globo-final">
+            ¡Muy bien! Completaste el cuarto y último módulo.
+            <br><br>
+            Prepárate… ahora viene el resumen y desafío final.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ── ICONOS SUPERIORES ───────────────────── -->
+<div class="nav-top">
+    <button class="btn-nav">💡</button>
+    <button class="btn-nav" onclick="window.location.href='modulos.html'">🏠</button>
+</div>
+
+
+<!-- ── FLECHAS ─────────────────────────────── -->
+<div class="flechas">
+
+    <button
+        id="flechaIzquierda"
+        onclick="cambiarSlide(-1)">
+        ←
+    </button>
+
+    <button
+        id="flechaDerecha"
+        onclick="cambiarSlide(1)">
+        →
+    </button>
+
+</div>
+
+<script src="interaccion_web.js"></script>
+
+</body>
+</html>
