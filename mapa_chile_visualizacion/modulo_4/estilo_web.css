@@ -496,3 +496,20 @@ html, body {
     border-right: 14px solid transparent;
     border-top: 19px solid #FFD54F;
 }
+
+.iframe-mapa {
+    width: 90%;
+    height: 80vh;
+    display: block;
+    margin: 120px auto 0 auto;
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 8px 28px rgba(1, 87, 155, 0.18);
+    background-color: white;
+}
+
+.slide-mapa {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
