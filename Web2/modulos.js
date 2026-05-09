@@ -1,6 +1,54 @@
 const CLAVE        = 'modulos_desbloqueados';
 const INTRO_VISTO  = 'intro_visto';
 
+/* ── SONIDO DE DESBLOQUEO ────────────────────── */
+function reproducirDesbloqueo() {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const t   = ctx.currentTime;
+
+        /* Arpegio ascendente corto: G4 → B4 → D5 */
+        const notas = [
+            { freq: 392.00, start: 0.00, dur: 0.14, vol: 0.26 },
+            { freq: 493.88, start: 0.11, dur: 0.14, vol: 0.26 },
+            { freq: 587.33, start: 0.22, dur: 0.28, vol: 0.30 }
+        ];
+
+        notas.forEach(({ freq, start, dur, vol }) => {
+            const osc  = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, t + start);
+            gain.gain.setValueAtTime(0,   t + start);
+            gain.gain.linearRampToValueAtTime(vol, t + start + 0.022);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + start + dur);
+            osc.start(t + start);
+            osc.stop(t + start + dur + 0.02);
+        });
+    } catch(e) {}
+}
+
+/* ── SONIDO DE CLICK SUAVE ───────────────────── */
+function reproducirClik() {
+    try {
+        const ctx  = new (window.AudioContext || window.webkitAudioContext)();
+        const t    = ctx.currentTime;
+        const osc  = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(520, t);
+        osc.frequency.exponentialRampToValueAtTime(340, t + 0.065);
+        gain.gain.setValueAtTime(0.20, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+        osc.start(t);
+        osc.stop(t + 0.09);
+    } catch(e) {}
+}
+
 const texto1 = 'Bienvenidos a los módulos de aprendizaje, aquí deberás ir en orden viendo los módulos para desbloquear el siguiente.';
 const texto2 = '¡Se ha desbloqueado el módulo 1!\nHaz click en él para ver más...';
 
@@ -17,6 +65,7 @@ function iniciar() {
 }
 
 function avanzarIntro() {
+    reproducirClik();
     estadoIntro++;
 
     if (estadoIntro === 1) {
@@ -37,7 +86,8 @@ function avanzarIntro() {
 }
 
 function mostrarEstadoNormal() {
-    let n = parseInt(localStorage.getItem(CLAVE) || '1');
+    let n       = parseInt(localStorage.getItem(CLAVE) || '1');
+    let nSonido = parseInt(localStorage.getItem('modulos_sonido_reproducido') || '1');
 
     document.getElementById('modulosRow').classList.remove('difuminado');
     document.getElementById('panelinModulos').style.display = 'none';
@@ -50,16 +100,61 @@ function mostrarEstadoNormal() {
             modulo.classList.remove('bloqueado');
         }
     }
-    // 👇 AGREGA ESTAS 3 LÍNEAS AQUÍ 👇
     if (n >= 5) {
         document.getElementById('zonaDesafioFinal').style.display = 'block';
     }
+
+    /* Reproducir sonido de desbloqueo para módulos nuevos */
+    if (n > nSonido) {
+        localStorage.setItem('modulos_sonido_reproducido', n);
+        let delay = 600;  /* pequeña pausa para que el usuario vea la pantalla */
+        for (let i = nSonido + 1; i <= n; i++) {
+            setTimeout(reproducirDesbloqueo, delay);
+            delay += 500;
+        }
+    }
+
+    mostrarCopas();
+}
+
+function mostrarCopas() {
+    const contenedor = document.getElementById('placaTrofeos');
+    const totalEl    = document.getElementById('placaTotal');
+    if (!contenedor) return;
+
+    const modulosGanados = [
+        localStorage.getItem('copa_modulo_1') === 'true',
+        localStorage.getItem('copa_modulo_2') === 'true',
+        localStorage.getItem('copa_modulo_3') === 'true',
+        localStorage.getItem('copa_modulo_4') === 'true'
+    ];
+    const desafioGanado = localStorage.getItem('copa_desafio') === 'true';
+
+    /* 4 trofeos de módulos + 2 del desafío final */
+    const ganadas = [...modulosGanados, desafioGanado, desafioGanado];
+    const total   = ganadas.filter(Boolean).length;
+
+    const etiquetas = [
+        'Triunfo Módulo 1',
+        'Triunfo Módulo 2',
+        'Triunfo Módulo 3',
+        'Triunfo Módulo 4',
+        'Desafío Final',
+        'Desafío Final'
+    ];
+
+    contenedor.innerHTML = ganadas
+        .map((g, i) => `<span class="copa-slot${g ? ' ganada' : ''}" data-label="${etiquetas[i]}">🏆</span>`)
+        .join('');
+
+    if (totalEl) totalEl.textContent = total + ' / 6';
 }
 
 function irModulo(num) {
     if (introActiva) return;
     let n = parseInt(localStorage.getItem(CLAVE) || '1');
     if (num > n) return;
+    reproducirClik();
 
     const urls = {
         1: 'estructura_web.html',
@@ -67,7 +162,7 @@ function irModulo(num) {
         3: 'modulo3.html',
         4: 'modulo4.html'
     };
-    window.location.href = urls[num];
+    setTimeout(() => { window.location.href = urls[num]; }, 110);
 }
 
 iniciar();

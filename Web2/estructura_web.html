@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Electricidad</title>
     <link rel="stylesheet" href="estilo_web.css">
 </head>
@@ -23,9 +24,14 @@
 
     <div class="panelin-fijo">
         <img src="panelin_feliz.png" class="panelin-decorativo">
-        <div class="globo-fijo">
-            Usa las flechas para avanzar, la casa para volver a los módulos y la ampolleta por si tienes dudas.
-        </div>
+        <div class="globo-fijo" id="globoSlide1"></div>
+    </div>
+
+    <div class="deco-portada" aria-hidden="true">
+        <svg class="rayo-portada" viewBox="0 0 100 185">
+            <polygon points="60,0 10,90 48,90 20,185 95,80 54,80"
+                     fill="#FFD54F" stroke="#FF8F00" stroke-width="3"/>
+        </svg>
     </div>
 
 </section>
@@ -42,10 +48,22 @@
 
     <div class="panelin-fijo">
         <img src="panelin_feliz.png" class="panelin-decorativo">
-        <div class="globo-fijo">
-            La energía eléctrica es un tipo de energía que viaja a través de los cables y permite que funcionen las luces, los aparatos y los dispositivos que usamos todos los días.
-            <br><br>
-            ¡Todo lo que enchufas usa energía eléctrica!
+        <div class="globo-fijo" id="globoSlide2"></div>
+    </div>
+
+    <div class="luz-ambiente" id="luzAmbiente"></div>
+
+    <div class="interruptor-escena" id="interruptorEscena">
+        <div class="bombilla-wrap">
+            <div class="cable-bombilla"></div>
+            <div class="brillo-bombilla"></div>
+            <img src="ampolleta.png" class="bombilla-img">
+        </div>
+        <div class="interruptor-pared" onclick="toggleLampara()">
+            <div class="int-marco">
+                <div class="int-palanca"></div>
+            </div>
+            <p class="int-etiqueta" id="intEtiqueta">¡Enciende la luz!</p>
         </div>
     </div>
 
@@ -63,34 +81,32 @@
 
     <div class="contenedor difuminado" id="contenedorSlide3">
 
-        <div class="objeto">
-            <div class="caja-imagen">
+        <div class="objeto" id="objeto1">
+            <div class="caja-imagen" id="cajaSlide3-1">
                 <img src="ampolleta.png" onclick="toggleInfo('info1')">
             </div>
-            <div id="info1" class="info">Usa muy poca electricidad: 10 W</div>
+            <div id="info1" class="info">Usa 10W de electricidad</div>
         </div>
 
-        <div class="objeto">
-            <div class="caja-imagen">
+        <div class="objeto" id="objeto2">
+            <div class="caja-imagen" id="cajaSlide3-2">
                 <img src="tv.png" onclick="toggleInfo('info2')">
             </div>
-            <div id="info2" class="info">Usa un poco más de electricidad: 100 W</div>
+            <div id="info2" class="info">Usa 100W de electricidad</div>
         </div>
 
-        <div class="objeto">
-            <div class="caja-imagen">
+        <div class="objeto" id="objeto3">
+            <div class="caja-imagen" id="cajaSlide3-3">
                 <img src="microondas.png" onclick="toggleInfo('info3')">
             </div>
-            <div id="info3" class="info">Usa mucha más electricidad: 1.000 W</div>
+            <div id="info3" class="info">Usa 1.000W de electricidad</div>
         </div>
 
     </div>
 
     <div class="panelin-fijo" id="panelinSlide3">
         <img src="panelin_feliz.png" class="panelin-decorativo">
-        <div class="globo-fijo" id="textoSlide3">
-            Los watts (W) nos ayudan a saber cuánta electricidad usa un objeto. Mientras más watts tiene un objeto, más electricidad necesita para funcionar.
-        </div>
+        <div class="globo-fijo" id="textoSlide3"></div>
     </div>
 
 </section>
@@ -109,18 +125,34 @@
 
         <div class="corriente-card">
             <h3>Corriente Alterna (CA)</h3>
-            <p>
-                La electricidad cambia de dirección constantemente.
-                Es la que viene del enchufe de tu casa.
-            </p>
+            <p class="corriente-frase">¡Va y viene como las olas del mar!</p>
+            <div class="onda-contenedor">
+                <svg class="corriente-onda onda-ca" viewBox="0 0 520 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,30 Q32,0 65,30 Q98,60 130,30 Q162,0 195,30 Q228,60 260,30 Q292,0 325,30 Q358,60 390,30 Q422,0 455,30 Q488,60 520,30"
+                          stroke="#0288D1" stroke-width="5" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+                </svg>
+            </div>
+            <div class="corriente-ejemplos">
+                <span>🔌 Enchufes de tu casa</span>
+                <span>💡 Lámpara enchufada</span>
+                <span>📺 Televisor enchufado</span>
+            </div>
         </div>
+
+        <div class="corrientes-vs">VS</div>
 
         <div class="corriente-card">
             <h3>Corriente Continua (CC)</h3>
-            <p>
-                La electricidad siempre va en la misma dirección.
-                La usan las baterías y los cargadores.
-            </p>
+            <p class="corriente-frase">¡Siempre va en la misma dirección!</p>
+            <svg class="corriente-onda" viewBox="0 0 260 60" xmlns="http://www.w3.org/2000/svg">
+                <line x1="10" y1="30" x2="245" y2="30" stroke="#43A047" stroke-width="5" stroke-linecap="round"/>
+                <polygon class="flecha-movil" points="0,18 27,30 0,42" fill="#43A047"/>
+            </svg>
+            <div class="corriente-ejemplos">
+                <span>🔋 Baterías</span>
+                <span>📱 Celular usando su batería</span>
+                <span>🎮 Control remoto usando pilas</span>
+            </div>
         </div>
 
     </div>
@@ -141,50 +173,48 @@
 
     <div class="panelin-fijo" id="panelinSlide5">
         <img src="panelin_feliz.png" class="panelin-decorativo">
-        <div class="globo-fijo">
-            Selecciona uno de los dispositivos y observa con el tipo de corriente que trabaja.
-        </div>
+        <div class="globo-fijo" id="globoSlide5"></div>
     </div>
 
     <!-- Estado 1: grilla con 6 artefactos -->
     <div class="objetos-slide2 difuminado" id="objetosSlide2">
 
-        <div class="artefacto-card" onclick="mostrarDetalle('tablet')">
+        <div class="artefacto-card" id="card-tablet" onclick="mostrarDetalle('tablet')">
             <div class="artefacto-caja">
                 <img src="tablet.png" class="artefacto">
             </div>
             <span class="artefacto-nombre">Tablet</span>
         </div>
 
-        <div class="artefacto-card" onclick="mostrarDetalle('refrigerador')">
+        <div class="artefacto-card" id="card-refrigerador" onclick="mostrarDetalle('refrigerador')">
             <div class="artefacto-caja">
                 <img src="refrigerador.png" class="artefacto">
             </div>
             <span class="artefacto-nombre">Refrigerador</span>
         </div>
 
-        <div class="artefacto-card" onclick="mostrarDetalle('nintendo')">
+        <div class="artefacto-card" id="card-nintendo" onclick="mostrarDetalle('nintendo')">
             <div class="artefacto-caja">
                 <img src="nintendo.png" class="artefacto">
             </div>
             <span class="artefacto-nombre">Nintendo Switch</span>
         </div>
 
-        <div class="artefacto-card" onclick="mostrarDetalle('microonda')">
+        <div class="artefacto-card" id="card-microonda" onclick="mostrarDetalle('microonda')">
             <div class="artefacto-caja">
                 <img src="microondas.png" class="artefacto">
             </div>
             <span class="artefacto-nombre">Microondas</span>
         </div>
 
-        <div class="artefacto-card" onclick="mostrarDetalle('teclado')">
+        <div class="artefacto-card" id="card-teclado" onclick="mostrarDetalle('teclado')">
             <div class="artefacto-caja">
                 <img src="teclado.png" class="artefacto">
             </div>
             <span class="artefacto-nombre">Teclado</span>
         </div>
 
-        <div class="artefacto-card" onclick="mostrarDetalle('xbox')">
+        <div class="artefacto-card" id="card-xbox" onclick="mostrarDetalle('xbox')">
             <div class="artefacto-caja">
                 <img src="xbox.png" class="artefacto">
             </div>
@@ -196,6 +226,7 @@
     <!-- Estado 2: artefacto enchufado / cargándose -->
     <div class="detalle-artefacto" id="detalleArtefacto" onclick="mostrarPanelinArtefacto()">
         <img id="imagenCargando" class="imagen-cargando">
+        <p class="toca-hint">👆 ¡Toca la imagen para saber más!</p>
     </div>
 
     <!-- Estado 3: Panelín explicando -->
@@ -217,21 +248,47 @@
 
     <div class="panelin-final">
         <img src="panelin_feliz.png" class="panelin-final-img">
-        <div class="globo-final">
-            ¡Muy bien! Completaste el primer módulo.
-            <br><br>
-            Prepárate… ahora viene algo increíble: ¡cómo el sol se transforma en energía!
-            <br><br>
-            Para continuar, pincha la casita y elige el siguiente módulo.
-        </div>
+        <div class="globo-final" id="globoFinal"></div>
+    </div>
+
+    <div class="confeti-contenedor" aria-hidden="true">
+        <div class="confeti-pieza" style="left:3%;  background:#FF6B6B; animation-duration:3.1s; animation-delay:0.0s;"></div>
+        <div class="confeti-pieza" style="left:8%;  background:#FFD54F; animation-duration:2.7s; animation-delay:0.4s; border-radius:50%;"></div>
+        <div class="confeti-pieza" style="left:14%; background:#4CAF50; animation-duration:3.4s; animation-delay:0.1s;"></div>
+        <div class="confeti-pieza" style="left:20%; background:#2196F3; animation-duration:2.6s; animation-delay:0.7s; border-radius:50%;"></div>
+        <div class="confeti-pieza" style="left:27%; background:#FF8F00; animation-duration:3.0s; animation-delay:0.2s;"></div>
+        <div class="confeti-pieza" style="left:33%; background:#E91E63; animation-duration:2.9s; animation-delay:0.9s; border-radius:50%;"></div>
+        <div class="confeti-pieza" style="left:40%; background:#FFD54F; animation-duration:3.3s; animation-delay:0.5s;"></div>
+        <div class="confeti-pieza" style="left:47%; background:#4CAF50; animation-duration:2.8s; animation-delay:0.3s; border-radius:50%;"></div>
+        <div class="confeti-pieza" style="left:54%; background:#FF6B6B; animation-duration:3.1s; animation-delay:0.8s;"></div>
+        <div class="confeti-pieza" style="left:61%; background:#9C27B0; animation-duration:2.5s; animation-delay:0.1s; border-radius:50%;"></div>
+        <div class="confeti-pieza" style="left:67%; background:#FF8F00; animation-duration:3.4s; animation-delay:0.6s;"></div>
+        <div class="confeti-pieza" style="left:74%; background:#2196F3; animation-duration:2.8s; animation-delay:0.4s; border-radius:50%;"></div>
+        <div class="confeti-pieza" style="left:81%; background:#FFD54F; animation-duration:3.2s; animation-delay:0.2s;"></div>
+        <div class="confeti-pieza" style="left:88%; background:#4CAF50; animation-duration:2.6s; animation-delay:0.7s; border-radius:50%;"></div>
+        <div class="confeti-pieza" style="left:94%; background:#FF6B6B; animation-duration:3.0s; animation-delay:0.5s;"></div>
+        <div class="confeti-pieza" style="left:6%;  background:#9C27B0; animation-duration:3.5s; animation-delay:1.4s; border-radius:50%;"></div>
+        <div class="confeti-pieza" style="left:18%; background:#FF8F00; animation-duration:2.9s; animation-delay:1.1s;"></div>
+        <div class="confeti-pieza" style="left:32%; background:#2196F3; animation-duration:3.2s; animation-delay:1.7s; border-radius:50%;"></div>
+        <div class="confeti-pieza" style="left:50%; background:#E91E63; animation-duration:2.7s; animation-delay:1.3s;"></div>
+        <div class="confeti-pieza" style="left:65%; background:#FFD54F; animation-duration:3.1s; animation-delay:1.8s; border-radius:50%;"></div>
+        <div class="confeti-pieza" style="left:79%; background:#FF6B6B; animation-duration:3.5s; animation-delay:1.2s;"></div>
+        <div class="confeti-pieza" style="left:92%; background:#4CAF50; animation-duration:2.8s; animation-delay:1.6s; border-radius:50%;"></div>
+    </div>
+    <div class="placa-victoria" aria-hidden="false">
+        <div class="placa-vic-header">¡COPA OBTENIDA!</div>
+        <div class="placa-vic-trofeo">🏆</div>
+        <div class="placa-vic-modulo">Módulo 1</div>
+        <div class="placa-vic-slots" id="placaVicSlots"></div>
+        <div class="placa-vic-total" id="placaVicTotal">0 / 6</div>
     </div>
 
 </section>
 
 <!-- ── Iconos superiores (ampolleta + casa) ─── -->
 <div class="nav-top">
-    <button class="btn-nav" title="Ayuda">💡</button>
-    <button class="btn-nav" onclick="window.location.href='modulos.html'" title="Inicio">🏠</button>
+    <button class="btn-nav" onclick="reproducirClikFlecha(1)" title="Ayuda">💡</button>
+    <button class="btn-nav" onclick="reproducirClikFlecha(-1); setTimeout(()=>window.location.href='modulos.html', 110)" title="Inicio">🏠</button>
 </div>
 
 <!-- ── Flechas de navegación ────────────────── -->
