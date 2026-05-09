@@ -1,30 +1,13 @@
 /* ═══════════════════════════════════════════════════════════════
    MÓDULO 4 – SOL EN CHILE
    Archivo: js/map.js
-
-   CÓMO USAR:
-   1. Pon tus PNGs de cada región en la carpeta  img/regiones/
-   2. En el arreglo REGIONES, edita el campo "archivo" con el
-      nombre exacto de cada PNG.
-   3. Ajusta los campos top, left, width, height (en píxeles)
-      para que cada región quede en su lugar correcto dentro
-      del contenedor .chile-map (300 × 940 px por defecto).
-      Puedes usar las herramientas de desarrollo del navegador
-      para encontrar los valores exactos.
 ═══════════════════════════════════════════════════════════════ */
 
-/* ── 1. DATOS DE CADA REGIÓN ──────────────────────────────────
-   nivel: 'muy-alta' | 'alta' | 'media-alta' | 'media' | 'baja'
-   capacidadMW: MW instalados de energía solar
-   archivo: nombre del PNG dentro de  img/regiones/
-   top/left/width/height: posición y tamaño en PÍXELES dentro
-      del contenedor chile-map (300 × 940 px)
-─────────────────────────────────────────────────────────────── */
 const REGIONES = [
   {
     id: 'arica',
     nombre: 'Arica y Parinacota',
-    archivo: 'arica.png',    // ← CAMBIA ESTE NOMBRE
+    archivo: 'arica.png',
     nivel: 'muy-alta',
     radiacionWm2: 950,
     capacidadMW: 643,
@@ -33,7 +16,7 @@ const REGIONES = [
   {
     id: 'tarapaca',
     nombre: 'Tarapacá',
-    archivo: 'tarapaca.png',            // ← CAMBIA ESTE NOMBRE
+    archivo: 'tarapaca.png',
     nivel: 'muy-alta',
     radiacionWm2: 930,
     capacidadMW: 1254,
@@ -42,7 +25,7 @@ const REGIONES = [
   {
     id: 'antofagasta',
     nombre: 'Antofagasta',
-    archivo: 'antofagasta.png',         // ← CAMBIA ESTE NOMBRE
+    archivo: 'antofagasta.png',
     nivel: 'muy-alta',
     radiacionWm2: 920,
     capacidadMW: 3510,
@@ -51,7 +34,7 @@ const REGIONES = [
   {
     id: 'atacama',
     nombre: 'Atacama',
-    archivo: 'atacama.png',             // ← CAMBIA ESTE NOMBRE
+    archivo: 'atacama.png',
     nivel: 'alta',
     radiacionWm2: 860,
     capacidadMW: 2725,
@@ -60,7 +43,7 @@ const REGIONES = [
   {
     id: 'coquimbo',
     nombre: 'Coquimbo',
-    archivo: 'coquimbo.png',            // ← CAMBIA ESTE NOMBRE
+    archivo: 'coquimbo.png',
     nivel: 'alta',
     radiacionWm2: 760,
     capacidadMW: 753,
@@ -69,7 +52,7 @@ const REGIONES = [
   {
     id: 'valparaiso',
     nombre: 'Valparaíso',
-    archivo: 'valpo.png',          // ← CAMBIA ESTE NOMBRE
+    archivo: 'valpo.png',
     nivel: 'media-alta',
     radiacionWm2: 640,
     capacidadMW: 312,
@@ -78,7 +61,7 @@ const REGIONES = [
   {
     id: 'metropolitana',
     nombre: 'Región Metropolitana',
-    archivo: 'RM.png',       // ← CAMBIA ESTE NOMBRE
+    archivo: 'RM.png',
     nivel: 'media-alta',
     radiacionWm2: 605,
     capacidadMW: 367,
@@ -87,7 +70,7 @@ const REGIONES = [
   {
     id: 'ohiggins',
     nombre: "O'Higgins",
-    archivo: 'ohiggins.png',            // ← CAMBIA ESTE NOMBRE
+    archivo: 'ohiggins.png',
     nivel: 'media-alta',
     radiacionWm2: 570,
     capacidadMW: 178,
@@ -96,7 +79,7 @@ const REGIONES = [
   {
     id: 'maule',
     nombre: 'Maule',
-    archivo: 'maule.png',               // ← CAMBIA ESTE NOMBRE
+    archivo: 'maule.png',
     nivel: 'media',
     radiacionWm2: 510,
     capacidadMW: 142,
@@ -105,7 +88,7 @@ const REGIONES = [
   {
     id: 'nuble',
     nombre: 'Ñuble',
-    archivo: 'nuble.png',               // ← CAMBIA ESTE NOMBRE
+    archivo: 'nuble.png',
     nivel: 'media',
     radiacionWm2: 480,
     capacidadMW: 88,
@@ -114,7 +97,7 @@ const REGIONES = [
   {
     id: 'biobio',
     nombre: 'Biobío',
-    archivo: 'biobio.png',              // ← CAMBIA ESTE NOMBRE
+    archivo: 'biobio.png',
     nivel: 'media',
     radiacionWm2: 460,
     capacidadMW: 115,
@@ -123,7 +106,7 @@ const REGIONES = [
   {
     id: 'araucania',
     nombre: 'La Araucanía',
-    archivo: 'aracuania.png',           // ← CAMBIA ESTE NOMBRE
+    archivo: 'aracuania.png',
     nivel: 'media',
     radiacionWm2: 430,
     capacidadMW: 72,
@@ -132,7 +115,7 @@ const REGIONES = [
   {
     id: 'los_rios',
     nombre: 'Los Ríos',
-    archivo: 'rios.png',            // ← CAMBIA ESTE NOMBRE
+    archivo: 'rios.png',
     nivel: 'baja',
     radiacionWm2: 360,
     capacidadMW: 34,
@@ -141,7 +124,7 @@ const REGIONES = [
   {
     id: 'los_lagos',
     nombre: 'Los Lagos',
-    archivo: 'lagos.png',           // ← CAMBIA ESTE NOMBRE
+    archivo: 'lagos.png',
     nivel: 'baja',
     radiacionWm2: 320,
     capacidadMW: 41,
@@ -150,7 +133,7 @@ const REGIONES = [
   {
     id: 'aysen',
     nombre: 'Aysén',
-    archivo: 'aisen.png',               // ← CAMBIA ESTE NOMBRE
+    archivo: 'aisen.png',
     nivel: 'baja',
     radiacionWm2: 290,
     capacidadMW: 18,
@@ -159,7 +142,7 @@ const REGIONES = [
   {
     id: 'magallanes',
     nombre: 'Magallanes',
-    archivo: 'magallanes.png',          // ← CAMBIA ESTE NOMBRE
+    archivo: 'magallanes.png',
     nivel: 'baja',
     radiacionWm2: 250,
     capacidadMW: 9,
@@ -188,36 +171,23 @@ function generarMapa() {
     btn.dataset.nombre = region.nombre;
     btn.title = region.nombre;
 
-    /* Posición en el mapa */
     btn.style.top    = region.top    + 'px';
     btn.style.left   = region.left   + 'px';
     btn.style.width  = region.width  + 'px';
     btn.style.height = region.height + 'px';
 
-    /* Imagen PNG de la región */
     const img = document.createElement('img');
     img.src = 'img/regiones/' + region.archivo;
     img.alt = region.nombre;
     img.draggable = false;
-
-    /*
-      Aplicamos el color de radiación usando CSS filter.
-      La combinación sepia + hue-rotate + saturate permite
-      "colorear" el PNG sin afectar las zonas transparentes.
-      Ajusta los valores si tu PNG ya tiene color propio.
-    */
     img.style.filter = nivelAFiltro(region.nivel);
 
     btn.appendChild(img);
-
-    /* Evento de clic */
     btn.addEventListener('click', () => mostrarRegion(region, btn));
-
     mapa.appendChild(btn);
   });
 }
 
-/* Convierte nivel a filtro CSS */
 function nivelAFiltro(nivel) {
   const filtros = {
     'muy-alta':   'sepia(1) hue-rotate(310deg) saturate(4) brightness(.9)',
@@ -233,7 +203,6 @@ function nivelAFiltro(nivel) {
 let regionActiva = null;
 
 function mostrarRegion(region, btnEl) {
-  /* Quitar clase activa al botón anterior */
   if (regionActiva && regionActiva !== btnEl) {
     regionActiva.classList.remove('activa');
   }
@@ -245,27 +214,17 @@ function mostrarRegion(region, btnEl) {
     return;
   }
 
-  /* Panel izquierdo */
   document.getElementById('infoCard').querySelector('.info-initial').classList.add('hidden');
-
   const panelRegion = document.getElementById('infoRegion');
   panelRegion.classList.remove('hidden');
 
-  /* Nombre */
   document.getElementById('regionNombre').textContent = region.nombre;
-
-  /* Radiación */
   document.getElementById('regionRadiacion').textContent =
     region.radiacionWm2.toLocaleString('es-CL') + ' W/m²';
-
-  /* Capacidad en MW */
   document.getElementById('regionMW').textContent =
     region.capacidadMW.toLocaleString('es-CL') + ' MW';
 
-  /* Iconos de paneles (cada panel = 100 MW) */
   generarIconosPaneles(region.capacidadMW);
-
-  /* Habilitar botón siguiente si hay al menos 1 región visitada */
   document.getElementById('nextBtn').disabled = false;
 }
 
@@ -275,30 +234,26 @@ function generarIconosPaneles(mw) {
   const total = document.getElementById('panelesTotal');
   grid.innerHTML = '';
 
-  const panelesCnt = mw / 100;               // total paneles (puede ser decimal)
+  const panelesCnt = mw / 100;
   const panelesEnteros = Math.floor(panelesCnt);
   const fraccion = panelesCnt - panelesEnteros;
 
-  /* Paneles completos */
   for (let i = 0; i < panelesEnteros; i++) {
     const svg = crearPanelSVG(false);
     svg.style.animationDelay = (i * 40) + 'ms';
     grid.appendChild(svg);
   }
 
-  /* Panel parcial (si hay fracción) */
   if (fraccion > 0.05) {
     const svg = crearPanelSVG(true);
     svg.style.animationDelay = (panelesEnteros * 40) + 'ms';
     grid.appendChild(svg);
   }
 
-  /* Texto total */
   total.textContent =
     panelesCnt.toFixed(2) + ' ⊞ = ' + mw.toLocaleString('es-CL') + ' MW';
 }
 
-/* SVG de panel solar */
 function crearPanelSVG(parcial) {
   const ns = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(ns, 'svg');
@@ -308,7 +263,6 @@ function crearPanelSVG(parcial) {
   svg.classList.add('panel-svg');
   if (parcial) svg.classList.add('parcial');
 
-  /* Celdas del panel solar */
   const data = [
     [1,1,7,7], [9,1,7,7], [17,1,7,7],
     [1,9,7,7], [9,9,7,7], [17,9,7,7],
@@ -325,7 +279,6 @@ function crearPanelSVG(parcial) {
     svg.appendChild(rect);
   });
 
-  /* Líneas de la cuadrícula */
   ['8,0 8,24', '16,0 16,24', '0,8 24,8', '0,16 24,16'].forEach(pts => {
     const line = document.createElementNS(ns, 'polyline');
     line.setAttribute('points', pts);
@@ -344,7 +297,6 @@ function restaurarVistaPrincipal() {
     .querySelector('.info-initial').classList.remove('hidden');
 }
 
-/* Botón cerrar región */
 document.getElementById('closeBtnRegion')?.addEventListener('click', () => {
   if (regionActiva) {
     regionActiva.classList.remove('activa');
@@ -354,22 +306,235 @@ document.getElementById('closeBtnRegion')?.addEventListener('click', () => {
 });
 
 /* ── 7. CLASE HELPER PARA OCULTAR ───────────────────────────── */
-/* Añadimos la clase 'hidden' al CSS de forma programática */
 const style = document.createElement('style');
 style.textContent = '.hidden { display: none !important; }';
 document.head.appendChild(style);
 
+/* ══════════════════════════════════════════════════════════════
+   ZOOM & PAN
+   – Rueda del mouse: zoom centrado en el cursor
+   – Botones + / − / ⊙: zoom incremental / reset
+   – Arrastrar: mover el mapa cuando está ampliado
+══════════════════════════════════════════════════════════════ */
+const MIN_SCALE = 1;
+const MAX_SCALE = 5;
+const ZOOM_STEP = 0.4;
+
+let mapScale     = 1;
+let mapTranslateX = 0;
+let mapTranslateY = 0;
+
+/* Estado de arrastre */
+let isDragging   = false;
+let dragStartX   = 0;
+let dragStartY   = 0;
+let dragOriginX  = 0;
+let dragOriginY  = 0;
+
+/* Estado de pinch (táctil) */
+let lastPinchDist = null;
+
+function applyTransform(animate = false) {
+  const mapa = document.getElementById('chileMap');
+  if (!mapa) return;
+  mapa.style.transition = animate ? 'transform .25s ease' : 'none';
+  mapa.style.transform =
+    `translate(${mapTranslateX}px, ${mapTranslateY}px) scale(${mapScale})`;
+  /* Cambiar cursor según si hay zoom activo */
+  const wrapper = document.getElementById('mapWrapper');
+  if (wrapper) {
+    wrapper.style.cursor = mapScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default';
+  }
+}
+
+function clampTranslate(scale) {
+  /* Limita el pan para que el mapa no se vaya demasiado lejos */
+  const wrapper = document.getElementById('mapWrapper');
+  if (!wrapper) return;
+  const wW = wrapper.clientWidth;
+  const wH = wrapper.clientHeight;
+  const mapa = document.getElementById('chileMap');
+  const mW = mapa.offsetWidth  * scale;
+  const mH = mapa.offsetHeight * scale;
+
+  const maxX = Math.max(0, (mW - wW) / 2 + 60);
+  const maxY = Math.max(0, (mH - wH) / 2 + 60);
+
+  mapTranslateX = Math.min(maxX, Math.max(-maxX, mapTranslateX));
+  mapTranslateY = Math.min(maxY, Math.max(-maxY, mapTranslateY));
+}
+
+function zoomAt(newScale, originX, originY) {
+  /* originX/Y: coordenadas DENTRO del wrapper donde ocurre el zoom */
+  const wrapper = document.getElementById('mapWrapper');
+  if (!wrapper) return;
+
+  newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, newScale));
+
+  const ratio = newScale / mapScale;
+  mapTranslateX = originX - ratio * (originX - mapTranslateX);
+  mapTranslateY = originY - ratio * (originY - mapTranslateY);
+  mapScale = newScale;
+
+  if (mapScale === MIN_SCALE) {
+    mapTranslateX = 0;
+    mapTranslateY = 0;
+  } else {
+    clampTranslate(mapScale);
+  }
+
+  applyTransform();
+  updateZoomBadge();
+}
+
+function updateZoomBadge() {
+  const badge = document.getElementById('zoomBadge');
+  if (badge) badge.textContent = Math.round(mapScale * 100) + '%';
+
+  const btnOut = document.getElementById('zoomOut');
+  const btnIn  = document.getElementById('zoomIn');
+  if (btnOut) btnOut.disabled = mapScale <= MIN_SCALE;
+  if (btnIn)  btnIn.disabled  = mapScale >= MAX_SCALE;
+}
+
+/* ── Rueda del mouse ── */
+function initWheelZoom() {
+  const wrapper = document.getElementById('mapWrapper');
+  if (!wrapper) return;
+
+  wrapper.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const rect = wrapper.getBoundingClientRect();
+    const ox = e.clientX - rect.left;
+    const oy = e.clientY - rect.top;
+    const delta = e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP;
+    zoomAt(mapScale + delta, ox, oy);
+  }, { passive: false });
+}
+
+/* ── Arrastre con mouse ── */
+function initDragPan() {
+  const wrapper = document.getElementById('mapWrapper');
+  if (!wrapper) return;
+
+  wrapper.addEventListener('mousedown', (e) => {
+    if (mapScale <= 1) return;
+    isDragging  = true;
+    dragStartX  = e.clientX;
+    dragStartY  = e.clientY;
+    dragOriginX = mapTranslateX;
+    dragOriginY = mapTranslateY;
+    wrapper.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    mapTranslateX = dragOriginX + (e.clientX - dragStartX);
+    mapTranslateY = dragOriginY + (e.clientY - dragStartY);
+    clampTranslate(mapScale);
+    applyTransform();
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    const wrapper = document.getElementById('mapWrapper');
+    if (wrapper) wrapper.style.cursor = mapScale > 1 ? 'grab' : 'default';
+  });
+}
+
+/* ── Pinch zoom táctil ── */
+function initTouchZoom() {
+  const wrapper = document.getElementById('mapWrapper');
+  if (!wrapper) return;
+
+  let touchStartX = 0, touchStartY = 0, touchOriginX = 0, touchOriginY = 0;
+  let isTouchDragging = false;
+
+  wrapper.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 2) {
+      lastPinchDist = getPinchDist(e.touches);
+    } else if (e.touches.length === 1 && mapScale > 1) {
+      isTouchDragging = true;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchOriginX = mapTranslateX;
+      touchOriginY = mapTranslateY;
+    }
+  }, { passive: true });
+
+  wrapper.addEventListener('touchmove', (e) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const dist = getPinchDist(e.touches);
+      if (lastPinchDist === null) { lastPinchDist = dist; return; }
+
+      const rect   = wrapper.getBoundingClientRect();
+      const midX   = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left;
+      const midY   = ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top;
+      const factor = dist / lastPinchDist;
+
+      zoomAt(mapScale * factor, midX, midY);
+      lastPinchDist = dist;
+    } else if (e.touches.length === 1 && isTouchDragging) {
+      mapTranslateX = touchOriginX + (e.touches[0].clientX - touchStartX);
+      mapTranslateY = touchOriginY + (e.touches[0].clientY - touchStartY);
+      clampTranslate(mapScale);
+      applyTransform();
+    }
+  }, { passive: false });
+
+  wrapper.addEventListener('touchend', () => {
+    lastPinchDist   = null;
+    isTouchDragging = false;
+  });
+}
+
+function getPinchDist(touches) {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+/* ── Botones de zoom ── */
+function initZoomButtons() {
+  document.getElementById('zoomIn')?.addEventListener('click', () => {
+    const wrapper = document.getElementById('mapWrapper');
+    if (!wrapper) return;
+    zoomAt(mapScale + ZOOM_STEP, wrapper.clientWidth / 2, wrapper.clientHeight / 2);
+  });
+
+  document.getElementById('zoomOut')?.addEventListener('click', () => {
+    const wrapper = document.getElementById('mapWrapper');
+    if (!wrapper) return;
+    zoomAt(mapScale - ZOOM_STEP, wrapper.clientWidth / 2, wrapper.clientHeight / 2);
+  });
+
+  document.getElementById('zoomReset')?.addEventListener('click', () => {
+    mapScale      = 1;
+    mapTranslateX = 0;
+    mapTranslateY = 0;
+    applyTransform(true);
+    updateZoomBadge();
+  });
+}
+
 /* ── 8. ARRANCAR ─────────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', generarMapa);
+document.addEventListener('DOMContentLoaded', () => {
+  generarMapa();
+  initWheelZoom();
+  initDragPan();
+  initTouchZoom();
+  initZoomButtons();
+  updateZoomBadge();
+});
 
 /* ── 9. NAVEGACIÓN HACIA EL RESUMEN (MÓDULO 5) ───────────────── */
 document.getElementById('nextBtn').addEventListener('click', function() {
-  // 1. Guardar que se desbloqueó el módulo 5 (el Resumen)
   let actual = parseInt(localStorage.getItem('modulos_desbloqueados') || '1');
   if (actual < 5) {
     localStorage.setItem('modulos_desbloqueados', '5');
   }
-  
-  // 2. Viajar hacia la carpeta Web2 para abrir modulo5.html
   window.location.href = '../Web2/modulo5.html';
 });

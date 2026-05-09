@@ -23,10 +23,10 @@
   ═══════════════════════════════════════════════ -->
   <main class="mod-main">
 
-    <!-- LEFT: info panel + leyenda + mascota -->
+    <!-- LEFT: info panel + leyenda -->
     <section class="left-panel">
 
-      <!-- Panel de información (vacío al inicio) -->
+      <!-- Panel de información -->
       <div class="info-card" id="infoCard">
         <div class="info-initial">
           <p>
@@ -76,15 +76,15 @@
         </div>
         <div class="leyenda-item">
           <span class="leyenda-color nivel-alta"></span>
-          <span class="leyenda-texto"></span>
+          <span class="leyenda-texto">Alta</span>
         </div>
         <div class="leyenda-item">
           <span class="leyenda-color nivel-media-alta"></span>
-          <span class="leyenda-texto"></span>
+          <span class="leyenda-texto">Media alta</span>
         </div>
         <div class="leyenda-item">
           <span class="leyenda-color nivel-media"></span>
-          <span class="leyenda-texto"></span>
+          <span class="leyenda-texto">Media</span>
         </div>
         <div class="leyenda-item">
           <span class="leyenda-color nivel-baja"></span>
@@ -96,17 +96,31 @@
 
     <!-- RIGHT: mapa interactivo de Chile -->
     <section class="map-section">
-      <div class="chile-map" id="chileMap">
-        <!-- Las regiones son insertadas por JavaScript -->
+
+      <!-- Controles de zoom -->
+      <div class="zoom-controls">
+        <button class="zoom-btn" id="zoomIn"    title="Acercar">+</button>
+        <span   class="zoom-badge" id="zoomBadge">100%</span>
+        <button class="zoom-btn" id="zoomOut"   title="Alejar">−</button>
+        <button class="zoom-btn zoom-btn--reset" id="zoomReset" title="Restablecer">⊙</button>
       </div>
+
+      <!-- Contenedor con scroll/pan del mapa -->
+      <div class="map-wrapper" id="mapWrapper">
+        <div class="chile-map" id="chileMap">
+          <!-- Las regiones son insertadas por JavaScript -->
+        </div>
+      </div>
+
     </section>
 
   </main>
 
-  <!-- ═══════════════════════════════════════════════
-       NAV ARROWS
-  ═══════════════════════════════════════════════ -->
-
+  <!-- NAV -->
+  <nav class="mod-nav">
+    <button class="nav-btn" id="prevBtn" onclick="history.back()">←</button>
+    <button class="nav-btn" id="nextBtn" disabled>→</button>
+  </nav>
 
   <script src="js/map.js"></script>
 </body>

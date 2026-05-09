@@ -23,7 +23,6 @@
 
     <div class="panelin-fijo">
         <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
-
         <div class="globo-fijo">
             Usa las flechas para avanzar, la casa para volver a los módulos y la ampolleta por si tienes dudas.
         </div>
@@ -44,7 +43,6 @@
 
     <div class="panelin-fijo">
         <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
-
         <div class="globo-fijo">
             Chile tiene mucha radiación solar, que es cuánta energía del sol llega a un lugar.
         </div>
@@ -54,7 +52,7 @@
 
 
 <!-- ══════════════════════════════════════════════
-     SLIDE 3 — DESIERTO DE ATACAMA
+     SLIDE 3 — NORTE DE CHILE
 ════════════════════════════════════════════════ -->
 <section class="slide">
 
@@ -64,18 +62,15 @@
     </div>
 
     <div class="contenedor">
-
         <div class="objeto">
             <div class="caja-imagen">
                 <img src="atacama.png">
             </div>
         </div>
-
     </div>
 
     <div class="panelin-fijo">
         <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
-
         <div class="globo-fijo">
             En el desierto de Atacama, el sol brilla casi siempre y tiene mucha radiación.
             <br><br>
@@ -97,33 +92,120 @@
     </div>
 
     <div class="panelin-fijo">
-
         <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
-
         <div class="globo-fijo">
-            En la siguiente visualización haz click en las regiones para saber información sobre la capacidad instalada.
+            En la siguiente pantalla haz clic en las regiones del mapa para conocer su radiación solar y capacidad instalada de energía solar.
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 5 — MAPA INTERACTIVO (embebido)
+════════════════════════════════════════════════ -->
+<section class="slide slide-mapa">
+
+    <div class="encabezado encabezado--compacto">
+        <h2>Módulo 4</h2>
+        <h1>SOL EN CHILE</h1>
+    </div>
+
+    <div class="mapa-layout">
+
+        <!-- ── Panel izquierdo: info + leyenda ── -->
+        <aside class="mapa-panel-izq">
+
+            <div class="mapa-info-card" id="infoCard">
+
+                <!-- Estado inicial -->
+                <div class="info-inicial" id="infoInicial">
+                    <p class="mapa-instruccion">
+                        <strong>Haz clic en una región</strong> para ver su radiación solar y capacidad instalada.
+                    </p>
+                    <div class="globo-mapa">
+                        ¡Cada región recibe diferente cantidad de sol! ☀️
+                    </div>
+                </div>
+
+                <!-- Detalle de región (oculto hasta clic) -->
+                <div class="info-region hidden" id="infoRegion">
+                    <button class="close-btn-mapa" id="closeBtnRegion">✕</button>
+                    <h2 class="region-nombre" id="regionNombre"></h2>
+
+                    <div class="region-datos">
+                        <div class="dato-item">
+                            <span class="dato-icon">☀️</span>
+                            <div>
+                                <div class="dato-label">Radiación solar</div>
+                                <div class="dato-valor" id="regionRadiacion"></div>
+                            </div>
+                        </div>
+                        <div class="dato-item">
+                            <span class="dato-icon">⚡</span>
+                            <div>
+                                <div class="dato-label">Capacidad instalada</div>
+                                <div class="dato-valor" id="regionMW"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="paneles-titulo">Cada ⊞ = 100 MW</div>
+                    <div class="paneles-grid" id="panelesGrid"></div>
+                    <div class="paneles-total" id="panelesTotal"></div>
+                </div>
+
+            </div>
+
+            <!-- Leyenda -->
+            <div class="mapa-leyenda">
+                <p class="mapa-leyenda-titulo">Radiación solar:</p>
+                <div class="leyenda-item">
+                    <span class="leyenda-color nivel-muy-alta"></span>
+                    <span class="leyenda-texto">Muy alta (&gt;800 W/m²)</span>
+                </div>
+                <div class="leyenda-item">
+                    <span class="leyenda-color nivel-alta"></span>
+                    <span class="leyenda-texto">Alta (600–800 W/m²)</span>
+                </div>
+                <div class="leyenda-item">
+                    <span class="leyenda-color nivel-media-alta"></span>
+                    <span class="leyenda-texto">Media alta (400–600 W/m²)</span>
+                </div>
+                <div class="leyenda-item">
+                    <span class="leyenda-color nivel-media"></span>
+                    <span class="leyenda-texto">Media (200–400 W/m²)</span>
+                </div>
+                <div class="leyenda-item">
+                    <span class="leyenda-color nivel-baja"></span>
+                    <span class="leyenda-texto">Baja (&lt;200 W/m²)</span>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- ── Sección del mapa: zoom + mapa ── -->
+        <div class="mapa-seccion">
+
+            <div class="zoom-controles">
+                <button class="zoom-btn" id="zoomIn"    title="Acercar">+</button>
+                <span   class="zoom-badge" id="zoomBadge">100%</span>
+                <button class="zoom-btn" id="zoomOut"   title="Alejar">−</button>
+                <button class="zoom-btn zoom-btn--reset" id="zoomReset" title="Restablecer">⊙</button>
+            </div>
+
+            <div class="mapa-wrapper" id="mapWrapper">
+                <div class="chile-map" id="chileMap">
+                    <!-- Regiones insertadas por JS -->
+                </div>
+            </div>
+
         </div>
 
     </div>
 
 </section>
 
-<!-- ══════════════════════════════════════════════
-     SLIDE 5 — MAPA INTERACTIVO
-════════════════════════════════════════════════ -->
-<section class="slide slide-mapa">
-    
-    <div class="encabezado">
-        <h2>Módulo 4</h2>
-        <h1>SOL EN CHILE</h1>
-    </div>
-
-    <iframe
-        src="mapa/index.html"
-        class="iframe-mapa">
-    </iframe>
-
-</section>
 
 <!-- ══════════════════════════════════════════════
      SLIDE 6 — FUTURO
@@ -136,13 +218,10 @@
     </div>
 
     <div class="panelin-fijo">
-
         <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
-
         <div class="globo-fijo">
             Con la energía solar, Chile podría llegar a ser un líder en energías renovables.
         </div>
-
     </div>
 
 </section>
@@ -158,15 +237,12 @@
     </div>
 
     <div class="panelin-final">
-
-        <img src="panelin_feliz.png" class="panelin-final-img">
-
+        <img src="imagenes/panelin_feliz.png" class="panelin-final-img">
         <div class="globo-final">
             ¡Muy bien! Completaste el cuarto y último módulo.
             <br><br>
             Prepárate… ahora viene el resumen y desafío final.
         </div>
-
     </div>
 
 </section>
@@ -178,22 +254,10 @@
     <button class="btn-nav" onclick="window.location.href='modulos.html'">🏠</button>
 </div>
 
-
 <!-- ── FLECHAS ─────────────────────────────── -->
 <div class="flechas">
-
-    <button
-        id="flechaIzquierda"
-        onclick="cambiarSlide(-1)">
-        ←
-    </button>
-
-    <button
-        id="flechaDerecha"
-        onclick="cambiarSlide(1)">
-        →
-    </button>
-
+    <button id="flechaIzquierda" onclick="cambiarSlide(-1)">←</button>
+    <button id="flechaDerecha"   onclick="cambiarSlide(1)">→</button>
 </div>
 
 <script src="interaccion_web.js"></script>

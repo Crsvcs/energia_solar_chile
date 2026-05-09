@@ -2,25 +2,21 @@
    VARIABLES & RESET
 ═══════════════════════════════════════════════════════ */
 :root {
-  /* Colores de radiación solar */
-  --c-muy-alta:   #D62828;   /* rojo   > 800 W/m² */
-  --c-alta:       #F77F00;   /* naranja 600–800   */
-  --c-media-alta: #FCBF49;   /* amarillo 400–600  */
-  --c-media:      #6DB33F;   /* verde   200–400   */
-  --c-baja:       #5B8BDF;   /* azul    < 200     */
+  --c-muy-alta:   #D62828;
+  --c-alta:       #F77F00;
+  --c-media-alta: #FCBF49;
+  --c-media:      #6DB33F;
+  --c-baja:       #5B8BDF;
 
-  /* Paleta principal */
   --negro:  #1a1a2e;
   --blanco: #ffffff;
   --gris:   #f4f4f4;
   --amarillo-acento: #FFD200;
 
-  /* Tipografía */
-  --font-display: 'Black Han Sans', sans-serif;
+  --font-display: 'Bebas Neue', sans-serif;
   --font-body:    'Nunito', sans-serif;
 
-  /* Sombras */
-  --sombra-card: 0 6px 24px rgba(0,0,0,.12);
+  --sombra-card:   0 6px 24px rgba(0,0,0,.12);
   --sombra-region: 0 4px 16px rgba(0,0,0,.25);
 }
 
@@ -69,10 +65,7 @@ body {
   flex: 1;
 }
 
-.header-icons {
-  display: flex;
-  gap: 8px;
-}
+.header-icons { display: flex; gap: 8px; }
 
 .icon-btn {
   background: none;
@@ -83,9 +76,7 @@ body {
   cursor: pointer;
   transition: background .2s;
 }
-.icon-btn:hover {
-  background: var(--amarillo-acento);
-}
+.icon-btn:hover { background: var(--amarillo-acento); }
 
 /* ═══════════════════════════════════════════════════════
    MAIN LAYOUT
@@ -99,7 +90,7 @@ body {
 
 /* ── LEFT PANEL ── */
 .left-panel {
-  width: 340px;
+  width: 400px;
   flex-shrink: 0;
   padding: 24px 20px;
   border-right: 3px solid var(--negro);
@@ -113,11 +104,86 @@ body {
 .map-section {
   flex: 1;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  background: var(--negro);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CONTROLES DE ZOOM
+═══════════════════════════════════════════════════════ */
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  background: rgba(255,255,255,.12);
+  border: 2px solid rgba(255,255,255,.25);
+  border-radius: 40px;
+  padding: 5px 12px;
+  user-select: none;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.zoom-btn {
+  background: var(--blanco);
+  color: var(--negro);
+  border: 2px solid var(--negro);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 1.3rem;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s, transform .1s;
+  flex-shrink: 0;
+}
+
+.zoom-btn:hover:not(:disabled) {
+  background: var(--amarillo-acento);
+  transform: scale(1.1);
+}
+
+.zoom-btn:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.zoom-btn--reset {
+  font-size: 1rem;
+}
+
+.zoom-badge {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: .85rem;
+  color: var(--blanco);
+  min-width: 44px;
+  text-align: center;
+  letter-spacing: .02em;
+}
+
+/* ═══════════════════════════════════════════════════════
+   MAP WRAPPER (contenedor para pan/zoom)
+═══════════════════════════════════════════════════════ */
+.map-wrapper {
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 24px 16px;
-  overflow-y: auto;
-  background: var(--negro);
+  /* Evita el bounce en iOS */
+  overscroll-behavior: none;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -134,7 +200,6 @@ body {
   transition: all .3s ease;
 }
 
-/* Estado inicial */
 .info-initial p {
   font-size: .95rem;
   line-height: 1.5;
@@ -157,14 +222,11 @@ body {
   max-width: 240px;
 }
 
-/* Detalle de región */
 .info-region {
   animation: fadeSlideIn .35s ease both;
 }
 
-.info-region.hidden {
-  display: none;
-}
+.info-region.hidden { display: none; }
 
 @keyframes fadeSlideIn {
   from { opacity: 0; transform: translateY(10px); }
@@ -237,10 +299,7 @@ body {
   color: #555;
 }
 
-.panel-icono {
-  font-size: 1rem;
-  color: var(--negro);
-}
+.panel-icono { font-size: 1rem; color: var(--negro); }
 
 .paneles-grid {
   display: flex;
@@ -256,9 +315,7 @@ body {
   animation: popIn .3s ease forwards;
 }
 
-.panel-svg.parcial {
-  opacity: .4;
-}
+.panel-svg.parcial { opacity: .4; }
 
 @keyframes popIn {
   from { opacity: 0; transform: scale(.5); }
@@ -310,7 +367,6 @@ body {
   font-weight: 700;
 }
 
-/* Colores de nivel */
 .nivel-muy-alta  { background: var(--c-muy-alta); }
 .nivel-alta      { background: var(--c-alta); }
 .nivel-media-alta{ background: var(--c-media-alta); }
@@ -322,12 +378,12 @@ body {
 ═══════════════════════════════════════════════════════ */
 .chile-map {
   position: relative;
-  /*
-    AJUSTA width y height según el tamaño de tus PNGs.
-    Las posiciones en map.js usan estas dimensiones como referencia.
-  */
   width: 300px;
   height: 500px;
+  /* transform-origin al centro para que el zoom sea correcto */
+  transform-origin: 0 0;
+  will-change: transform;
+  flex-shrink: 0;
 }
 
 /* ── Cada región ── */
@@ -337,7 +393,6 @@ body {
   border: none;
   background: transparent;
   padding: 0;
-  /* Permite que el clic pase por zonas transparentes del PNG */
   -webkit-tap-highlight-color: transparent;
   transition: transform .18s ease, filter .18s ease;
 }
@@ -347,34 +402,25 @@ body {
   height: 100%;
   object-fit: fill;
   display: block;
-  /* Color base: se sobreescribe con inline style en cada región */
   filter: none;
   transition: filter .2s ease;
-  /* Asegura que las zonas transparentes del PNG no reciban clics */
   pointer-events: auto;
 }
 
-/* Hover */
 .region-btn:hover img {
   filter: brightness(1.15) drop-shadow(0 0 8px rgba(255,200,0,.7));
   transform: scale(1.03);
 }
 
-/* Activa / seleccionada */
 .region-btn.activa img {
   filter: brightness(1.2) drop-shadow(0 0 12px rgba(255,220,0,.9)) !important;
   outline: 3px solid var(--amarillo-acento);
 }
 
-.region-btn:hover {
-  z-index: 10;
-}
+.region-btn:hover  { z-index: 10; }
+.region-btn.activa { z-index: 20; }
 
-.region-btn.activa {
-  z-index: 20;
-}
-
-/* Tooltip de nombre al hacer hover */
+/* Tooltip */
 .region-btn::after {
   content: attr(data-nombre);
   position: absolute;
@@ -395,9 +441,7 @@ body {
   z-index: 50;
 }
 
-.region-btn:hover::after {
-  opacity: 1;
-}
+.region-btn:hover::after { opacity: 1; }
 
 /* ═══════════════════════════════════════════════════════
    NAV INFERIOR
@@ -434,7 +478,7 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════
-   RESPONSIVO BÁSICO
+   RESPONSIVO
 ═══════════════════════════════════════════════════════ */
 @media (max-width: 860px) {
   .mod-main {
