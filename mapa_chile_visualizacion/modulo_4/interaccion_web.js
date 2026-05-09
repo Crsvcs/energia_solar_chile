@@ -41,13 +41,13 @@ const REGIONES = [
         id: 'tarapaca', nombre: 'Tarapacá',
         archivo: 'tarapaca.png', nivel: 'muy-alta',
         radiacionWm2: 930, capacidadMW: 1254,
-        top: 16, left: 149, width: 12, height: 26
+        top: 15, left: 149, width: 12, height: 26
     },
     {
         id: 'antofagasta', nombre: 'Antofagasta',
         archivo: 'antofagasta.png', nivel: 'muy-alta',
         radiacionWm2: 920, capacidadMW: 3510,
-        top: 37, left: 147, width: 24, height: 55
+        top: 36, left: 147, width: 24, height: 55
     },
     {
         id: 'atacama', nombre: 'Atacama',
@@ -99,7 +99,7 @@ const REGIONES = [
     },
     {
         id: 'araucania', nombre: 'La Araucanía',
-        archivo: 'aracuania.png', nivel: 'media',
+        archivo: 'araucania.png', nivel: 'media',
         radiacionWm2: 430, capacidadMW: 72,
         top: 239, left: 133, width: 12, height: 25
     },
@@ -147,28 +147,29 @@ function generarMapa() {
         btn.style.width  = region.width  + 'px';
         btn.style.height = region.height + 'px';
 
-        const img = document.createElement('img');
-        img.src       = 'mapa/img/regiones/' + region.archivo;
-        img.alt       = region.nombre;
-        img.draggable = false;
-        img.style.filter = nivelAFiltro(region.nivel);
+        btn.style.backgroundColor = colorRegion(region.nivel);
 
-        btn.appendChild(img);
+        btn.style.mask =
+            `url(mapa/img/regiones/${region.archivo}) center/contain no-repeat`;
+
+        btn.style.webkitMask =
+            `url(mapa/img/regiones/${region.archivo}) center/contain no-repeat`;
         btn.addEventListener('click', () => mostrarRegion(region, btn));
         mapa.appendChild(btn);
     });
 }
 
-/* Convierte nivel de radiación en filtro CSS de color */
-function nivelAFiltro(nivel) {
-    const filtros = {
-        'muy-alta':   'sepia(1) hue-rotate(310deg) saturate(4)   brightness(.9)',
-        'alta':       'sepia(1) hue-rotate(340deg) saturate(3.5) brightness(1)',
-        'media-alta': 'sepia(1) hue-rotate(20deg)  saturate(3)   brightness(1.05)',
-        'media':      'sepia(1) hue-rotate(60deg)  saturate(3)   brightness(.95)',
-        'baja':       'sepia(1) hue-rotate(170deg) saturate(3)   brightness(.95)'
+function colorRegion(nivel) {
+
+    const colores = {
+        'muy-alta':   '#D62828',
+        'alta':       '#F77F00',
+        'media-alta': '#FCBF49',
+        'media':      '#6DB33F',
+        'baja':       '#5B8BDF'
     };
-    return filtros[nivel] || 'none';
+
+    return colores[nivel] || '#999';
 }
 
 /* ── 4. MOSTRAR INFO DE LA REGIÓN ────────────────────────── */

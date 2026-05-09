@@ -391,20 +391,19 @@ body {
   position: absolute;
   cursor: pointer;
   border: none;
-  background: transparent;
   padding: 0;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform .18s ease, filter .18s ease;
+
+  /* IMPORTANTE */
+  background: transparent;
 }
 
 .region-btn img {
   width: 100%;
   height: 100%;
-  object-fit: fill;
   display: block;
-  filter: none;
-  transition: filter .2s ease;
-  pointer-events: auto;
+
+  /* Hace que el PNG blanco tome el color */
+  mix-blend-mode: multiply;
 }
 
 .region-btn:hover img {

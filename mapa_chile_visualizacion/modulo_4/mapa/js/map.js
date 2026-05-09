@@ -106,7 +106,7 @@ const REGIONES = [
   {
     id: 'araucania',
     nombre: 'La Araucanía',
-    archivo: 'aracuania.png',
+    archivo: 'araucania.png',
     nivel: 'media',
     radiacionWm2: 430,
     capacidadMW: 72,
@@ -165,7 +165,9 @@ function generarMapa() {
   if (!mapa) return;
 
   REGIONES.forEach((region) => {
+
     const btn = document.createElement('button');
+
     btn.className = 'region-btn';
     btn.dataset.id = region.id;
     btn.dataset.nombre = region.nombre;
@@ -176,27 +178,20 @@ function generarMapa() {
     btn.style.width  = region.width  + 'px';
     btn.style.height = region.height + 'px';
 
-    const img = document.createElement('img');
-    img.src = 'img/regiones/' + region.archivo;
-    img.alt = region.nombre;
-    img.draggable = false;
-    img.style.filter = nivelAFiltro(region.nivel);
+    /* COLOR SEGÚN NIVEL */
+    btn.style.backgroundColor = COLOR_NIVEL[region.nivel];
 
-    btn.appendChild(img);
+    /* USA EL PNG COMO FORMA */
+    btn.style.mask =
+      `url(img/regiones/${region.archivo}) center/contain no-repeat`;
+
+    btn.style.webkitMask =
+      `url(img/regiones/${region.archivo}) center/contain no-repeat`;
+
     btn.addEventListener('click', () => mostrarRegion(region, btn));
+
     mapa.appendChild(btn);
   });
-}
-
-function nivelAFiltro(nivel) {
-  const filtros = {
-    'muy-alta':   'sepia(1) hue-rotate(310deg) saturate(4) brightness(.9)',
-    'alta':       'sepia(1) hue-rotate(340deg) saturate(3.5) brightness(1)',
-    'media-alta': 'sepia(1) hue-rotate(20deg)  saturate(3)   brightness(1.05)',
-    'media':      'sepia(1) hue-rotate(60deg)  saturate(3)   brightness(.95)',
-    'baja':       'sepia(1) hue-rotate(170deg) saturate(3)   brightness(.95)'
-  };
-  return filtros[nivel] || 'none';
 }
 
 /* ── 4. MOSTRAR INFO DE LA REGIÓN ──────────────────────────── */
