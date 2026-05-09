@@ -24,6 +24,16 @@ function cambiarSlide(n) {
     slideActual = Math.max(0, Math.min(slideActual + n, slides.length - 1));
     slides[slideActual].classList.add("activo");
     actualizarFlechas();
+
+    /*
+      Si el slide que se acaba de mostrar es el del mapa (índice 4),
+      calculamos la posición inicial AHORA, cuando el wrapper ya tiene
+      dimensiones reales (el slide está visible).
+    */
+    if (slideActual === 4) {
+        // Pequeño timeout para que el navegador termine de pintar el slide
+        setTimeout(initMapPosition, 30);
+    }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -41,7 +51,7 @@ const REGIONES = [
         id: 'tarapaca', nombre: 'Tarapacá',
         archivo: 'tarapaca.png', nivel: 'muy-alta',
         radiacionWm2: 930, capacidadMW: 1254,
-        top: 15, left: 149, width: 12, height: 26
+        top: 16, left: 149, width: 12, height: 26
     },
     {
         id: 'antofagasta', nombre: 'Antofagasta',
@@ -53,79 +63,79 @@ const REGIONES = [
         id: 'atacama', nombre: 'Atacama',
         archivo: 'atacama.png', nivel: 'alta',
         radiacionWm2: 860, capacidadMW: 2725,
-        top: 84, left: 142, width: 21, height: 47
+        top: 83, left: 142, width: 21, height: 47
     },
     {
         id: 'coquimbo', nombre: 'Coquimbo',
         archivo: 'coquimbo.png', nivel: 'alta',
         radiacionWm2: 760, capacidadMW: 753,
-        top: 127, left: 141, width: 12, height: 36
+        top: 125, left: 140, width: 12, height: 36
     },
     {
         id: 'valparaiso', nombre: 'Valparaíso',
         archivo: 'valpo.png', nivel: 'media-alta',
         radiacionWm2: 640, capacidadMW: 312,
-        top: 162, left: 140, width: 13, height: 23
+        top: 158, left: 139, width: 13, height: 23
     },
     {
         id: 'metropolitana', nombre: 'Región Metropolitana',
         archivo: 'RM.png', nivel: 'media-alta',
         radiacionWm2: 605, capacidadMW: 367,
-        top: 174, left: 142, width: 12, height: 16
+        top: 170, left: 142, width: 12, height: 16
     },
     {
         id: 'ohiggins', nombre: "O'Higgins",
         archivo: 'ohiggins.png', nivel: 'media-alta',
         radiacionWm2: 570, capacidadMW: 178,
-        top: 187, left: 139, width: 13, height: 14
+        top: 182, left: 139, width: 13, height: 14
     },
     {
         id: 'maule', nombre: 'Maule',
         archivo: 'maule.png', nivel: 'media',
         radiacionWm2: 510, capacidadMW: 142,
-        top: 199, left: 137, width: 12, height: 22
+        top: 191, left: 137, width: 12, height: 22
     },
     {
         id: 'nuble', nombre: 'Ñuble',
         archivo: 'nuble.png', nivel: 'media',
         radiacionWm2: 480, capacidadMW: 88,
-        top: 216, left: 136, width: 12, height: 15
+        top: 207, left: 136, width: 12, height: 15
     },
     {
         id: 'biobio', nombre: 'Biobío',
         archivo: 'biobio.png', nivel: 'media',
         radiacionWm2: 460, capacidadMW: 115,
-        top: 223, left: 130, width: 18, height: 24
+        top: 214, left: 130, width: 18, height: 24
     },
     {
         id: 'araucania', nombre: 'La Araucanía',
         archivo: 'araucania.png', nivel: 'media',
         radiacionWm2: 430, capacidadMW: 72,
-        top: 239, left: 133, width: 12, height: 25
+        top: 227, left: 133, width: 12, height: 25
     },
     {
         id: 'los_rios', nombre: 'Los Ríos',
         archivo: 'rios.png', nivel: 'baja',
         radiacionWm2: 360, capacidadMW: 34,
-        top: 262, left: 130, width: 14, height: 18
+        top: 247, left: 130, width: 14, height: 18
     },
     {
         id: 'los_lagos', nombre: 'Los Lagos',
         archivo: 'lagos.png', nivel: 'baja',
         radiacionWm2: 320, capacidadMW: 41,
-        top: 276, left: 123, width: 20, height: 47
+        top: 260, left: 123, width: 20, height: 47
     },
     {
         id: 'aysen', nombre: 'Aysén',
         archivo: 'aisen.png', nivel: 'baja',
         radiacionWm2: 290, capacidadMW: 18,
-        top: 322, left: 117, width: 30, height: 78
+        top: 305, left: 117, width: 30, height: 78
     },
     {
         id: 'magallanes', nombre: 'Magallanes',
         archivo: 'magallanes.png', nivel: 'baja',
         radiacionWm2: 250, capacidadMW: 9,
-        top: 393, left: 117, width: 59, height: 114
+        top: 376, left: 117, width: 59, height: 114
     }
 ];
 
@@ -270,88 +280,120 @@ function restaurarVistaPrincipal() {
 
 /* ══════════════════════════════════════════════════════════════
    7. ZOOM Y PANEO
-   – Rueda del mouse: zoom centrado en el cursor
-   – Botones +/−/⊙: zoom incremental y reset
-   – Click + arrastre: pan cuando hay zoom activo
-   – Pinch táctil: zoom con dos dedos
+   ─────────────────────────────────────────────────────────────
+   • fitScale : escala calculada al mostrar el slide para que el
+                mapa quepa completo en el wrapper sin recortes.
+   • mapScale : zoom del usuario (1 = 100 %, estado base).
+   • mapTx/Ty : posición en px del mapa dentro del wrapper.
+                El CSS usa justify-content:flex-start; todo el
+                posicionamiento lo maneja el transform del JS.
+   ─────────────────────────────────────────────────────────────
+   Por qué este diseño evita el corrimiento al hacer zoom:
+   Si CSS centrara el mapa, mapTx empezaría en 0 pero el mapa
+   estaría visualmente desplazado → la fórmula de zoom se
+   desajustaría. Con este diseño mapTx = initTx desde el inicio,
+   así el punto bajo el cursor siempre se mantiene fijo.
 ══════════════════════════════════════════════════════════════ */
 
+const MAP_W    = 300;
+const MAP_H    = 510;
 const ZOOM_MIN  = 1;
 const ZOOM_MAX  = 5;
 const ZOOM_PASO = 0.4;
 
+let fitScale = 1;
 let mapScale = 1;
-let mapTx    = 0;   // translate X
-let mapTy    = 0;   // translate Y
+let mapTx = 0, mapTy = 0;
+let initTx = 0, initTy = 0;
 
-/* Estado de arrastre con mouse */
 let arrastrando = false;
-let arrastrarOx = 0, arrastrarOy = 0;   // translate al inicio del arrastre
-let arrastrarMx = 0, arrastrarMy = 0;   // posición mouse al inicio
-
-/* Estado de pinch */
+let arrastrarOx = 0, arrastrarOy = 0;
+let arrastrarMx = 0, arrastrarMy = 0;
 let pinchDistPrev = null;
 
-/* Aplica la transformación al mapa */
-function aplicarTransform(animar) {
-    const mapa = document.getElementById('chileMap');
-    if (!mapa) return;
-    mapa.style.transition = animar ? 'transform .22s ease' : 'none';
-    mapa.style.transform  = `translate(${mapTx}px, ${mapTy}px) scale(${mapScale})`;
-
+/* ── Calcula fitScale e initTx/Ty cuando el slide es visible ── */
+function initMapPosition() {
     const wrapper = document.getElementById('mapWrapper');
-    if (wrapper) {
-        wrapper.style.cursor = mapScale > 1 ? (arrastrando ? 'grabbing' : 'grab') : 'default';
-    }
-}
-
-/* Restringe el paneo para que el mapa no se aleje demasiado */
-function clampTranslate() {
-    const wrapper = document.getElementById('mapWrapper');
-    const mapa    = document.getElementById('chileMap');
-    if (!wrapper || !mapa) return;
+    if (!wrapper) return;
 
     const wW = wrapper.clientWidth;
     const wH = wrapper.clientHeight;
-    if (!wW || !wH) return;
+    if (!wW || !wH) return;   // slide todavía oculto, ignorar
 
-    const mW = mapa.offsetWidth  * mapScale;
-    const mH = mapa.offsetHeight * mapScale;
+    /* Escala para que el mapa quepa con 8 px de margen; nunca > 1 */
+    fitScale = Math.min((wW - 8) / MAP_W, (wH - 8) / MAP_H, 1);
 
-    const maxX = Math.max(0, (mW - wW) / 2 + 80);
-    const maxY = Math.max(0, (mH - wH) / 2 + 80);
+    /* Centrar el mapa escalado */
+    initTx = Math.round((wW - MAP_W * fitScale) / 2);
+    initTy = Math.round((wH - MAP_H * fitScale) / 2);
+    if (initTy < 4) initTy = 4;
 
-    mapTx = Math.min(maxX, Math.max(-maxX, mapTx));
-    mapTy = Math.min(maxY, Math.max(-maxY, mapTy));
+    /* Resetear el zoom del usuario */
+    mapScale = 1;
+    mapTx = initTx;
+    mapTy = initTy;
+
+    aplicarTransform(false);
+    actualizarZoomBadge();
 }
 
-/* Zoom centrado en un punto (ox, oy) relativo al wrapper */
-function hacerZoom(nuevoScale, ox, oy) {
-    nuevoScale = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, nuevoScale));
+/* ── Aplica la transformación CSS ── */
+function aplicarTransform(animar) {
+    const mapa = document.getElementById('chileMap');
+    if (!mapa) return;
+    const s = fitScale * mapScale;
+    mapa.style.transition = animar ? 'transform .22s ease' : 'none';
+    mapa.style.transform  = `translate(${mapTx}px, ${mapTy}px) scale(${s})`;
 
-    const ratio = nuevoScale / mapScale;
+    const wrapper = document.getElementById('mapWrapper');
+    if (wrapper) {
+        wrapper.style.cursor = mapScale > 1
+            ? (arrastrando ? 'grabbing' : 'grab')
+            : 'default';
+    }
+}
+
+/* ── Restringe el paneo ── */
+function clampTranslate() {
+    const wrapper = document.getElementById('mapWrapper');
+    if (!wrapper) return;
+    const wW = wrapper.clientWidth;
+    const wH = wrapper.clientHeight;
+    const s  = fitScale * mapScale;
+
+    const minX = Math.min(initTx, wW - MAP_W * s - 4);
+    const maxX = Math.max(initTx, 4);
+    const minY = Math.min(initTy, wH - MAP_H * s - 4);
+    const maxY = Math.max(initTy, 4);
+
+    mapTx = Math.min(maxX, Math.max(minX, mapTx));
+    mapTy = Math.min(maxY, Math.max(minY, mapTy));
+}
+
+/* ── Zoom centrado en (ox, oy) relativo al wrapper ── */
+function hacerZoom(nuevoUserScale, ox, oy) {
+    nuevoUserScale = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, nuevoUserScale));
+    const ratio = nuevoUserScale / mapScale;
     mapTx = ox - ratio * (ox - mapTx);
     mapTy = oy - ratio * (oy - mapTy);
-    mapScale = nuevoScale;
+    mapScale = nuevoUserScale;
 
-    if (mapScale === ZOOM_MIN) { mapTx = 0; mapTy = 0; }
+    if (mapScale <= ZOOM_MIN) { mapTx = initTx; mapTy = initTy; }
     else clampTranslate();
 
     aplicarTransform(false);
     actualizarZoomBadge();
 }
 
-/* Actualiza indicador y estado de botones */
 function actualizarZoomBadge() {
     const badge  = document.getElementById('zoomBadge');
     const btnOut = document.getElementById('zoomOut');
     const btnIn  = document.getElementById('zoomIn');
-    if (badge)  badge.textContent   = Math.round(mapScale * 100) + '%';
-    if (btnOut) btnOut.disabled     = mapScale <= ZOOM_MIN;
-    if (btnIn)  btnIn.disabled      = mapScale >= ZOOM_MAX;
+    if (badge)  badge.textContent = Math.round(mapScale * 100) + '%';
+    if (btnOut) btnOut.disabled   = mapScale <= ZOOM_MIN;
+    if (btnIn)  btnIn.disabled    = mapScale >= ZOOM_MAX;
 }
 
-/* Centro del wrapper */
 function centroWrapper() {
     const w = document.getElementById('mapWrapper');
     return w ? { x: w.clientWidth / 2, y: w.clientHeight / 2 } : { x: 150, y: 255 };
@@ -361,14 +403,11 @@ function centroWrapper() {
 function initRueda() {
     const wrapper = document.getElementById('mapWrapper');
     if (!wrapper) return;
-
     wrapper.addEventListener('wheel', (e) => {
         e.preventDefault();
         const rect  = wrapper.getBoundingClientRect();
-        const ox    = e.clientX - rect.left;
-        const oy    = e.clientY - rect.top;
-        const delta = e.deltaY < 0 ? ZOOM_PASO : -ZOOM_PASO;
-        hacerZoom(mapScale + delta, ox, oy);
+        hacerZoom(mapScale + (e.deltaY < 0 ? ZOOM_PASO : -ZOOM_PASO),
+                  e.clientX - rect.left, e.clientY - rect.top);
     }, { passive: false });
 }
 
@@ -379,11 +418,9 @@ function initArrastre() {
 
     wrapper.addEventListener('mousedown', (e) => {
         if (mapScale <= 1) return;
-        arrastrando  = true;
-        arrastrarMx  = e.clientX;
-        arrastrarMy  = e.clientY;
-        arrastrarOx  = mapTx;
-        arrastrarOy  = mapTy;
+        arrastrando = true;
+        arrastrarMx = e.clientX; arrastrarMy = e.clientY;
+        arrastrarOx = mapTx;     arrastrarOy = mapTy;
         wrapper.style.cursor = 'grabbing';
         e.preventDefault();
     });
@@ -399,8 +436,8 @@ function initArrastre() {
     window.addEventListener('mouseup', () => {
         if (!arrastrando) return;
         arrastrando = false;
-        const wrapper = document.getElementById('mapWrapper');
-        if (wrapper) wrapper.style.cursor = mapScale > 1 ? 'grab' : 'default';
+        const w = document.getElementById('mapWrapper');
+        if (w) w.style.cursor = mapScale > 1 ? 'grab' : 'default';
     });
 }
 
@@ -409,18 +446,15 @@ function initPinch() {
     const wrapper = document.getElementById('mapWrapper');
     if (!wrapper) return;
 
-    let touchArrastrando = false;
-    let touchOx = 0, touchOy = 0, touchTxBase = 0, touchTyBase = 0;
+    let tArr = false, tOx = 0, tOy = 0, tTxBase = 0, tTyBase = 0;
 
     wrapper.addEventListener('touchstart', (e) => {
         if (e.touches.length === 2) {
             pinchDistPrev = distPinch(e.touches);
         } else if (e.touches.length === 1 && mapScale > 1) {
-            touchArrastrando = true;
-            touchOx    = e.touches[0].clientX;
-            touchOy    = e.touches[0].clientY;
-            touchTxBase = mapTx;
-            touchTyBase = mapTy;
+            tArr = true;
+            tOx = e.touches[0].clientX; tOy = e.touches[0].clientY;
+            tTxBase = mapTx; tTyBase = mapTy;
         }
     }, { passive: true });
 
@@ -429,51 +463,38 @@ function initPinch() {
             e.preventDefault();
             const dist = distPinch(e.touches);
             if (pinchDistPrev === null) { pinchDistPrev = dist; return; }
-
-            const rect  = wrapper.getBoundingClientRect();
-            const midX  = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left;
-            const midY  = ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top;
-            hacerZoom(mapScale * (dist / pinchDistPrev), midX, midY);
+            const rect = wrapper.getBoundingClientRect();
+            hacerZoom(mapScale * (dist / pinchDistPrev),
+                ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left,
+                ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top);
             pinchDistPrev = dist;
-        } else if (e.touches.length === 1 && touchArrastrando) {
-            mapTx = touchTxBase + (e.touches[0].clientX - touchOx);
-            mapTy = touchTyBase + (e.touches[0].clientY - touchOy);
+        } else if (e.touches.length === 1 && tArr) {
+            mapTx = tTxBase + (e.touches[0].clientX - tOx);
+            mapTy = tTyBase + (e.touches[0].clientY - tOy);
             clampTranslate();
             aplicarTransform(false);
         }
     }, { passive: false });
 
-    wrapper.addEventListener('touchend', () => {
-        pinchDistPrev    = null;
-        touchArrastrando = false;
-    });
+    wrapper.addEventListener('touchend', () => { pinchDistPrev = null; tArr = false; });
 }
 
-function distPinch(touches) {
-    const dx = touches[0].clientX - touches[1].clientX;
-    const dy = touches[0].clientY - touches[1].clientY;
-    return Math.sqrt(dx * dx + dy * dy);
+function distPinch(t) {
+    return Math.sqrt((t[0].clientX-t[1].clientX)**2 + (t[0].clientY-t[1].clientY)**2);
 }
 
 /* ── Botones de zoom ── */
 function initBotonesZoom() {
     document.getElementById('zoomIn')?.addEventListener('click', () => {
-        const c = centroWrapper();
-        hacerZoom(mapScale + ZOOM_PASO, c.x, c.y);
+        const c = centroWrapper(); hacerZoom(mapScale + ZOOM_PASO, c.x, c.y);
     });
-
     document.getElementById('zoomOut')?.addEventListener('click', () => {
-        const c = centroWrapper();
-        hacerZoom(mapScale - ZOOM_PASO, c.x, c.y);
+        const c = centroWrapper(); hacerZoom(mapScale - ZOOM_PASO, c.x, c.y);
     });
-
     document.getElementById('zoomReset')?.addEventListener('click', () => {
-        mapScale = 1; mapTx = 0; mapTy = 0;
-        aplicarTransform(true);
-        actualizarZoomBadge();
+        mapScale = 1; mapTx = initTx; mapTy = initTy;
+        aplicarTransform(true); actualizarZoomBadge();
     });
-
-    /* Botón cerrar región */
     document.getElementById('closeBtnRegion')?.addEventListener('click', () => {
         if (regionActiva) { regionActiva.classList.remove('activa'); regionActiva = null; }
         restaurarVistaPrincipal();
@@ -492,4 +513,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initPinch();
     initBotonesZoom();
     actualizarZoomBadge();
+    /*
+      NO llamamos initMapPosition aquí porque el slide del mapa
+      está oculto (display:none) y el wrapper mide 0×0.
+      Se llama desde cambiarSlide() cuando el slide se hace visible.
+    */
 });

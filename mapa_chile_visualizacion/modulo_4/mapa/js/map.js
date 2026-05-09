@@ -532,4 +532,100 @@ document.getElementById('nextBtn').addEventListener('click', function() {
     localStorage.setItem('modulos_desbloqueados', '5');
   }
   window.location.href = '../Web2/modulo5.html';
-});
+});const REGIONES = [
+    {
+        id: 'arica', nombre: 'Arica y Parinacota',
+        archivo: 'arica.png', nivel: 'muy-alta',
+        radiacionWm2: 950, capacidadMW: 643,
+        top: 0, left: 148, width: 10, height: 18
+    },
+    {
+        id: 'tarapaca', nombre: 'Tarapacá',
+        archivo: 'tarapaca.png', nivel: 'muy-alta',
+        radiacionWm2: 930, capacidadMW: 1254,
+        top: 16, left: 149, width: 12, height: 26
+    },
+    {
+        id: 'antofagasta', nombre: 'Antofagasta',
+        archivo: 'antofagasta.png', nivel: 'muy-alta',
+        radiacionWm2: 920, capacidadMW: 3510,
+        top: 36, left: 147, width: 24, height: 55
+    },
+    {
+        id: 'atacama', nombre: 'Atacama',
+        archivo: 'atacama.png', nivel: 'alta',
+        radiacionWm2: 860, capacidadMW: 2725,
+        top: 83, left: 142, width: 21, height: 47
+    },
+    {
+        id: 'coquimbo', nombre: 'Coquimbo',
+        archivo: 'coquimbo.png', nivel: 'alta',
+        radiacionWm2: 760, capacidadMW: 753,
+        top: 125, left: 140, width: 12, height: 36
+    },
+    {
+        id: 'valparaiso', nombre: 'Valparaíso',
+        archivo: 'valpo.png', nivel: 'media-alta',
+        radiacionWm2: 640, capacidadMW: 312,
+        top: 158, left: 139, width: 13, height: 23
+    },
+    {
+        id: 'metropolitana', nombre: 'Región Metropolitana',
+        archivo: 'RM.png', nivel: 'media-alta',
+        radiacionWm2: 605, capacidadMW: 367,
+        top: 170, left: 142, width: 12, height: 16
+    },
+    {
+        id: 'ohiggins', nombre: "O'Higgins",
+        archivo: 'ohiggins.png', nivel: 'media-alta',
+        radiacionWm2: 570, capacidadMW: 178,
+        top: 182, left: 139, width: 13, height: 14
+    },
+    {
+        id: 'maule', nombre: 'Maule',
+        archivo: 'maule.png', nivel: 'media',
+        radiacionWm2: 510, capacidadMW: 142,
+        top: 191, left: 137, width: 12, height: 22
+    },
+    {
+        id: 'nuble', nombre: 'Ñuble',
+        archivo: 'nuble.png', nivel: 'media',
+        radiacionWm2: 480, capacidadMW: 88,
+        top: 207, left: 136, width: 12, height: 15
+    },
+    {
+        id: 'biobio', nombre: 'Biobío',
+        archivo: 'biobio.png', nivel: 'media',
+        radiacionWm2: 460, capacidadMW: 115,
+        top: 214, left: 130, width: 18, height: 24
+    },
+    {
+        id: 'araucania', nombre: 'La Araucanía',
+        archivo: 'araucania.png', nivel: 'media',
+        radiacionWm2: 430, capacidadMW: 72,
+        top: 227, left: 133, width: 12, height: 25
+    },
+    {
+        id: 'los_rios', nombre: 'Los Ríos',
+        archivo: 'rios.png', nivel: 'baja',
+        radiacionWm2: 360, capacidadMW: 34,
+        top: 247, left: 130, width: 14, height: 18
+    },
+    {
+        id: 'los_lagos', nombre: 'Los Lagos',
+        archivo: 'lagos.png', nivel: 'baja',
+        radiacionWm2: 320, capacidadMW: 41,
+        top: 260, left: 123, width: 20, height: 47
+    },
+    {
+        id: 'aysen', nombre: 'Aysén',
+        archivo: 'aisen.png', nivel: 'baja',
+        radiacionWm2: 290, capacidadMW: 18,
+        top: 305, left: 117, width: 30, height: 78
+    },
+    {
+        id: 'magallanes', nombre: 'Magallanes',
+        archivo: 'magallanes.png', nivel: 'baja',
+        radiacionWm2: 250, capacidadMW: 9,
+        top: 376, left: 117, width: 59, height: 114
+    }
