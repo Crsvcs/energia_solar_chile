@@ -4,6 +4,66 @@
     <meta charset="UTF-8">
     <title>Módulo 4</title>
     <link rel="stylesheet" href="estilo_web.css">
+    <style>
+        /* ── SLIDE 2: imagen de fondo semitransparente ── */
+        .slide2-imagen-fondo {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 55%;
+            max-height: 70%;
+            object-fit: cover;
+            border-radius: 28px;
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ── SLIDE 3: imagen sin transparencia, en caja ── */
+        .slide3-imagen {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 18px;
+            display: block;
+        }
+
+        /* ── SLIDE 4: mapa fantasma decorativo ── */
+        .mapa-fantasma {
+            position: absolute;
+            right: 80px;
+            top: 50%;
+            transform: translateY(-45%);
+            width: 200px;
+            height: 340px;
+            opacity: 0.22;
+            filter: blur(1.5px) saturate(0.6);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .mapa-fantasma .chile-map {
+            width: 200px;
+            height: 340px;
+            transform: scale(0.66);
+            transform-origin: top left;
+        }
+
+        /* ── SLIDE 6: imagen energia-renovable ── */
+        .slide6-imagen {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50%;
+            max-height: 68%;
+            object-fit: contain;
+            border-radius: 24px;
+            z-index: 1;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -39,6 +99,8 @@
         <h1>¿POR QUÉ CHILE?</h1>
     </div>
 
+    <img src="imagenes/image.png" class="slide2-imagen-fondo">
+
     <div class="panelin-fijo">
         <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
         <div class="globo-fijo" id="globoSlide2"></div>
@@ -57,13 +119,7 @@
         <h1>NORTE DE CHILE</h1>
     </div>
 
-    <div class="contenedor">
-        <div class="objeto">
-            <div class="caja-imagen">
-                <img src="atacama.png">
-            </div>
-        </div>
-    </div>
+    <img src="imagenes/image.png" class="slide2-imagen-fondo">
 
     <div class="panelin-fijo">
         <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
@@ -82,6 +138,9 @@
         <h2>Módulo 4</h2>
         <h1>SOL EN CHILE</h1>
     </div>
+
+    <!-- Mapa fantasma decorativo -->
+    <div class="mapa-fantasma" id="mapaFantasma"></div>
 
     <div class="panelin-fijo">
         <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
@@ -201,6 +260,8 @@
         <h1>¡NUESTRO FUTURO BRILLANTE!</h1>
     </div>
 
+    <img src="imagenes/energia-renovable.png" class="slide6-imagen">
+
     <div class="panelin-fijo">
         <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
         <div class="globo-fijo" id="globoSlide6"></div>
@@ -239,6 +300,33 @@
 </div>
 
 <script src="interaccion_web.js"></script>
+
+<script>
+/* ── Mapa fantasma slide 4: clona el chile-map de slide 5 ── */
+document.addEventListener('DOMContentLoaded', () => {
+    function poblarMapaFantasma() {
+        const original = document.getElementById('chileMap');
+        const fantasma = document.getElementById('mapaFantasma');
+        if (!original || !fantasma) return;
+
+        /* Esperar a que el mapa real esté poblado */
+        if (original.children.length === 0) {
+            setTimeout(poblarMapaFantasma, 300);
+            return;
+        }
+
+        const clon = original.cloneNode(true);
+        clon.id = '';
+        /* Quitar eventos de click/hover del clon */
+        clon.querySelectorAll('.region-btn').forEach(btn => {
+            const nuevo = btn.cloneNode(true);
+            btn.parentNode.replaceChild(nuevo, btn);
+        });
+        fantasma.appendChild(clon);
+    }
+    poblarMapaFantasma();
+});
+</script>
 
 </body>
 </html>
