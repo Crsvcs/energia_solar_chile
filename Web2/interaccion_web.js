@@ -188,7 +188,7 @@ function resetSlide3() {
 }
 
 function cambiarSlide(n) {
-    if (escribiendo) return;
+    if (escribiendo && n > 0) return;
     reproducirClikFlecha(n);
 
     /* Último slide: flecha derecha va directo al módulo 2 */

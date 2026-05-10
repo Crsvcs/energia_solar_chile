@@ -49,11 +49,39 @@ function reproducirClik() {
     } catch(e) {}
 }
 
-const texto1 = 'Bienvenidos a los módulos de aprendizaje, aquí deberás ir en orden viendo los módulos para desbloquear el siguiente.';
+const texto1 = 'Bienvenidos a los módulos de aprendizaje, aquí deberás ir en orden viendo los módulos para desbloquear el siguiente e ir obteniendo copas.';
 const texto2 = '¡Se ha desbloqueado el módulo 1!\nHaz click en él para ver más...';
 
-let estadoIntro  = 0;
-let introActiva  = false;
+let estadoIntro      = 0;
+let introActiva      = false;
+let textoEscribiendo = false;
+let twTimer          = null;
+
+/* ── MÁQUINA DE ESCRIBIR (modulos) ───────────── */
+function escribirTextoMod(elementId, texto, onFin) {
+    const velocidad = 28;
+    textoEscribiendo = true;
+    const el = document.getElementById(elementId);
+    if (!el) { textoEscribiendo = false; if (onFin) onFin(); return; }
+
+    el.innerHTML = '';
+    let i = 0;
+
+    function tick() {
+        if (i < texto.length) {
+            el.innerHTML = texto.slice(0, i + 1).replace(/\n/g, '<br>') +
+                           '<span style="color:#FF8F00;font-weight:900;">_</span>';
+            i++;
+            twTimer = setTimeout(tick, velocidad);
+        } else {
+            el.innerHTML = texto.replace(/\n/g, '<br>');
+            textoEscribiendo = false;
+            twTimer = null;
+            if (onFin) onFin();
+        }
+    }
+    tick();
+}
 
 function iniciar() {
     if (localStorage.getItem(INTRO_VISTO)) {
@@ -65,6 +93,9 @@ function iniciar() {
 }
 
 function avanzarIntro() {
+    /* Bloquear clic mientras Panelín sigue escribiendo */
+    if (textoEscribiendo) return;
+
     reproducirClik();
     estadoIntro++;
 
@@ -72,10 +103,10 @@ function avanzarIntro() {
         document.getElementById('modulosRow').classList.add('difuminado');
         let p = document.getElementById('panelinModulos');
         p.style.display = 'flex';
-        document.getElementById('globoMod').innerText = texto1;
+        escribirTextoMod('globoMod', texto1);
 
     } else if (estadoIntro === 2) {
-        document.getElementById('globoMod').innerText = texto2;
+        escribirTextoMod('globoMod', texto2);
 
     } else if (estadoIntro >= 3) {
         document.removeEventListener('click', avanzarIntro);
@@ -87,7 +118,7 @@ function avanzarIntro() {
 
 function mostrarEstadoNormal() {
     let n       = parseInt(localStorage.getItem(CLAVE) || '1');
-    let nSonido = parseInt(localStorage.getItem('modulos_sonido_reproducido') || '1');
+    let nSonido = parseInt(localStorage.getItem('modulos_sonido_reproducido') || '0');
 
     document.getElementById('modulosRow').classList.remove('difuminado');
     document.getElementById('panelinModulos').style.display = 'none';
