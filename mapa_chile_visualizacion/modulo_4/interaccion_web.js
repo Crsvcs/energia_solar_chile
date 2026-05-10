@@ -84,7 +84,7 @@ const TEXTOS = {
     slide3: "En el desierto de Atacama el sol brilla casi todo el año y tiene muy poca nubosidad.\n¡Por eso hay muchas plantas solares en el norte de Chile!",
     slide4: "En la siguiente pantalla haz clic en las regiones del mapa para conocer la radiación solar y la capacidad instalada de energía solar de cada una.",
     slide6: "Con la energía solar, Chile podría convertirse en un líder mundial en energías renovables y exportar energía limpia a otros países.",
-    final:  "¡Muy bien! Completaste el cuarto y último módulo.\nPrepárate… ahora viene el resumen y el desafío final. ¡Aprieta la flecha ➜ para continuar!"
+    final:  "¡Muy bien! Completaste el cuarto y último módulo.\nPrepárate… ahora viene el resumen y el desafío final. ¡Aprieta la casa para continuar!"
 };
 
 /* ── NAVEGACIÓN ──────────────────────────────────────────────*/
