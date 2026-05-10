@@ -20,24 +20,29 @@
             z-index: 1;
         }
 
-        /* ── SLIDE 3: imagen sin transparencia, en caja ── */
+        /* ── SLIDE 3: igual que slide 2 pero sin transparencia ── */
         .slide3-imagen {
-            width: 100%;
-            height: 100%;
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 55%;
+            max-height: 70%;
             object-fit: cover;
-            border-radius: 18px;
-            display: block;
+            border-radius: 28px;
+            pointer-events: none;
+            z-index: 1;
         }
 
         /* ── SLIDE 4: mapa fantasma decorativo ── */
         .mapa-fantasma {
             position: absolute;
-            right: 80px;
+            right: 320px;
             top: 50%;
             transform: translateY(-45%);
             width: 200px;
             height: 340px;
-            opacity: 0.22;
+            opacity: 0.60;
             filter: blur(1.5px) saturate(0.6);
             pointer-events: none;
             z-index: 1;
@@ -62,6 +67,53 @@
             border-radius: 24px;
             z-index: 1;
             pointer-events: none;
+        }
+
+        /* ── SLIDE FINAL: panelín más arriba, más grande, con globo ── */
+        .panelin-final {
+            bottom: 60px !important;
+            left: 60px !important;
+            gap: 24px !important;
+            align-items: flex-end;
+        }
+
+        .panelin-final-img {
+            width: 380px !important;
+        }
+
+        .globo-final {
+            background-color: #FFD54F;
+            border: 3px solid #FF8F00;
+            border-radius: 30px;
+            padding: 28px 34px;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.55;
+            text-align: center;
+            max-width: 520px;
+            color: #424242;
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .globo-final::before {
+            content: "";
+            position: absolute;
+            left: -24px; bottom: 20px;
+            width: 0; height: 0;
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+            border-right: 24px solid #FF8F00;
+        }
+
+        .globo-final::after {
+            content: "";
+            position: absolute;
+            left: -18px; bottom: 21px;
+            width: 0; height: 0;
+            border-top: 11px solid transparent;
+            border-bottom: 11px solid transparent;
+            border-right: 19px solid #FFD54F;
         }
     </style>
 </head>
@@ -119,7 +171,7 @@
         <h1>NORTE DE CHILE</h1>
     </div>
 
-    <img src="imagenes/image.png" class="slide2-imagen-fondo">
+    <img src="imagenes/image.png" class="slide3-imagen">
 
     <div class="panelin-fijo">
         <img src="imagenes/panelin_feliz.png" class="panelin-decorativo">
@@ -281,7 +333,9 @@
 
     <div class="panelin-final">
         <img src="imagenes/panelin_feliz.png" class="panelin-final-img">
-        <div class="globo-final" id="globoFinal"></div>
+        <div class="globo-final" id="globoFinal">
+            ¡Muy bien! Completaste el cuarto y último módulo. Prepárate… ahora viene el resumen y el desafío final. ¡Aprieta la casa para continuar!
+        </div>
     </div>
 
 </section>
