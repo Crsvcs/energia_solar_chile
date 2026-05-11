@@ -5,17 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Salva tu Ciudad Solar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ── OVERLAY PANELÍN INTRO ───────────────── -->
+  <!-- ── NAV TOP ── -->
+  <div class="nav-top">
+    <button class="btn-nav" title="Ayuda">💡</button>
+    <button class="btn-nav" onclick="window.location.href='../../Web2/modulos.html'" title="Inicio">🏠</button>
+  </div>
+
+  <!-- ── OVERLAY PANELÍN INTRO ── -->
   <div id="overlay-intro" class="panelin-explica">
     <img class="panelin" src="assets/panelin_1.png" alt="Panelín">
     <div class="globo">
-      ¡Hola! Soy <strong>Panelín</strong>. En este juego debes elegir una región de Chile y construir tu central solar para abastecer una ciudad.<br><br>
-      Toca el mapa para elegir tu región y luego presiona <strong>Comenzar juego</strong>. ¡Recuerda instalar lo justo!
+      En este juego debes elegir una región de Chile y construir tu central solar para abastecer una ciudad.<br><br>
+      Toca el mapa para elegir tu región y luego presiona <strong>¡Comenzar juego!</strong> ¡Recuerda instalar lo justo!
     </div>
     <div class="flechas">
       <span></span>
@@ -23,7 +29,7 @@
     </div>
   </div>
 
-  <!-- ── CONTENIDO PRINCIPAL ────────────────── -->
+  <!-- ── CONTENIDO PRINCIPAL ── -->
   <div id="contenido">
 
     <div class="encabezado">
@@ -33,39 +39,40 @@
 
     <div class="mapa-wrap">
 
-      <!-- Mapa de Chile con zonas clicables -->
-      <div class="mapa-chile">
-        <img src="assets/Mp_N.png" alt="Norte"  class="region-img" id="img-norte"  onclick="seleccionar('norte')">
-        <img src="assets/Mp_C.png" alt="Centro" class="region-img" id="img-centro" onclick="seleccionar('centro')">
-        <img src="assets/Mp_S.png" alt="Sur"    class="region-img" id="img-sur"    onclick="seleccionar('sur')">
-      </div>
-
-      <!-- Labels de zona -->
-      <div class="labels-col">
-        <img src="assets/Frame_4.png" class="label-zona" onclick="seleccionar('norte')" alt="Zona Norte">
-        <img src="assets/Frame_5.png" class="label-zona" onclick="seleccionar('centro')" alt="Zona Centro">
-        <img src="assets/Frame_6.png" class="label-zona" onclick="seleccionar('sur')" alt="Zona Sur">
-      </div>
-
-      <!-- Panel de info derecho -->
+      <!-- Panel info IZQUIERDA -->
       <div class="panel-info">
         <div id="info-default">
-          <p class="info-hint">Toca una región<br>del mapa para ver sus datos</p>
+          <p class="info-hint">👆 Toca una región<br>del mapa para ver sus datos</p>
         </div>
         <div id="info-region" style="display:none">
           <h2 id="info-nombre"></h2>
           <div class="info-rad" id="info-rad"></div>
           <p class="info-rad-label">Radiación solar promedio</p>
           <p class="info-desc" id="info-desc"></p>
-          <img src="assets/Frame_7.png" alt="Comenzar juego"
-               onclick="comenzar()" class="btn-comenzar" id="btn-comenzar">
+          <button onclick="comenzar()" class="btn-comenzar" id="btn-comenzar">
+            ¡COMENZAR JUEGO! 🚀
+          </button>
         </div>
+      </div>
+
+      <!-- Mapa de Chile CENTRO -->
+      <div class="mapa-chile">
+        <img src="assets/Mp_N.png" alt="Norte"  class="region-img" id="img-norte"  onclick="seleccionar('norte')">
+        <img src="assets/Mp_C.png" alt="Centro" class="region-img" id="img-centro" onclick="seleccionar('centro')">
+        <img src="assets/Mp_S.png" alt="Sur"    class="region-img" id="img-sur"    onclick="seleccionar('sur')">
+      </div>
+
+      <!-- Labels DERECHA -->
+      <div class="labels-col">
+        <img src="assets/Frame_4.png" class="label-zona" onclick="seleccionar('norte')"  alt="Zona Norte">
+        <img src="assets/Frame_5.png" class="label-zona" onclick="seleccionar('centro')" alt="Zona Centro">
+        <img src="assets/Frame_6.png" class="label-zona" onclick="seleccionar('sur')"    alt="Zona Sur">
       </div>
 
     </div>
   </div>
 
-  <!-- ── PANELÍN FIJO ABAJO ─────────────────── -->
+  <!-- ── PANELÍN FIJO ABAJO ── -->
   <div class="panelin-fijo" id="panelin-fijo" style="display:none">
     <img class="panelin-decorativo" src="assets/panelin_1.png" id="panelin-img" alt="Panelín">
     <div class="globo-fijo" id="panelin-msg">

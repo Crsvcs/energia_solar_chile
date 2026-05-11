@@ -1,3 +1,87 @@
+/* ══════════════════════════════════════════════
+   IA PANELÍN — GEMINI API
+   → Reemplaza TU_API_KEY_AQUI con tu clave de
+     Google AI Studio: aistudio.google.com
+══════════════════════════════════════════════ */
+const GEMINI_KEY = 'AIzaSyDFmISx_YgvgqIeM4tddn29bFdjVRe6KOY';
+
+const GEMINI_SYSTEM = `Eres Panelín, un panel solar simpático y divertido que ayuda a niños de educación básica a aprender sobre energía eléctrica y energía solar en Chile. Responde siempre de forma muy simple, amigable y breve (máximo 3 oraciones cortas). Usa palabras que un niño de 8 años pueda entender fácilmente. Si la pregunta no tiene relación con energía eléctrica o solar, responde amablemente diciendo que solo puedes hablar de esos temas.`;
+
+function abrirModalIA() {
+    reproducirClik();
+    document.getElementById('modalIA').classList.add('abierto');
+    setTimeout(() => document.getElementById('modalIAInput').focus(), 100);
+}
+
+function cerrarModalIA() {
+    reproducirClik();
+    document.getElementById('modalIA').classList.remove('abierto');
+    document.getElementById('modalIAGlobo').textContent =
+        '¡Hola! Soy Panelín 🌞 ¿Tienes alguna duda sobre la energía eléctrica o solar? ¡Escribe tu pregunta!';
+    document.getElementById('modalIAInput').value = '';
+    document.getElementById('modalIABtn').disabled = false;
+}
+
+async function enviarPreguntaIA() {
+    const input  = document.getElementById('modalIAInput');
+    const globo  = document.getElementById('modalIAGlobo');
+    const btn    = document.getElementById('modalIABtn');
+    const pregunta = input.value.trim();
+    if (!pregunta) return;
+
+    input.value  = '';
+    btn.disabled = true;
+    globo.innerHTML = 'Pensando<span class="modal-ia-cargando">...</span>';
+
+    try {
+        const mensajeCompleto = GEMINI_SYSTEM + '\n\nPregunta del niño: ' + pregunta;
+        const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: mensajeCompleto }] }],
+                    generationConfig: { maxOutputTokens: 200, temperature: 0.7 }
+                })
+            }
+        );
+        const data = await res.json();
+        if (data.error) {
+            globo.textContent = '⚠️ Error: ' + data.error.message;
+            return;
+        }
+        const respuesta = data.candidates?.[0]?.content?.parts?.[0]?.text
+                       || '¡Ups! No pude responder. ¿Lo intentamos de nuevo?';
+        escribirTextoModalIA(respuesta);
+    } catch(e) {
+        globo.textContent = '⚠️ Error de conexión. Revisa internet e intenta de nuevo.';
+    }
+
+    btn.disabled = false;
+}
+
+function escribirTextoModalIA(texto) {
+    const globo = document.getElementById('modalIAGlobo');
+    globo.textContent = '';
+    let i = 0;
+    function tick() {
+        if (i < texto.length) {
+            globo.textContent = texto.slice(0, i + 1);
+            i++;
+            setTimeout(tick, 18);
+        }
+    }
+    tick();
+}
+
+/* Cerrar modal al hacer clic fuera del contenido */
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('modalIA').addEventListener('click', function(e) {
+        if (e.target === this) cerrarModalIA();
+    });
+});
+
 /* ── SONIDO DE CLICK SUAVE (botones, casillas) ── */
 
 function reproducirClik() {
@@ -110,7 +194,7 @@ function toggleInfo(id) {
     }
 }
 
-/* ── EFECTO MÁQUINA DE ESCRIBIR ─────────────── */
+/* ── EFECTO MÁQUINA DE ESCRIBIR (Ahora soporta Negritas) ─────────────── */
 
 let typewriterTimer = null;
 let escribiendo = false;
@@ -131,6 +215,14 @@ function escribirTexto(elementId, texto, velocidad) {
 
     function tick() {
         if (i < texto.length) {
+            // ¡NUEVO TRUCO! Si encuentra el inicio de un código HTML, lo salta completo
+            if (texto.charAt(i) === '<') {
+                let finEtiqueta = texto.indexOf('>', i);
+                if (finEtiqueta !== -1) {
+                    i = finEtiqueta;
+                }
+            }
+
             el.innerHTML = texto.slice(0, i + 1).replace(/\n/g, '<br>') +
                            '<span class="cursor">_</span>';
             i++;
@@ -146,11 +238,15 @@ function escribirTexto(elementId, texto, velocidad) {
 }
 
 /* Textos de todos los globos */
-const textoGloboSlide1 = "Usa las flechas para avanzar, la casita para volver a los módulos y la ampolleta si tienes alguna duda.";
-const textoGloboSlide2 = "La energía eléctrica viaja por los cables y permite que funcionen las luces, los aparatos y todos los dispositivos que usamos a diario en el hogar.\n¡Todo lo que enchufas usa energía eléctrica!";
-const textoGloboSlide5 = "Ve seleccionando en orden cada recuadro iluminado y descubre con qué tipo de corriente funciona ese artefacto.";
-const textoGloboFinal  = "¡Genial! Completaste el Módulo 1 y ganaste una copa solar 🏆.\nAhora descubre cómo el sol ☀️ se transforma en energía.\nAprieta la flecha ➜ para avanzar al Módulo 2.";
+const textoGloboSlide1 = "Usa las <b>flechas</b>  ← y →para moverte por las páginas, la <b>casita 🏠</b> para volver a los módulos y la <b>ampolleta 💡</b> si tienes alguna duda.";
 
+const textoGloboSlide2 = "La <b>energía eléctrica</b> es la que viaja por los cables y permite que funcionen las luces, los aparatos y todos los dispositivos que usamos a diario en el hogar.\n¡<b>Todo lo que enchufas</b> usa energía eléctrica!";
+
+const textoGloboSlide5 = "Ve <b>seleccionando en orden</b> cada recuadro iluminado y descubre con qué <b>tipo de corriente</b> funciona ese artefacto.";
+
+const textoGloboFinal  = "¡Genial! Completaste el <b>Módulo 1</b> y ganaste una <b>copa solar 🏆</b>.\nAhora descubre cómo el <b>sol ☀️</b> se transforma en energía.\nPresiona la <b>flecha →</b> para avanzar al <b>Módulo 2</b>.";
+
+const textoIntroCorrientes = "¡Atención! Existen dos formas principales en las que la electricidad puede viajar: la <b>Corriente Alterna</b> y la <b>Corriente Continua</b>.\n¡Vamos a conocer sus <b>diferencias</b>!";
 /* ── NAVEGACIÓN ENTRE SLIDES ─────────────────── */
 
 let slideActual = 0;
@@ -159,12 +255,12 @@ function actualizarFlechas() {
     let total = document.querySelectorAll(".slide").length;
     document.getElementById("flechaIzquierda").style.visibility =
         (slideActual === 0) ? "hidden" : "visible";
-    /* En el último slide la flecha derecha lleva al módulo 2, siempre visible */
+    
     document.getElementById("flechaDerecha").style.visibility = "visible";
 
-    /* Pulso en la flecha derecha solo en el slide final */
     const flechaDer = document.getElementById("flechaDerecha");
-    if (slideActual === 5) {
+    /* Ahora detecta automáticamente la última lámina, sin importar cuántas haya */
+    if (slideActual === total - 1) {
         flechaDer.classList.add('pulso-final');
     } else {
         flechaDer.classList.remove('pulso-final');
@@ -173,8 +269,8 @@ function actualizarFlechas() {
 
 let estadoSlide3 = 1;
 
-const textoS3E1 = "Los watts (W) nos ayudan a saber cuánta electricidad usa un objeto. ¡Mientras más watts tiene, más electricidad necesita para poder funcionar!";
-const textoS3E2 = "Para poder entender mejor esto, haz click sobre cada artefacto.";
+const textoS3E1 = "Los <b>Watts (W)</b> nos ayudan a saber <b>cuánta electricidad</b> usa un objeto. ¡Mientras más Watts tiene, más electricidad necesita para poder funcionar!";
+const textoS3E2 = "Para poder entender mejor esto, haz <b>click</b> sobre cada artefacto.";
 
 function resetSlide3() {
     estadoSlide3 = 1;
@@ -191,13 +287,13 @@ function cambiarSlide(n) {
     if (escribiendo && n > 0) return;
     reproducirClikFlecha(n);
 
+    let slides = document.querySelectorAll(".slide");
+
     /* Último slide: flecha derecha va directo al módulo 2 */
-    if (slideActual === 5 && n === 1) {
-        window.location.href = 'modulo2.html';
+    if (slideActual === slides.length - 1 && n === 1) {
+        window.location.href = 'modulos.html';
         return;
     }
-
-    let slides = document.querySelectorAll(".slide");
 
     /* Slide 3 está en índice 2 — manejar sus 3 estados */
     if (slideActual === 2) {
@@ -213,7 +309,7 @@ function cambiarSlide(n) {
                 document.getElementById("panelinSlide3").style.display = "none";
                 return;
             }
-            /* estado 3 → navegar a slide 4, pero primero verificar que abrió todos */
+            /* Verificar que abrió todos antes de avanzar */
             {
                 const faltantes = ['info1', 'info2', 'info3'].filter(id => !visitadosSlide3.has(id));
                 if (faltantes.length > 0) {
@@ -239,13 +335,12 @@ function cambiarSlide(n) {
                 escribirTexto("textoSlide3", textoS3E1);
                 return;
             }
-            /* estado 1 → navegar a slide 2 */
             resetSlide3();
         }
     }
 
-    /* Slide 5 está en índice 4 — manejar su estado intro */
-    if (slideActual === 4) {
+    /* AHORA ES LA SLIDE 6 (Índice 5) — Artefactos enchufados */
+    if (slideActual === 5) {
         if (n === 1 && estadoSlide5 === 1) {
             estadoSlide5 = 2;
             document.getElementById("objetosSlide2").classList.remove("difuminado");
@@ -253,7 +348,6 @@ function cambiarSlide(n) {
             actualizarDestacado();
             return;
         }
-        /* Bloquear avance si no se han visto todos los artefactos */
         if (n === 1 && estadoSlide5 === 2 && turnoActual < ordenDispositivos.length) {
             reproducirError();
             pulsarCardActual();
@@ -272,17 +366,24 @@ function cambiarSlide(n) {
     let slideAnterior = slideActual;
     slides[slideAnterior].classList.remove("activo");
     slideActual += n;
+    
     if (slideActual < 0) slideActual = 0;
     if (slideActual >= slides.length) slideActual = slides.length - 1;
+    
     slides[slideActual].classList.add("activo");
 
     if (slideActual === 2 && slideAnterior !== 2) resetSlide3();
-    if (slideActual === 4 && slideAnterior !== 4) resetSlide5();
+    if (slideActual === 5 && slideAnterior !== 5) resetSlide5();
 
     /* Typewriter para slides estáticas */
     if (slideActual === 0) escribirTexto("globoSlide1", textoGloboSlide1);
     if (slideActual === 1) escribirTexto("globoSlide2", textoGloboSlide2);
-    if (slideActual === 5) {
+    
+    /* ¡NUEVA LÁMINA! Índice 3 */
+    if (slideActual === 3) escribirTexto("globoIntroCorrientes", textoIntroCorrientes);
+    
+    /* FIN DEL MÓDULO (Última lámina) */
+    if (slideActual === slides.length - 1) {
         let actual = parseInt(localStorage.getItem('modulos_desbloqueados') || '1');
         if (actual < 2) localStorage.setItem('modulos_desbloqueados', '2');
         localStorage.setItem('copa_modulo_1', 'true');
@@ -343,31 +444,30 @@ function resetSlide5() {
     document.getElementById("panelinArtefacto").style.display = "none";
     escribirTexto("globoSlide5", textoGloboSlide5);
 }
-
 const datosArtefactos = {
     tablet: {
         cargando: "tablet_carg.png",
-        texto: "La tablet usa corriente alterna cuando se carga desde el enchufe, y corriente continua cuando funciona con su batería interna."
+        texto: "La tablet usa <b>corriente alterna</b> cuando se carga desde el <b>enchufe</b>, y <b>corriente continua</b> cuando funciona con su <b>batería interna</b>."
     },
     refrigerador: {
         cargando: "refrigerador_carg.png",
-        texto: "El refrigerador funciona con corriente alterna, porque necesita estar siempre conectado al enchufe para mantenerse encendido."
+        texto: "El refrigerador funciona con <b>corriente alterna</b>, porque necesita estar siempre conectado al <b>enchufe</b> para mantenerse encendido."
     },
     nintendo: {
         cargando: "nintendo_carg.png",
-        texto: "El Nintendo usa corriente alterna al cargarse desde el enchufe, y corriente continua cuando funciona con su batería integrada."
+        texto: "El Nintendo usa <b>corriente alterna</b> al cargarse desde el <b>enchufe</b>, y <b>corriente continua</b> cuando funciona con su <b>batería integrada</b>."
     },
     microonda: {
         cargando: "microondas_carg.png",
-        texto: "El microondas funciona con corriente alterna, porque necesita conectarse al enchufe para poder calentar los alimentos."
+        texto: "El microondas funciona con <b>corriente alterna</b>, porque necesita conectarse al <b>enchufe</b> para poder calentar los alimentos."
     },
     teclado: {
         cargando: "teclado_carg.png",
-        texto: "El teclado puede usar corriente alterna si está conectado al enchufe, y corriente continua cuando funciona con pilas o batería."
+        texto: "El teclado puede usar <b>corriente alterna</b> si está conectado al <b>enchufe</b>, y <b>corriente continua</b> cuando funciona con <b>pilas o batería</b>."
     },
     xbox: {
         cargando: "xbox_carg.png",
-        texto: "La Xbox funciona con corriente alterna, porque necesita estar siempre conectada al enchufe para poder encenderse y funcionar."
+        texto: "La Xbox funciona con <b>corriente alterna</b>, porque necesita estar siempre conectada al <b>enchufe</b> para poder encenderse y funcionar."
     }
 };
 

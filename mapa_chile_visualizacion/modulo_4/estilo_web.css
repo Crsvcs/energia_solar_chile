@@ -204,11 +204,13 @@ html, body {
 
 .panelin-fijo {
     position: absolute;
-    left: 80px; bottom: 30px;
+    /* Posición dinámica (se adapta a la pantalla) */
+    left: clamp(40px, 5.56vw, 80px);
+    bottom: clamp(60px, 7.64vw, 110px);
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-    gap: 20px;
+    gap: clamp(12px, 1.39vw, 20px);
     z-index: 5;
 }
 
@@ -216,6 +218,7 @@ html, body {
     background-color: #FFD54F;
     border: 3px solid #FF8F00;
     border-radius: 30px;
+    /* Grosor y tamaño de letra fijos que te gustan */
     padding: 24px 30px;
     font-size: 22px;
     font-weight: 700;
@@ -248,8 +251,24 @@ html, body {
 }
 
 .panelin-decorativo { width: 220px; filter: brightness(1.12); }
-.panelin-solo       { position: absolute; width: 200px; left: 80px; bottom: 60px; filter: brightness(1.12); }
-.panelin-derecha    { position: absolute; width: 200px; right: 80px; bottom: 60px; filter: brightness(1.12); transform: scaleX(-1); }
+
+/* ── AQUÍ ESTABA EL ERROR: Ahora todos tienen posiciones adaptables ── */
+.panelin-solo { 
+    position: absolute; 
+    width: 200px; 
+    left: clamp(40px, 5.56vw, 80px); 
+    bottom: clamp(30px, 4.16vw, 60px); 
+    filter: brightness(1.12); 
+}
+
+.panelin-derecha { 
+    position: absolute; 
+    width: 200px; 
+    right: clamp(40px, 5.56vw, 80px); 
+    bottom: clamp(30px, 4.16vw, 60px); 
+    filter: brightness(1.12); 
+    transform: scaleX(-1); 
+}
 
 /* ── BLOQUE TEXTO ────────────────────────────────────────── */
 
@@ -280,13 +299,22 @@ html, body {
     backdrop-filter: blur(2px);
 }
 
-.panelin { position: absolute; width: 270px; left: 80px; bottom: 60px; z-index: 11; filter: brightness(1.12); }
+.panelin { 
+    position: absolute; 
+    width: 270px; 
+    left: clamp(40px, 5.56vw, 80px); 
+    bottom: clamp(30px, 4.16vw, 60px); 
+    z-index: 11; 
+    filter: brightness(1.12); 
+}
 
 /* ── SLIDE FINAL ─────────────────────────────────────────── */
 
 .panelin-final {
     position: absolute;
-    left: 80px; bottom: 120px;
+    /* Posición dinámica para que no se corte en el slide final */
+    left: clamp(40px, 5.56vw, 80px); 
+    bottom: clamp(65px, 8.33vw, 120px);
     display: flex;
     flex-direction: row;
     align-items: flex-end;
@@ -295,7 +323,6 @@ html, body {
 }
 
 .panelin-final-img { width: 300px; filter: brightness(1.12); }
-
 /* ══════════════════════════════════════════════════════════
    MAPA INTEGRADO — SLIDE 5
 ══════════════════════════════════════════════════════════ */
@@ -674,3 +701,12 @@ html, body {
 }
 
 .region-btn:hover::after { opacity: 1; }
+
+/* ── SLIDE 6: FUTURO ── */
+
+.slide6-imagen {
+    width: 30%; /* ¡Cambia este porcentaje a tu gusto! Mientras más pequeño, más chica la imagen */
+    height: auto; /* Mantiene la proporción de la imagen para que no se deforme */
+    display: block; /* Necesario para centrar con margin auto */
+    margin: 20px auto; /* Centra horizontalmente y da un poco de espacio arriba y abajo */
+}

@@ -265,105 +265,22 @@ html, body {
     padding: 0 80px;
 }
 
-/* ── SLIDE 4: TIPOS DE CORRIENTE ─────────────── */
 
 
-
-.corrientes-row {
-
+/* -- SLIDE 4: SIMULADOR INTERACTIVO ----------- */
+.simulador-wrap {
+    position: relative;
     display: flex;
-
-    gap: clamp(16px, 2.08vw, 30px);
-
-    margin: clamp(18px, 2.5vw, 36px) auto 0 auto;
-
-    justify-content: center;
-
-    align-items: center;
-
-}
-
-
-
-.corriente-card {
-
-    border: 3px solid #0288D1;
-
-    border-radius: 24px;
-
-    padding: clamp(16px, 2.22vw, 32px) clamp(18px, 2.5vw, 36px);
-
-    width: clamp(200px, 31.25vw, 450px);
-
-    background: rgba(2, 136, 209, 0.05);
-
-    display: flex;
-
     flex-direction: column;
-
-    gap: clamp(10px, 1.25vw, 18px);
-
-}
-
-
-
-.corriente-card:nth-child(3) {
-
-    border-color: #43A047;
-
-    background: rgba(67, 160, 71, 0.05);
-
-}
-
-
-
-.corriente-card h3 {
-
-    font-family: 'Bebas Neue', sans-serif;
-
-    font-size: clamp(18px, 2.22vw, 32px);
-
-    font-weight: normal;
-
-    color: #0288D1;
-
-    letter-spacing: 1.5px;
-
-}
-
-
-
-.corriente-card:nth-child(3) h3 {
-
-    color: #43A047;
-
-}
-
-
-
-.corriente-frase {
-
-    font-size: clamp(12px, 1.39vw, 20px);
-
-    font-weight: 800;
-
-    color: #333;
-
-    line-height: 1.4;
-
-}
-
-
-
-.corriente-onda {
-
+    align-items: center;
+    gap: clamp(14px, 1.94vw, 28px);
+    margin: clamp(14px, 1.94vw, 28px) auto 0;
     width: 100%;
-
-    height: 60px;
-
+    padding: 0 clamp(24px, 3.33vw, 48px);
+    z-index: 2;
+    /* Nueva línea añadida para bajar la visualización */
+    margin-top: 120px;
 }
-
-
 
 /* ── ANIMACIONES SLIDE 4: CORRIENTES ─────────── */
 
@@ -635,18 +552,18 @@ html, body {
     display: none;
     position: relative;
     height: calc(100vh - 180px);
-    margin-top: 30px;
+    margin-top: 20px;
     cursor: pointer;
 }
 
 .detalle-artefacto::before {
     content: "";
     position: absolute;
-    width: clamp(290px, 43.75vw, 630px);
-    height: clamp(190px, 27.08vw, 390px);
+    width: 840px;
+    height: 520px;
     background: radial-gradient(ellipse, rgba(255, 213, 79, 0.22) 0%, rgba(2, 136, 209, 0.10) 55%, transparent 78%);
     left: 50%;
-    top: 40%;
+    top: 36%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
     pointer-events: none;
@@ -654,9 +571,9 @@ html, body {
 
 .imagen-cargando {
     position: absolute;
-    width: clamp(210px, 31.25vw, 450px);
+    width: 600px;
     left: 50%;
-    top: 40%;
+    top: 36%;
     mix-blend-mode: multiply;
     animation: aparecerImg 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
@@ -1090,145 +1007,6 @@ html, body {
     letter-spacing: 1px;
 }
 
-/* ══════════════════════════════════════════════
-   MODAL IA — PANELÍN RESPONDE PREGUNTAS
-══════════════════════════════════════════════ */
-
-.modal-ia {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 500;
-    background: rgba(1, 50, 100, 0.50);
-    backdrop-filter: blur(5px);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-ia.abierto {
-    display: flex;
-}
-
-.modal-ia-contenido {
-    background: #fff;
-    border-radius: clamp(20px, 2.78vw, 40px);
-    padding: clamp(24px, 2.78vw, 40px) clamp(28px, 3.06vw, 44px);
-    width: clamp(320px, 50vw, 620px);
-    box-shadow: 0 24px 70px rgba(1, 87, 155, 0.30);
-    position: relative;
-    border-top: 6px solid #FFD54F;
-}
-
-.modal-ia-cerrar {
-    position: absolute;
-    top: 14px;
-    right: 18px;
-    background: none;
-    border: none;
-    font-size: clamp(16px, 1.67vw, 24px);
-    font-weight: 900;
-    color: #aaa;
-    cursor: pointer;
-    line-height: 1;
-    transition: color 0.15s;
-}
-.modal-ia-cerrar:hover { color: #FF5722; }
-
-.modal-ia-cabecera {
-    display: flex;
-    align-items: center;
-    gap: clamp(10px, 1.25vw, 18px);
-    margin-bottom: clamp(14px, 1.67vw, 24px);
-}
-
-.modal-ia-img {
-    width: clamp(56px, 6.25vw, 90px);
-    filter: brightness(1.08);
-    flex-shrink: 0;
-}
-
-.modal-ia-titulo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(20px, 2.22vw, 32px);
-    color: #01579B;
-    letter-spacing: 1px;
-    line-height: 1.1;
-}
-
-.modal-ia-subtitulo {
-    font-size: clamp(11px, 1.11vw, 16px);
-    font-weight: 700;
-    color: #FF8F00;
-    margin-top: 2px;
-}
-
-.modal-ia-globo {
-    background: linear-gradient(135deg, #FFF8DC, #FFE082);
-    border: 2.5px solid #FF8F00;
-    border-radius: 20px;
-    padding: clamp(14px, 1.67vw, 24px) clamp(16px, 1.94vw, 28px);
-    font-size: clamp(13px, 1.32vw, 19px);
-    font-weight: 700;
-    color: #333;
-    line-height: 1.6;
-    min-height: clamp(70px, 8.33vw, 120px);
-    margin-bottom: clamp(16px, 1.94vw, 28px);
-}
-
-.modal-ia-cargando {
-    display: inline-block;
-    animation: parpadearCursor 0.6s step-end infinite;
-    color: #FF8F00;
-    font-weight: 900;
-}
-
-.modal-ia-input-row {
-    display: flex;
-    gap: clamp(8px, 0.83vw, 12px);
-}
-
-.modal-ia-input {
-    flex: 1;
-    border: 2.5px solid #0288D1;
-    border-radius: 50px;
-    padding: clamp(10px, 1.11vw, 16px) clamp(16px, 1.67vw, 24px);
-    font-family: 'Nunito', sans-serif;
-    font-size: clamp(13px, 1.25vw, 18px);
-    font-weight: 700;
-    color: #333;
-    outline: none;
-    transition: border-color 0.2s;
-}
-
-.modal-ia-input:focus {
-    border-color: #FF8F00;
-}
-
-.modal-ia-btn {
-    background: linear-gradient(135deg, #FFD54F, #FF8F00);
-    border: none;
-    border-radius: 50px;
-    padding: clamp(10px, 1.11vw, 16px) clamp(18px, 1.94vw, 28px);
-    font-family: 'Nunito', sans-serif;
-    font-size: clamp(13px, 1.25vw, 18px);
-    font-weight: 900;
-    color: #01579B;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 4px 14px rgba(255, 143, 0, 0.4);
-}
-
-.modal-ia-btn:hover:not(:disabled) {
-    transform: scale(1.05);
-    box-shadow: 0 8px 22px rgba(255, 143, 0, 0.55);
-}
-
-.modal-ia-btn:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-}
-
 
 .scrolling-container {
   width: 100%;
@@ -1246,4 +1024,35 @@ html, body {
 @keyframes scroll-left {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-100%); } /* Moves text all the way to the left */
+}
+
+.flujo-icono {
+    font-size: clamp(36px, 4.17vw, 60px);
+    line-height: 1;
+    transition: filter 0.4s, transform 0.3s;
+    /* Nuevos estilos añadidos para centrar la imagen */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Nueva regla CSS para dimensionar la imagen de paneles */
+.flujo-icono img {
+    max-width: 100px; /* Ajusta este tamaño según necesites */
+    height: auto;
+}
+
+.grid-resumen {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: clamp(40px, 8.33vw, 150px); 
+    row-gap: 30px;
+    max-width: 1200px;
+    margin: 60px auto 0 auto; /* ← aumenta el margen superior */
+}
+
+.contenedor-final {
+    display: flex;
+    justify-content: center;
+    margin-top: 150px; /* ← de 60px a 80px */
 }

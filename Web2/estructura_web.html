@@ -27,13 +27,6 @@
         <div class="globo-fijo" id="globoSlide1"></div>
     </div>
 
-    <div class="deco-portada" aria-hidden="true">
-        <svg class="rayo-portada" viewBox="0 0 100 185">
-            <polygon points="60,0 10,90 48,90 20,185 95,80 54,80"
-                     fill="#FFD54F" stroke="#FF8F00" stroke-width="3"/>
-        </svg>
-    </div>
-
 </section>
 
 <!-- ══════════════════════════════════════════════
@@ -107,6 +100,35 @@
     <div class="panelin-fijo" id="panelinSlide3">
         <img src="panelin_feliz.png" class="panelin-decorativo">
         <div class="globo-fijo" id="textoSlide3"></div>
+    </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 4.0 — es una intro a la slide de CORRIENTE ALTERNA Y CONTINUA
+════════════════════════════════════════════════ -->
+<section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 1</h2>
+        <h1>CORRIENTE ALTERNA Y CONTINUA</h1>
+    </div>
+
+    <div class="corrientes-row difuminado">
+        <div class="corriente-card">
+            <h3>Corriente Alterna (CA)</h3>
+            <p>¿Va y viene como las olas?</p>
+        </div>
+        <div class="corrientes-vs">VS</div>
+        <div class="corriente-card">
+            <h3>Corriente Continua (CC)</h3>
+            <p>¿Siempre va hacia adelante?</p>
+        </div>
+    </div>
+
+    <div class="panelin-fijo">
+        <img src="panelin_feliz.png" class="panelin-decorativo">
+        <div class="globo-fijo" id="globoIntroCorrientes"></div>
     </div>
 
 </section>
@@ -287,7 +309,7 @@
 
 <!-- ── Iconos superiores (ampolleta + casa) ─── -->
 <div class="nav-top">
-    <button class="btn-nav" onclick="reproducirClikFlecha(1)" title="Ayuda">💡</button>
+    <button class="btn-nav" onclick="abrirModalIA()" title="Pregúntale a Panelín">💡</button>
     <button class="btn-nav" onclick="reproducirClikFlecha(-1); setTimeout(()=>window.location.href='modulos.html', 110)" title="Inicio">🏠</button>
 </div>
 
@@ -295,6 +317,31 @@
 <div class="flechas" id="flechas">
     <button onclick="cambiarSlide(-1)" id="flechaIzquierda">←</button>
     <button onclick="cambiarSlide(1)" id="flechaDerecha">→</button>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     MODAL IA — PANELÍN RESPONDE PREGUNTAS
+════════════════════════════════════════════════ -->
+<div class="modal-ia" id="modalIA">
+    <div class="modal-ia-contenido">
+        <button class="modal-ia-cerrar" onclick="cerrarModalIA()">✕</button>
+        <div class="modal-ia-cabecera">
+            <img src="panelin_feliz.png" class="modal-ia-img">
+            <div>
+                <p class="modal-ia-titulo">¡Pregúntale a Panelín!</p>
+                <p class="modal-ia-subtitulo">Tu asistente de energía 🌟</p>
+            </div>
+        </div>
+        <div class="modal-ia-globo" id="modalIAGlobo">
+            ¡Hola! Soy Panelín 🌞 ¿Tienes alguna duda sobre la energía eléctrica o solar? ¡Escribe tu pregunta!
+        </div>
+        <div class="modal-ia-input-row">
+            <input type="text" class="modal-ia-input" id="modalIAInput"
+                   placeholder="Escribe tu pregunta aquí..."
+                   onkeydown="if(event.key==='Enter') enviarPreguntaIA()">
+            <button class="modal-ia-btn" id="modalIABtn" onclick="enviarPreguntaIA()">Preguntar ➜</button>
+        </div>
+    </div>
 </div>
 
 <script src="interaccion_web.js"></script>

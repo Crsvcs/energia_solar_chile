@@ -1,159 +1,174 @@
-/* ── RESET ──────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;700;800;900&display=swap');
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
   height: 100%;
   overflow: hidden;
   font-family: 'Nunito', sans-serif;
-  background: #ffffff;
+  background: linear-gradient(160deg, #F5FAFF 0%, #FFFEF8 100%);
 }
 
-/* ── ENCABEZADO ─────────────────────────────── */
+/* ── FRANJA LATERAL IZQUIERDA (igual que módulos) ── */
+body::before {
+  content: "";
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  width: clamp(8px, 0.97vw, 14px);
+  background: linear-gradient(180deg, #FFD54F 0%, #FF8F00 100%);
+  z-index: 200;
+}
+
+/* ── BLOB DECORATIVO SUPERIOR DERECHA ── */
+body::after {
+  content: "";
+  position: fixed;
+  top: -90px; right: -90px;
+  width: clamp(150px, 20.83vw, 300px);
+  height: clamp(150px, 20.83vw, 300px);
+  background: radial-gradient(circle, rgba(255,213,79,0.18) 35%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── ENCABEZADO ── */
 .encabezado {
-  padding: 32px 0 12px 80px;
+  margin-left: clamp(36px, 5vw, 72px);
+  margin-top: clamp(18px, 2.5vw, 36px);
+  padding-left: clamp(10px, 1.25vw, 18px);
+  border-left: 5px solid #FF8F00;
+  position: relative;
+  z-index: 15;
 }
 
 .encabezado h1 {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 58px;
-  color: #0f2d3c;
+  font-size: clamp(36px, 5.5vw, 80px);
+  font-weight: normal;
+  color: #01579B;
   letter-spacing: 2px;
+  line-height: 0.93;
 }
 
 .subtitulo {
-  font-size: 16px;
-  color: #555;
+  font-size: clamp(13px, 1.2vw, 17px);
+  font-weight: 700;
+  color: #FF8F00;
   margin-top: 4px;
+  letter-spacing: 0.5px;
 }
 
-/* ── LAYOUT PRINCIPAL ────────────────────────── */
+/* ── NAV TOP (igual que módulos) ── */
+.nav-top {
+  position: fixed;
+  top: 36px; right: 72px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 300;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(6px);
+  border-radius: 24px;
+  padding: 8px 14px;
+  box-shadow: 0 4px 18px rgba(1,87,155,0.14);
+}
+
+.btn-nav {
+  background: none;
+  border: none;
+  font-size: 34px;
+  cursor: pointer;
+  padding: 4px;
+  transition: transform 0.15s;
+  line-height: 1;
+}
+.btn-nav:hover { transform: scale(1.2); }
+
+/* ── LAYOUT PRINCIPAL ── */
 .mapa-wrap {
   display: flex;
-  align-items: center;      /* Centra todo verticalmente */
-  justify-content: center;  /* Centra todo horizontalmente */
-  gap: 50px;                /* Espacio limpio entre el panel, el mapa y las etiquetas */
-  padding: 0 60px;
-  height: calc(100vh - 130px);
-}
-
-/* ── PANEL INFO (A LA IZQUIERDA) ─────────────── */
-.panel-info {
-  order: -1;                /* Lo fuerza a ser el elemento #1 (Izquierda) */
-  flex: 1;
-  max-width: 340px;
-  margin: 0;                /* Sin márgenes forzados */
-  background: #f7f9fc;
-  border: 2px solid #dde4ee;
-  border-radius: 18px;
-  padding: 28px 24px;
-  min-height: 320px;
-  display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  gap: clamp(20px, 4vw, 60px);
+  padding: 0 clamp(30px, 5vw, 80px) 0 clamp(40px, 6vw, 90px);
+  height: calc(100vh - 130px);
+  position: relative;
+  z-index: 5;
 }
 
-/* ── MAPA DE CHILE (AL CENTRO) ───────────────── */
-/* ── MAPA DE CHILE ───────────────────────────── */
+/* ── MAPA DE CHILE ── */
 .mapa-chile {
-  order: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0px;
-  margin: 0;
-  padding: 0;
+  gap: 0;
 }
 
 .region-img {
   display: block;
-  width: 5vh; /* <--- ESTA ES LA CLAVE */
+  width: 5vh;
   height: auto;
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
   cursor: pointer;
   transition: filter 0.15s, transform 0.15s;
-} /* <--- ¡ESTA LLAVE ES IMPORTANTE! Cierra la regla principal */
-
-/* ── AJUSTE DE ROMPECABEZAS (Márgenes y tamaños individuales) ── */
-
-/* 1. Zona Norte: Le damos margen negativo para subirla mucho en la pantalla */
-.region-img:nth-child(1) {
-  margin-top: -12vh; /* Aumenta este número (ej: -12vh) si necesitas subirla más */
 }
 
-/* 2. Zona Centro: La acercamos hacia la Zona Norte */
-.region-img:nth-child(2) {
-  margin-top: -0.1vh;
-  margin-left: -5vh; /* Juega con este número para que encaje perfecto con el norte */
-}
-
-/* 3. Zona Sur: La hacemos más grande y la acercamos a la Zona Centro */
-.region-img:nth-child(3) {
-  width: 9vh; /* Hacemos solo esta pieza más grande (la original es 5vh) */
-  margin-top: -1vh;
-  margin-left: -4.5vh; /* Ajustamos para que se pegue al centro */
-  
-  /* NOTA: A veces al agrandar una pieza, se desalinea hacia un lado. 
-     Si el sur te queda muy a la derecha, descomenta la línea de abajo y ajusta el número: */
-  /* margin-left: -1vh; */ 
-}
+.region-img:nth-child(1) { margin-top: -12vh; }
+.region-img:nth-child(2) { margin-top: -0.1vh; margin-left: -5vh; }
+.region-img:nth-child(3) { width: 9vh; margin-top: -1vh; margin-left: -4.5vh; }
 
 .region-img:hover {
-  filter: brightness(1.15);
+  filter: brightness(1.15) drop-shadow(0 0 8px rgba(255,143,0,0.5));
   transform: scaleX(1.04);
 }
 
 .region-img.seleccionada {
-  filter: brightness(1.3) drop-shadow(0 0 8px rgba(239,159,39,0.8));
+  filter: brightness(1.3) drop-shadow(0 0 10px rgba(255,143,0,0.8));
 }
 
-/* ── LABELS DE ZONA (A LA DERECHA) ───────────── */
+/* ── LABELS ZONA ── */
 .labels-col {
-  order: 2;                 /* Lo fuerza a ser el elemento #3 (Derecha) */
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly; /* Separa las etiquetas equitativamente */
+  justify-content: space-evenly;
   align-items: flex-start;
-  margin: 10;                /* Quitamos el margen negativo que rompía todo */
-  padding: 0;          
-  height: 90vh; 
-  margin-top: -30vh           /* Altura fija para que coincidan con lo largo del mapa */
+  height: 90vh;
+  margin-top: -30vh;
 }
 
 .label-zona {
   height: 44px;
   cursor: pointer;
-  transition: transform 0.15s;
+  transition: transform 0.15s, filter 0.15s;
   object-fit: contain;
 }
-
 .label-zona:hover {
   transform: scale(1.06);
+  filter: drop-shadow(0 2px 8px rgba(255,143,0,0.4));
 }
 
-/* ── PANEL INFO ──────────────────────────────── */
-
+/* ── PANEL INFO ── */
 .panel-info {
   flex: 1;
-  max-width: 340px;
-  order: -2; /* ¡ESTO LO MUEVE A LA IZQUIERDA! */
-  background: #f7f9fc;
-  border: 2px solid #dde4ee;
-  border-radius: 18px;
-  padding: 28px 24px;
-  min-height: 320px;
+  max-width: 320px;
+  background: rgba(255,255,255,0.85);
+  border: 3px solid rgba(255,213,79,0.4);
+  border-radius: 28px;
+  padding: clamp(20px, 2.5vw, 32px) clamp(18px, 2vw, 28px);
+  min-height: 280px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* Eliminamos los márgenes forzados */
-  position: relative; /* Nos deja mover la caja sin empujar al mapa */
-  top: -10vh;          /* Número negativo = lo mueve hacia ARRIBA */
-  left: -6vw;         /* Número negativo = lo mueve hacia la IZQUIERDA */
+  box-shadow: 0 8px 32px rgba(1,87,155,0.10);
+  position: relative;
+  top: -12vh;
+  backdrop-filter: blur(4px);
 }
 
 .info-hint {
   font-size: 16px;
+  font-weight: 700;
   color: #aaa;
   text-align: center;
   line-height: 1.6;
@@ -161,97 +176,119 @@ html, body {
 
 #info-region h2 {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px;
-  color: #0f2d3c;
-  margin-bottom: 12px;
+  font-size: 30px;
+  color: #01579B;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
 }
 
 .info-rad {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 48px;
-  color: #EF9F27;
+  color: #FF8F00;
   line-height: 1;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .info-rad-label {
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 700;
   color: #888;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .info-desc {
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 700;
   color: #444;
   line-height: 1.6;
   margin-bottom: 20px;
 }
 
+/* Botón COMENZAR */
 .btn-comenzar {
-  height: 52px;
+  background: linear-gradient(135deg, #FF9800, #F57C00);
+  color: white;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(18px, 2vw, 24px);
+  padding: 12px 32px;
+  border: none;
+  border-radius: 50px;
   cursor: pointer;
-  transition: transform 0.15s, filter 0.15s;
+  box-shadow: 0 6px 18px rgba(245,124,0,0.35);
+  letter-spacing: 2px;
+  transition: transform 0.15s, box-shadow 0.15s;
   display: block;
-  object-fit: contain;
+  width: 100%;
+  text-align: center;
+  animation: latido 2s infinite;
 }
 
 .btn-comenzar:hover {
   transform: scale(1.04);
-  filter: brightness(1.08);
+  box-shadow: 0 10px 28px rgba(245,124,0,0.5);
 }
 
-/* ── PANELÍN FIJO ────────────────────────────── */
+@keyframes latido {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+/* ── PANELÍN FIJO ABAJO ── */
 .panelin-fijo {
   position: fixed;
-  left: 80px;
-  bottom: 40px;
+  left: clamp(40px, 5.56vw, 80px);
+  bottom: clamp(20px, 3vw, 50px);
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   gap: 20px;
-  z-index: 5;
+  z-index: 50;
 }
 
 .panelin-decorativo {
-  width: 150px;
-  filter: brightness(1.1);
+  width: clamp(90px, 12vw, 160px);
+  filter: brightness(1.12);
 }
 
 .globo-fijo {
-  background: white;
-  border: 3px solid black;
-  border-radius: 20px;
-  padding: 16px 20px;
-  font-size: 15px;
+  background-color: #FFD54F;
+  border: 3px solid #FF8F00;
+  border-radius: 30px;
+  padding: 18px 24px;
+  font-size: clamp(13px, 1.2vw, 17px);
+  font-weight: 700;
   line-height: 1.5;
-  max-width: 320px;
+  max-width: 380px;
+  color: #424242;
   position: relative;
   margin-bottom: 30px;
+  box-shadow: 0 6px 20px rgba(255,143,0,0.2);
 }
 
 .globo-fijo::before {
   content: "";
   position: absolute;
-  left: -22px;
-  bottom: 18px;
+  left: -24px; bottom: 20px;
   width: 0; height: 0;
-  border-top: 12px solid transparent;
-  border-bottom: 12px solid transparent;
-  border-right: 22px solid black;
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  border-right: 24px solid #FF8F00;
 }
 
 .globo-fijo::after {
   content: "";
   position: absolute;
-  left: -16px;
-  bottom: 19px;
+  left: -18px; bottom: 21px;
   width: 0; height: 0;
-  border-top: 9px solid transparent;
-  border-bottom: 9px solid transparent;
-  border-right: 17px solid white;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  border-right: 19px solid #FFD54F;
 }
 
-/* ── OVERLAY PANELÍN INTRO (igual al CSS compañeras) ── */
+/* ── OVERLAY INTRO (Panelín explicando) ── */
 .panelin-explica {
   position: fixed;
   inset: 0;
@@ -263,80 +300,86 @@ html, body {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(255,255,255,0.72);
-  backdrop-filter: blur(3px);
+  background: rgba(245,250,255,0.85);
+  backdrop-filter: blur(4px);
 }
 
 .panelin-explica .panelin {
   position: absolute;
-  width: 240px;
-  left: 80px;
-  bottom: 50px;
+  width: clamp(100px, 14vw, 200px);
+  left: clamp(40px, 5.56vw, 80px);
+  bottom: clamp(30px, 5vw, 70px);
   z-index: 101;
   filter: brightness(1.1);
 }
 
 .panelin-explica .globo {
   position: absolute;
-  left: 340px;
-  bottom: 160px;
-  width: 460px;
-  background: white;
-  border: 3px solid black;
+  left: clamp(160px, 18vw, 300px);
+  bottom: clamp(120px, 14vw, 200px);
+  width: clamp(280px, 35vw, 500px);
+  background-color: #FFD54F;
+  border: 3px solid #FF8F00;
   border-radius: 30px;
   padding: 28px 32px;
-  font-size: 18px;
+  font-size: clamp(14px, 1.3vw, 18px);
+  font-weight: 700;
   line-height: 1.6;
+  color: #424242;
   z-index: 102;
-  color: #111;
+  box-shadow: 0 8px 24px rgba(255,143,0,0.25);
 }
 
 .panelin-explica .globo::before {
   content: "";
   position: absolute;
-  left: -24px;
-  bottom: 24px;
+  left: -24px; bottom: 24px;
   width: 0; height: 0;
   border-top: 14px solid transparent;
   border-bottom: 14px solid transparent;
-  border-right: 24px solid black;
+  border-right: 24px solid #FF8F00;
 }
 
 .panelin-explica .globo::after {
   content: "";
   position: absolute;
-  left: -18px;
-  bottom: 25px;
+  left: -18px; bottom: 25px;
   width: 0; height: 0;
   border-top: 11px solid transparent;
   border-bottom: 11px solid transparent;
-  border-right: 19px solid white;
+  border-right: 19px solid #FFD54F;
 }
 
-/* ── FLECHAS (igual compañeras) ─────────────── */
+/* ── FLECHAS NAVEGACIÓN (igual que módulos) ── */
 .flechas {
   position: fixed;
-  bottom: 30px;
+  bottom: clamp(16px, 2.5vw, 36px);
   left: 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0 60px;
+  padding: 0 clamp(36px, 5vw, 72px);
   z-index: 103;
 }
 
 .flechas button {
-  background: #0f2d3c;
-  color: white;
+  background: linear-gradient(135deg, #FFD54F, #FF8F00);
+  color: #01579B;
   border: none;
-  font-size: 28px;
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
+  font-size: clamp(16px, 1.94vw, 28px);
+  font-weight: 900;
+  width: clamp(40px, 4.44vw, 64px);
+  height: clamp(40px, 4.44vw, 64px);
+  border-radius: 20px;
   cursor: pointer;
-  transition: background 0.15s;
+  font-family: 'Nunito', sans-serif;
+  box-shadow: 0 6px 20px rgba(255,143,0,0.38);
+  transition: transform 0.15s, box-shadow 0.15s;
 }
 
 .flechas button:hover {
-  background: #1a4a63;
+  transform: scale(1.1);
+  box-shadow: 0 10px 28px rgba(255,143,0,0.5);
 }
+
+.flechas span { display: block; width: clamp(40px, 4.44vw, 64px); }

@@ -1,0 +1,109 @@
+/* ══════════════════════════════════════════════
+   personaje.css — personajes flotantes con globo
+   Usar junto a estilo_web.css, cargarlo después:
+       <link rel="stylesheet" href="estilo_web.css">
+       <link rel="stylesheet" href="personaje.css">
+
+   USO EN HTML:
+       <div class="personaje" style="right: 80px; bottom: 100px;">
+           <div class="personaje-globo globo-arriba azul">¡Hola!</div>
+           <img src="stupid photon.png" class="personaje-img">
+       </div>
+
+   POSICIÓN: controla right/left/bottom/top con style="" en el div.personaje
+   GLOBO:    .globo-arriba  → burbuja aparece encima de la imagen
+             .globo-abajo   → burbuja aparece debajo de la imagen
+   COLOR:    .azul   .verde   .rojo   .amarillo   (o sin clase = azul por defecto)
+   TAMAÑO:   .pequeno  .grande  (o sin clase = tamaño medio)
+══════════════════════════════════════════════ */
+
+/* ── Contenedor del personaje ─────────────── */
+
+.personaje {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+}
+
+.personaje-img {
+    width: clamp(80px, 10.42vw, 150px);
+    height: auto;
+    display: block;
+}
+
+.personaje-img.pequeno { width: clamp(50px, 6.25vw, 90px);  }
+.personaje-img.grande  { width: clamp(120px, 15.28vw, 220px); }
+
+/* ── Globo de texto ───────────────────────── */
+
+.personaje-globo {
+    position: absolute;
+    background: #2196F3;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: clamp(12px, 1.25vw, 18px);
+    padding: 8px 16px;
+    border-radius: 14px;
+    white-space: nowrap;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    z-index: 11;
+}
+
+/* Cola del globo — triángulo compartido */
+.personaje-globo::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+}
+
+/* ── Globo arriba de la imagen ────────────── */
+
+.personaje-globo.globo-arriba {
+    bottom: calc(100% + 10px);  /* flota encima de la imagen */
+}
+
+.personaje-globo.globo-arriba::after {
+    top: 100%;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 9px solid #2196F3;
+}
+
+/* ── Globo abajo de la imagen ─────────────── */
+
+.personaje-globo.globo-abajo {
+    top: calc(100% + 10px);  /* flota debajo de la imagen */
+}
+
+.personaje-globo.globo-abajo::after {
+    bottom: 100%;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-bottom: 9px solid #2196F3;
+}
+
+/* ── Variantes de color ───────────────────── */
+
+.personaje-globo.azul,
+.personaje-globo.azul.globo-arriba::after { background: #2196F3; }
+.personaje-globo.azul.globo-arriba::after  { border-top-color:    #2196F3; }
+.personaje-globo.azul.globo-abajo::after   { border-bottom-color: #2196F3; }
+
+.personaje-globo.verde { background: #43A047; }
+.personaje-globo.verde.globo-arriba::after  { border-top-color:    #43A047; }
+.personaje-globo.verde.globo-abajo::after   { border-bottom-color: #43A047; }
+
+.personaje-globo.rojo { background: #E53935; }
+.personaje-globo.rojo.globo-arriba::after   { border-top-color:    #E53935; }
+.personaje-globo.rojo.globo-abajo::after    { border-bottom-color: #E53935; }
+
+.personaje-globo.amarillo { background: #FF8F00; color: #01579B; }
+.personaje-globo.amarillo.globo-arriba::after  { border-top-color:    #FF8F00; }
+.personaje-globo.amarillo.globo-abajo::after   { border-bottom-color: #FF8F00; }
