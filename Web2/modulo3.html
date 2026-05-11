@@ -3,131 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electricidad</title>
+    <title>Módulo 3 - Paneles Solares</title>
     <link rel="stylesheet" href="estilo_web.css">
     <link rel="stylesheet" href="personaje.css">
 </head>
 
 <body>
 
-<!-- ══════════════════════════════════════════════
-     SLIDE 1 — PORTADA
-════════════════════════════════════════════════ -->
 <section class="slide activo">
-
     <div class="encabezado">
         <h2>Módulo 3</h2>
     </div>
-
     <div class="subtitulo-portada">
-        ¿COMO FUNCIONA UN PANEL SOLAR?
+        ¿CÓMO FUNCIONA UN PANEL SOLAR?
     </div>
-
     <div class="panelin-fijo">
-        <img src="panelin_feliz.png" class="panelin-decorativo">
+        <img src="panelin_feliz.png" class="panelin-decorativo" alt="Panelín">
         <div class="globo-fijo" id="globoSlide1"></div>
     </div>
-
 </section>
 
-<!-- ══════════════════════════════════════════════
-     SLIDE 2 — LOS PANELES Y LOS FOTONES
-════════════════════════════════════════════════ -->
 <section class="slide">
-
     <div class="encabezado">
         <h2>Módulo 3</h2>
-        <h1>¿COMO FUNCIONA UN PANEL SOLAR?</h1>
+        <h1>¿CÓMO FUNCIONA UN PANEL SOLAR?</h1>
     </div>
-
     <div class="panelin-fijo">
-        <img src="panelin_feliz.png" class="panelin-decorativo">
+        <img src="panelin_feliz.png" class="panelin-decorativo" alt="Panelín">
         <div class="globo-fijo" id="globoSlide2"></div>
-
     </div>
-
     <div class="personaje" style="right: 80px; bottom: 100px;">
-    <div class="personaje-globo globo-arriba azul">¡Hola, Soy un fotón!</div>
-    <img src="stupid photon.png" class="personaje-img">
-</div>
-
-
+        <div class="personaje-globo globo-arriba azul">¡Hola, Soy un fotón!</div>
+        <img src="stupid photon.png" class="personaje-img" alt="Fotón">
+    </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     SLIDE 3 — VISUALIZACIÓN SILICIO + FOTÓN
-════════════════════════════════════════════════ -->
 <section class="slide">
-
     <div class="encabezado">
         <h2>Módulo 3</h2>
-        <h1>¿COMO FUNCIONA UN PANEL SOLAR?</h1>
+        <h1>¿CÓMO FUNCIONA UN PANEL SOLAR?</h1>
     </div>
-
     <div class="panelin-fijo">
-        <img src="panelin_feliz.png" class="panelin-decorativo">
+        <img src="panelin_feliz.png" class="panelin-decorativo" alt="Panelín">
         <div class="globo-fijo" id="globoSlide3"></div>
-
     </div>
-        <div class="personaje" style="right: 80px; bottom: 100px;">
-    <div class="personaje-globo globo-arriba azul">¡Buena suerte!</div>
-    <img src="stupid photon.png" class="personaje-img">
-</div>
-
+    <div class="personaje" style="right: 80px; bottom: 100px;">
+        <div class="personaje-globo globo-arriba azul">¡Buena suerte!</div>
+        <img src="stupid photon.png" class="personaje-img" alt="Fotón">
+    </div>
 </section>
 
-
-
-
-<!-- ══════════════════════════════════════════════
-     SLIDE 4 — LOS CABLES Y EL USO DE LA ENERGÍA
-════════════════════════════════════════════════ -->
-
 <section class="slide">
-
     <div class="encabezado">
         <h2>Módulo 3</h2>
-        <h1>¿COMO FUNCIONA UN PANEL SOLAR?</h1>
+        <h1>¡ATRAPA LOS FOTONES!</h1>
     </div>
-
-
     
-    <div class="panelin-fijo">
-        <img src="panelin_feliz.png" class="panelin-decorativo">
-        <div class="globo-fijo" id="globoSlide4"></div>
+    <div style="display: flex; justify-content: center; margin-top: 40px; position: relative; z-index: 10;">
+        <canvas id="simulador-fotones" style="width: 100%; max-width: 900px; border-radius: 20px; border: 4px solid #FFD54F; box-shadow: 0 10px 30px rgba(0,0,0,0.2);"></canvas>
     </div>
 
 </section>
 
-<!-- ══════════════════════════════════════════════
-     SLIDE 5 — LAS BATERÍAS
-════════════════════════════════════════════════ -->
 <section class="slide">
-
     <div class="encabezado">
         <h2>Módulo 3</h2>
-        <h1>¿COMO FUNCIONA UN PANEL SOLAR?</h1>
+        <h1>¡MAGIA ELÉCTRICA!</h1>
     </div>
-
     <div class="panelin-fijo">
-        <img src="panelin_feliz.png" class="panelin-decorativo">
+        <img src="panelin_feliz.png" class="panelin-decorativo" alt="Panelín">
         <div class="globo-fijo" id="globoSlide5"></div>
     </div>
-
-
 </section>
 
-<!-- ══════════════════════════════════════════════
-     SLIDE 6 — FIN DEL MÓDULO
-════════════════════════════════════════════════ -->
 <section class="slide">
+    <div class="encabezado">
+        <h2>Módulo 3</h2>
+        <h1>¿CÓMO FUNCIONA UN PANEL SOLAR?</h1>
+    </div>
+    <div class="panelin-fijo">
+        <img src="panelin_feliz.png" class="panelin-decorativo" alt="Panelín">
+        <div class="globo-fijo" id="globoSlide6"></div>
+    </div>
+</section>
 
+<section class="slide">
     <div class="encabezado">
         <h2>Módulo 3</h2>
     </div>
-
     <div class="panelin-final">
-        <img src="panelin_feliz.png" class="panelin-final-img">
+        <img src="panelin_feliz.png" class="panelin-final-img" alt="Panelín">
         <div class="globo-final" id="globoFinal"></div>
     </div>
 
@@ -137,23 +102,6 @@
         <div class="confeti-pieza" style="left:14%; background:#4CAF50; animation-duration:3.4s; animation-delay:0.1s;"></div>
         <div class="confeti-pieza" style="left:20%; background:#2196F3; animation-duration:2.6s; animation-delay:0.7s; border-radius:50%;"></div>
         <div class="confeti-pieza" style="left:27%; background:#FF8F00; animation-duration:3.0s; animation-delay:0.2s;"></div>
-        <div class="confeti-pieza" style="left:33%; background:#E91E63; animation-duration:2.9s; animation-delay:0.9s; border-radius:50%;"></div>
-        <div class="confeti-pieza" style="left:40%; background:#FFD54F; animation-duration:3.3s; animation-delay:0.5s;"></div>
-        <div class="confeti-pieza" style="left:47%; background:#4CAF50; animation-duration:2.8s; animation-delay:0.3s; border-radius:50%;"></div>
-        <div class="confeti-pieza" style="left:54%; background:#FF6B6B; animation-duration:3.1s; animation-delay:0.8s;"></div>
-        <div class="confeti-pieza" style="left:61%; background:#9C27B0; animation-duration:2.5s; animation-delay:0.1s; border-radius:50%;"></div>
-        <div class="confeti-pieza" style="left:67%; background:#FF8F00; animation-duration:3.4s; animation-delay:0.6s;"></div>
-        <div class="confeti-pieza" style="left:74%; background:#2196F3; animation-duration:2.8s; animation-delay:0.4s; border-radius:50%;"></div>
-        <div class="confeti-pieza" style="left:81%; background:#FFD54F; animation-duration:3.2s; animation-delay:0.2s;"></div>
-        <div class="confeti-pieza" style="left:88%; background:#4CAF50; animation-duration:2.6s; animation-delay:0.7s; border-radius:50%;"></div>
-        <div class="confeti-pieza" style="left:94%; background:#FF6B6B; animation-duration:3.0s; animation-delay:0.5s;"></div>
-        <div class="confeti-pieza" style="left:6%;  background:#9C27B0; animation-duration:3.5s; animation-delay:1.4s; border-radius:50%;"></div>
-        <div class="confeti-pieza" style="left:18%; background:#FF8F00; animation-duration:2.9s; animation-delay:1.1s;"></div>
-        <div class="confeti-pieza" style="left:32%; background:#2196F3; animation-duration:3.2s; animation-delay:1.7s; border-radius:50%;"></div>
-        <div class="confeti-pieza" style="left:50%; background:#E91E63; animation-duration:2.7s; animation-delay:1.3s;"></div>
-        <div class="confeti-pieza" style="left:65%; background:#FFD54F; animation-duration:3.1s; animation-delay:1.8s; border-radius:50%;"></div>
-        <div class="confeti-pieza" style="left:79%; background:#FF6B6B; animation-duration:3.5s; animation-delay:1.2s;"></div>
-        <div class="confeti-pieza" style="left:92%; background:#4CAF50; animation-duration:2.8s; animation-delay:1.6s; border-radius:50%;"></div>
     </div>
 
     <div class="placa-victoria" aria-hidden="false">
@@ -163,21 +111,19 @@
         <div class="placa-vic-slots" id="placaVicSlots"></div>
         <div class="placa-vic-total" id="placaVicTotal">0 / 6</div>
     </div>
-
 </section>
 
-<!-- ── Iconos superiores (ampolleta + casa) ─── -->
 <div class="nav-top">
     <button class="btn-nav" onclick="abrirModalIA()" title="Pregúntale a Panelín">💡</button>
     <button class="btn-nav" onclick="reproducirClikFlecha(-1); setTimeout(()=>window.location.href='modulos.html', 110)" title="Inicio">🏠</button>
 </div>
 
-<!-- ── Flechas de navegación ────────────────── -->
 <div class="flechas" id="flechas">
     <button onclick="cambiarSlide(-1)" id="flechaIzquierda">←</button>
     <button onclick="cambiarSlide(1)"  id="flechaDerecha">→</button>
 </div>
 
+<<<<<<< HEAD
 <!-- MODAL IA PANELÍN -->
 <div class="modal-ia" id="modalIA">
     <div class="modal-ia-contenido">
@@ -204,241 +150,10 @@
 <script src="interaccion_web.js"></script>
 <script src="interaccion_fix_mod3.js"></script>
 <script src="panelin_ia.js"></script>
-</body>
-</html>
-<!-- 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Módulo 3 - Paneles Solares</title>
-    <link rel="stylesheet" href="estilo_web.css">
-    <style>
-  #text-container {
-    font-family: monospace;
-    font-size: 24px;
-    min-height: 100px;
-    padding: 20px;
-  }
-  
-  .cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1.2em;
-    background-color: black;
-    margin-left: 2px;
-    animation: blink 1s step-end infinite;
-  }
-  
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-</style>
-</head>
-
-<body>
-
-<section class="slide activo">
-
-    <div class="encabezado">
-        <h2>Módulo 3</h2>
-    </div>
-
-    <div class="subtitulo-portada">
-        Como funciona un panel solar?
-    </div>
-
-    <div class="panelin-fijo">
-        <img src="../Proyecto-solar/desafio-final/assets/panelin_1.png" class="panelin-decorativo">
-        <div class="globo-fijo">
-            Usa las flechas para avanzar, la casa para volver a los módulos y la ampolleta por si tienes dudas.
-        </div>
-    </div>
-</section>
-
-
-
-<section class="slide">
-
-    <div class="encabezado">
-        <h2>Módulo 3</h2>
-        <h1>¿Como funcióna un panel solar?</h1>
-    </div>
-
-
-    <div class="panelin-fijo" id="panelinSlide3">
-        <img src="panelin_feliz.png" class="panelin-decorativo">
-        <div class="globo-fijo" id="textoSlide3">
-            Los paneles tienen celdas de silicio que atrapan la luz del sol (fotones). Eso hace que se muevan electrones y se genere electricidad.
-        </div>
-    </div>
-
-<img src="stupid photon.png" alt="Description" 
-     style="float: right; 
-            margin-left: 50px; 
-            margin-bottom: 150px;
-            max-width: 30%; 
-            height: auto;">
-            </div>
-        </div>
-</section>
-
-
-<section class="slide">
-
-    <div class="encabezado">
-        <h2>Módulo 3</h2>
-        <h1>¿Como funcióna un panel solar?</h1>
-    </div>
-
-
-    <div class="panelin-fijo" id="panelinSlide3">
-        <img src="panelin_feliz.png" class="panelin-decorativo">
-        <div class="globo-fijo" id="textoSlide3">
-            Cuando se genera la electricidad, los cables la llevan para que puedas usarla en luces, tele o poder cargar cosas.
-    </div>
-
-            </div>
-</section>
-
-<section class="slide">
-
-    <div class="encabezado">
-        <h2>Módulo 3</h2>
-        <h1>¿Como funcióna un panel solar?</h1>
-    </div>
-
-
-    <div class="panelin-fijo" id="panelinSlide3">
-        <img src="panelin_feliz.png" class="panelin-decorativo">
-        <div class="globo-fijo" id="textoSlide3">
-            Cuando se genera la electricidad, los cabes la llevan para que puedas usarla en luces, tele o cargar cosas.
-    </div>
-        <div class="objeto">
-            <div class="caja-imagen">
-                <img src="stupid photon.png" alt="Description" style="float: left; margin-right: 15px;">>
-            </div>
-</section>
-
- -->
-
-
-
-
-
-<!-- <section class="slide">
-
-    <div class="encabezado">
-        <h2>Módulo 1</h2>
-        <h1>¿Como funcióna un panel solar?</h1>
-    </div>
-
-    <div class="panelin-fijo">
-        <img src="panelin_feliz.png" class="panelin-decorativo">
-        <div class="globo-fijo">
-        <div id="text-container2"></div>
-
-    </div class="panelin-derecha">
-        <img src="stupid photon.png" class="panelin-decorativo">
-<div> -->
-
-<!-- 
-<script> //Script para housear texto animado! 
-function typeText(element, text, speed = 10) {
-  let i = 0;
-  element.innerHTML = '';
-  
-  function type() {
-    if (i < text.length) {
-      element.innerHTML += text.charAt(i);
-      i++;
-      setTimeout(type, speed);
-    } else {
-      // Remove cursor when done
-      const cursor = element.querySelector('.cursor');
-      if (cursor) cursor.remove();
-    }
-  }
-  
-  type();
-};
-
-</script> -->
-
-
-
-
-<!-- 
-
 =======
-<body style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f7f9fc; font-family: 'Nunito', sans-serif; margin: 0;">
-
-    <h1 style="color: #0f2d3c; font-family: 'Bebas Neue', sans-serif; font-size: 50px;">MÓDULO 3: PANELES SOLARES</h1>
-    <p style="font-size: 18px; color: #555; margin-bottom: 30px; text-align: center; max-width: 600px;">
-        ¡Genial! Ya sabes cómo funcionan los paneles. ¿Quieres ver una simulación de cómo los fotones se convierten en electrones?
-    </p>
-
-
+<script src="https://unpkg.com/kaplay@3001.0.19/dist/kaplay.js"></script>
+<script src="interaccion_mod3.js"></script>
+<script src="simulador_fotones.js"></script>
+>>>>>>> 277192d3c9e27261d4c727a51d14f357ba5faaf9
 </body>
 </html>
-
-
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-  #text-container {
-    font-family: monospace;
-    font-size: 24px;
-    min-height: 100px;
-    padding: 20px;
-  }
-  
-  .cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1.2em;
-    background-color: black;
-    margin-left: 2px;
-    animation: blink 1s step-end infinite;
-  }
-  
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-</style>
-</head>
-<body>
-
-<div id="text-container"></div>
-
-<script>
-function typeText(element, text, speed = 100) {
-  let i = 0;
-  element.innerHTML = '';
-  
-  function type() {
-    if (i < text.length) {
-      element.innerHTML += text.charAt(i);
-      i++;
-      setTimeout(type, speed);
-    } else {
-      // Remove cursor when done
-      const cursor = element.querySelector('.cursor');
-      if (cursor) cursor.remove();
-    }
-  }
-  
-  type();
-}
-
-// Usage
-const container = document.getElementById('text-container');
-typeText(container, "Hello, world! This text appears letter by letter.", 100);
-</script>
-
-</body>
-</html> -->
