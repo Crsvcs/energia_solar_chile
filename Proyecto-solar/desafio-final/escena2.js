@@ -57,7 +57,7 @@ class Escena2 extends Phaser.Scene {
     // ── Fondo cielo ────────────────────────────────
 
     this.add.image(W / 2, H / 2, this.reg.cielo)
-    .setDisplaySize(W * 1.36, H * 1.45).setDepth(0);gi
+    .setDisplaySize(W * 1.36, H * 1.45).setDepth(0);
 
     // Suelo verde natural
     this.add.graphics().setDepth(1)
