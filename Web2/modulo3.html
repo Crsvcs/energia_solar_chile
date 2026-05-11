@@ -168,7 +168,7 @@
 
 <!-- ── Iconos superiores (ampolleta + casa) ─── -->
 <div class="nav-top">
-    <button class="btn-nav" onclick="reproducirClikFlecha(1)" title="Ayuda">💡</button>
+    <button class="btn-nav" onclick="abrirModalIA()" title="Pregúntale a Panelín">💡</button>
     <button class="btn-nav" onclick="reproducirClikFlecha(-1); setTimeout(()=>window.location.href='modulos.html', 110)" title="Inicio">🏠</button>
 </div>
 
@@ -178,8 +178,32 @@
     <button onclick="cambiarSlide(1)"  id="flechaDerecha">→</button>
 </div>
 
+<!-- MODAL IA PANELÍN -->
+<div class="modal-ia" id="modalIA">
+    <div class="modal-ia-contenido">
+        <button class="modal-ia-cerrar" onclick="cerrarModalIA()">✕</button>
+        <div class="modal-ia-cabecera">
+            <img src="panelin_feliz.png" class="modal-ia-img">
+            <div>
+                <p class="modal-ia-titulo">¡Pregúntale a Panelín!</p>
+                <p class="modal-ia-subtitulo">Tu asistente de energía 🌟</p>
+            </div>
+        </div>
+        <div class="modal-ia-globo" id="modalIAGlobo">
+            ¡Hola! Soy Panelín 🌞 ¿Tienes alguna duda sobre la energía eléctrica o solar? ¡Escribe tu pregunta!
+        </div>
+        <div class="modal-ia-input-row">
+            <input type="text" class="modal-ia-input" id="modalIAInput"
+                   placeholder="Escribe tu pregunta aquí..."
+                   onkeydown="if(event.key==='Enter') enviarPreguntaIA()">
+            <button class="modal-ia-btn" id="modalIABtn" onclick="enviarPreguntaIA()">Preguntar ➜</button>
+        </div>
+    </div>
+</div>
+
 <script src="interaccion_web.js"></script>
 <script src="interaccion_fix_mod3.js"></script>
+<script src="panelin_ia.js"></script>
 </body>
 </html>
 <!-- 
