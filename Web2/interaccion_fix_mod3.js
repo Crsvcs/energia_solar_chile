@@ -8,24 +8,25 @@
 ── */
 
 /* ── TEXTOS DE CADA SLIDE ───────────────────── */
+/* Textos listos para la máquina de escribir de interaccion_web.js */
+const textoGloboSlide1 = "Usa las <b>flechas ← y →</b> para moverte por las páginas, la <b>casita 🏠</b> para volver a los módulos.";
+const textoGloboSlide2 = "¡Hola! Soy un <b>Fotón</b>. Mi trabajo es viajar desde el sol hasta la tierra para entregarte energía.";
+const textoGloboSlide3 = "Cuando muchos de nosotros chocamos contra un <b>panel solar</b>, ¡sucede algo mágico!";
+const textoGloboSlide4 = "¡Haz la prueba tú mismo! Haz clic en el <b>Sol</b> para enviarnos hacia el panel.";
+const textoGloboSlide5 = "¿Notaste que cuando los <b>fotones</b> chocan con el panel, los <b>electrones</b> empiezan a correr por el cable?\n¡Ese viaje de energía es lo que enciende las luces de tu casa!";
+const textoGloboSlide6 = "Esa energía puede viajar por cables o guardarse en <b>baterías 🔋</b> para usarla cuando el sol se esconda.";
+const textoGloboFinal  = "¡Excelente! Ahora eres un experto en el viaje de la luz.\n¡Ganaste tu <b>copa del Módulo 3 🏆</b>!";
 
-const textoMod3Slide1 = "Usa las flechas para avanzar, la casita para volver a los módulos y la ampolleta si tienes alguna duda.";
-const textoMod3Slide2 = "Los paneles tienen celdas de silicio que atrapan la luz del sol (<b>fotones</b>). ¡Eso hace que se <b>muevan electrones</b> y se genere <b>electricidad!</b>";
-const textoMod3Slide3 = "En la siguiente visualización veremos cómo la interacción entre el <b>silicio</b> y los <b>fotones</b> produce energía.";
-const textoMod3Slide4 = "¿Notaste como el sol tenia que estar constantemente trabajando para que la bombilla estuviera prendida? <b>¿Como utilizamos la energia en los momentos más oscuros del día?</b>";
-const textoMod3Slide5 = "¡Con <b>baterias</b>! ¡Se necesitan baterías para guardar la energía de los paneles! Ahorrar energía de sobra cuando el sol sale, y usarla cuando se esconde, es clave para un uso sustentable de la energía solar.";
-const textoMod3Final  = "¡Genial! Completaste el Módulo 3 y ganaste una copa solar 🏆.\nSigue explorando el mundo de la energía.\nAprieta la flecha ➜ para continuar.";
-
-/* Mapa de slide index → id del globo y texto */
+/* Mapa de slide index → id del globo y texto (¡Corregido!) */
 const slidesTextos = [
-    { id: "globoSlide1", texto: textoMod3Slide1 },
-    { id: "globoSlide2", texto: textoMod3Slide2 },
-    { id: "globoSlide3", texto: textoMod3Slide3 },
-    { id: "globoSlide4", texto: textoMod3Slide4 },
-    { id: "globoSlide5", texto: textoMod3Slide5 },
-    { id: "globoFinal",  texto: textoMod3Final  },
+    { id: "globoSlide1", texto: textoGloboSlide1 },
+    { id: "globoSlide2", texto: textoGloboSlide2 },
+    { id: "globoSlide3", texto: textoGloboSlide3 },
+    { id: "globoSlide4", texto: textoGloboSlide4 },
+    { id: "globoSlide5", texto: textoGloboSlide5 },
+    { id: "globoSlide6", texto: textoGloboSlide6 },
+    { id: "globoFinal",  texto: textoGloboFinal  }
 ];
-
 /* ── NAVEGACIÓN SIMPLIFICADA PARA MÓDULO 3 ──── */
 
 function cambiarSlide(n) {

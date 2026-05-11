@@ -60,7 +60,7 @@
 
     <!-- 🌟 BOTÓN DESAFÍO FINAL (Oculto hasta terminar el mapa) 🌟 -->
     <div id="zonaDesafioFinal" style="text-align: center; margin-top: 40px; display: none;">
-        <button onclick="reproducirClik(); setTimeout(()=>window.location.href='modulo5.html', 110)" style="background-color: #EF9F27; color: white; border: none; border-radius: 12px; padding: 15px 40px; font-size: 24px; font-family: 'Nunito', sans-serif; font-weight: bold; cursor: pointer; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); animation: latido 1.5s infinite;">
+        <button onclick="reproducirClik(); setTimeout(()=>window.location.href='modulo2f_resumen_final.html', 110)" style="background-color: #EF9F27; color: white; border: none; border-radius: 12px; padding: 15px 40px; font-size: 24px; font-family: 'Nunito', sans-serif; font-weight: bold; cursor: pointer; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); animation: latido 1.5s infinite;">
             ¡Ir al Resumen y Desafío Final! 🌟
         </button>
     </div>
@@ -81,5 +81,73 @@
     </button>
 
     <script src="modulos.js"></script>
+
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 1. Leer el progreso actual (si no hay, asume 1)
+            const progreso = parseInt(localStorage.getItem('modulos_desbloqueados') || '1');
+            
+            // 2. Desbloquear los módulos correspondientes
+            for (let i = 1; i <= progreso; i++) {
+                let mod = document.getElementById(`modulo${i}`);
+                let lock = document.getElementById(`lock${i}`);
+                if (mod) mod.classList.remove('bloqueado');
+                if (lock) lock.style.display = 'none';
+            }
+
+            // 3. MOSTRAR EL DESAFÍO FINAL si pasaron el Módulo 4 (progreso >= 5)
+            if (progreso >= 5) {
+                document.getElementById('zonaDesafioFinal').style.display = 'block';
+            }
+
+            // 4. Actualizar la placa de copas
+            const ganadas = [
+                localStorage.getItem('copa_modulo_1') === 'true',
+                localStorage.getItem('copa_modulo_2') === 'true',
+                localStorage.getItem('copa_modulo_3') === 'true',
+                localStorage.getItem('copa_modulo_4') === 'true',
+                localStorage.getItem('copa_desafio')  === 'true',
+                localStorage.getItem('copa_desafio_final') === 'true' // Ajusta si tu 6ta copa tiene otro nombre
+            ];
+            
+            const contenedorTrofeos = document.getElementById('placaTrofeos');
+            const totalEl = document.getElementById('placaTotal');
+            
+            if(contenedorTrofeos) {
+                // Genera los trofeítos con o sin color según si están ganadas
+                contenedorTrofeos.innerHTML = ganadas.map(g => `<span class="placa-vic-slot${g ? ' ganada' : ''}">🏆</span>`).join('');
+            }
+            if(totalEl) {
+                totalEl.textContent = ganadas.filter(Boolean).length + ' / 6';
+            }
+        });
+
+        // Función para ir a los módulos (revisa que esté desbloqueado)
+        function irModulo(n) {
+            const progreso = parseInt(localStorage.getItem('modulos_desbloqueados') || '1');
+            if (n <= progreso) {
+                reproducirClik();
+                setTimeout(() => window.location.href = `modulo${n}.html`, 110);
+            }
+        }
+        
+        // Sonidito de click rápido por si no lo tienes global
+        function reproducirClik() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const t = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(700, t);
+                osc.frequency.exponentialRampToValueAtTime(320, t + 0.075);
+                gain.gain.setValueAtTime(0.26, t);
+                gain.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
+                osc.start(t); osc.stop(t + 0.1);
+            } catch(e) {}
+        }
+    </script>
 </body>
 </html>
+
