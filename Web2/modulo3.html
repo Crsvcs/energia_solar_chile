@@ -1,27 +1,253 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Módulo 3 - En construcción</title>
+    <title>Módulo 2 - En construcción</title>
     <link rel="stylesheet" href="estilo_web.css">
+    <style>
+  #text-container {
+    font-family: monospace;
+    font-size: 24px;
+    min-height: 100px;
+    padding: 20px;
+  }
+  
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background-color: black;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+  }
+  
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+</style>
 </head>
-<body style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f7f9fc; font-family: 'Nunito', sans-serif;">
+<body>
 
-    <h1 style="color: #0f2d3c; font-family: 'Bebas Neue', sans-serif; font-size: 50px;">MÓDULO 3: PANELES SOLARES</h1>
-    <p style="font-size: 18px; color: #555; margin-bottom: 30px;">(Prototipo en construcción)</p>
+<section class="slide activo">
 
-    <button onclick="completarYVolver(4)" style="background-color: #EF9F27; color: white; border: none; border-radius: 12px; padding: 15px 30px; font-size: 20px; font-weight: bold; cursor: pointer;">
-        Simular que completé el Módulo 3 ➡️
-    </button>
+    <div class="encabezado">
+        <h2>Módulo 3</h2>
+    </div>
 
-    <script>
-        function completarYVolver(siguiente) {
-            let actual = parseInt(localStorage.getItem('modulos_desbloqueados') || '1');
-            if (actual < siguiente) {
-                localStorage.setItem('modulos_desbloqueados', siguiente.toString());
-            }
-            window.location.href = 'modulos.html'; // Vuelve a la casita
-        }
-    </script>
+    <div class="subtitulo-portada">
+        Como funciona un panel solar?
+    </div>
+
+    <div class="panelin-fijo">
+        <img src="../Proyecto-solar/desafio-final/assets/panelin_1.png" class="panelin-decorativo">
+        <div class="globo-fijo">
+            Usa las flechas para avanzar, la casa para volver a los módulos y la ampolleta por si tienes dudas.
+        </div>
+    </div>
+</section>
+
+
+
+<section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 3</h2>
+        <h1>¿Como funcióna un panel solar?</h1>
+    </div>
+
+
+    <div class="panelin-fijo" id="panelinSlide3">
+        <img src="panelin_feliz.png" class="panelin-decorativo">
+        <div class="globo-fijo" id="textoSlide3">
+            Los paneles tienen celdas de silicio que atrapan la luz del sol (fotones). Eso hace que se muevan electrones y se genere electricidad.
+        </div>
+    </div>
+
+<img src="stupid photon.png" alt="Description" 
+     style="float: right; 
+            margin-left: 50px; 
+            margin-bottom: 150px;
+            max-width: 30%; 
+            height: auto;">
+            </div>
+        </div>
+</section>
+
+
+<section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 3</h2>
+        <h1>¿Como funcióna un panel solar?</h1>
+    </div>
+
+
+    <div class="panelin-fijo" id="panelinSlide3">
+        <img src="panelin_feliz.png" class="panelin-decorativo">
+        <div class="globo-fijo" id="textoSlide3">
+            Cuando se genera la electricidad, los cabes la llevan para que puedas usarla en luces, tele o cargar cosas.
+    </div>
+
+            </div>
+</section>
+
+<section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 3</h2>
+        <h1>¿Como funcióna un panel solar?</h1>
+    </div>
+
+
+    <div class="panelin-fijo" id="panelinSlide3">
+        <img src="panelin_feliz.png" class="panelin-decorativo">
+        <div class="globo-fijo" id="textoSlide3">
+            Cuando se genera la electricidad, los cabes la llevan para que puedas usarla en luces, tele o cargar cosas.
+    </div>
+        <div class="objeto">
+            <div class="caja-imagen">
+                <img src="stupid photon.png" alt="Description" style="float: left; margin-right: 15px;">>
+            </div>
+</section>
+
+
+
+
+
+
+
+<!-- <section class="slide">
+
+    <div class="encabezado">
+        <h2>Módulo 1</h2>
+        <h1>¿Como funcióna un panel solar?</h1>
+    </div>
+
+    <div class="panelin-fijo">
+        <img src="panelin_feliz.png" class="panelin-decorativo">
+        <div class="globo-fijo">
+        <div id="text-container2"></div>
+
+    </div class="panelin-derecha">
+        <img src="stupid photon.png" class="panelin-decorativo">
+<div> -->
+
+
+<script> //Script para housear texto animado! 
+function typeText(element, text, speed = 10) {
+  let i = 0;
+  element.innerHTML = '';
+  
+  function type() {
+    if (i < text.length) {
+      element.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(type, speed);
+    } else {
+      // Remove cursor when done
+      const cursor = element.querySelector('.cursor');
+      if (cursor) cursor.remove();
+    }
+  }
+  
+  type();
+}
+
+// Usage
+
+
+
+ //incluir codigo aqui....
+
+var evil = 0;
+
+
+
+</script>
+
+
+
+</section>
+
+<!-- ── Iconos superiores (ampolleta + casa) ─── -->
+<div class="nav-top">
+    <button class="btn-nav" title="Ayuda">💡</button>
+    <button class="btn-nav" onclick="window.location.href='modulos.html'" title="Inicio">🏠</button>
+</div>
+
+<!-- ── Flechas de navegación ────────────────── -->
+<div class="flechas" id="flechas">
+    <button onclick="cambiarSlide(-1)" id="flechaIzquierda">←</button>
+    <button onclick="cambiarSlide(1)" id="flechaDerecha">→</button>
+</div>
+
+<script src="interaccion_web.js"></script>
+
+
+
+
+<!-- 
+
 </body>
 </html>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  #text-container {
+    font-family: monospace;
+    font-size: 24px;
+    min-height: 100px;
+    padding: 20px;
+  }
+  
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background-color: black;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+  }
+  
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div id="text-container"></div>
+
+<script>
+function typeText(element, text, speed = 100) {
+  let i = 0;
+  element.innerHTML = '';
+  
+  function type() {
+    if (i < text.length) {
+      element.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(type, speed);
+    } else {
+      // Remove cursor when done
+      const cursor = element.querySelector('.cursor');
+      if (cursor) cursor.remove();
+    }
+  }
+  
+  type();
+}
+
+// Usage
+const container = document.getElementById('text-container');
+typeText(container, "Hello, world! This text appears letter by letter.", 100);
+</script>
+
+</body>
+</html> -->
