@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen Final</title>
+    <link rel="stylesheet" href="estilo_web.css">
+    <style>
+        /* ── AJUSTES ESPECÍFICOS DEL RESUMEN (Armónico con Estilo Estándar) ──────────── */
+        
+        .subtitulo-repaso {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: #546e7a;
+            margin: 20px auto 40px auto;
+            /* FORZAMOS UNA SOLA LÍNEA */
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .grid-resumen {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr; /* Tres columnas */
+            /* ESPACIO CENTRAL AUMENTADO PARA BALANCE */
+            column-gap: clamp(40px, 8.33vw, 150px); 
+            row-gap: 30px;
+            max-width: 1200px; /* Un poco más ancho para albergar tres */
+            margin: 0 auto;
+        }
+
+        .tarjeta-resumen {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 25px;
+            border: 3px solid rgba(255, 213, 79, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .tarjeta-resumen:hover {
+            transform: translateY(-5px);
+            border-color: #FF8F00;
+            background: white;
+        }
+
+        .icono-resumen {
+            width: clamp(60px, 7vw, 90px);
+            height: clamp(60px, 7vw, 90px);
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(36px, 4.17vw, 54px);
+            filter: drop-shadow(0 4px 10px rgba(255,143,0,0.25));
+        }
+
+        .icono-resumen img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .texto-resumen {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .texto-resumen strong {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 26px;
+            color: #01579B;
+            margin-bottom: 2px;
+            letter-spacing: 1px;
+        }
+
+        .texto-resumen p {
+            margin: 0;
+            font-size: 17px;
+            color: #333;
+            line-height: 1.3;
+            font-weight: 700;
+        }
+
+        /* ── BOCADILLO DE PANELÍN ── */
+        .panelin-bocadillo {
+            position: absolute;
+            right: 250px;
+            bottom: 180px;
+            background-color: #FFD54F;
+            border: 3px solid #FF8F00;
+            border-radius: 30px;
+            padding: 15px 25px;
+            width: clamp(200px, 20.83vw, 360px);
+            text-align: center;
+            font-family: 'Nunito', sans-serif;
+            font-size: clamp(14px, 1.39vw, 18px);
+            font-weight: 800;
+            color: #424242;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .panelin-bocadillo::before {
+            content: "";
+            position: absolute;
+            bottom: -24px; right: 20px;
+            width: 0; height: 0;
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+            border-left: 24px solid #FF8F00;
+        }
+
+        .panelin-bocadillo::after {
+            content: "";
+            position: absolute;
+            bottom: -18px; right: 21px;
+            width: 0; height: 0;
+            border-top: 11px solid transparent;
+            border-bottom: 11px solid transparent;
+            border-left: 19px solid #FFD54F;
+        }
+
+        /* ── BOTÓN FINAL ── */
+        .contenedor-final {
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+        }
+
+        .btn-desafio {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(24px, 3vw, 36px);
+            padding: 15px 50px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(245, 124, 0, 0.3);
+            letter-spacing: 2px;
+            animation: latido 2s infinite;
+        }
+
+        @keyframes latido {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+    </style>
+</head>
+<body>
+
+<section class="slide activo">
+
+    <div class="nav-top">
+        <button class="btn-nav">💡</button>
+        <button class="btn-nav" onclick="window.location.href='modulos.html'">🏠</button>
+    </div>
+
+    <div class="encabezado">
+        <h2>RESUMEN Y DESAFÍO</h2>
+        <h1>¡YA ERES UN EXPERTO SOLAR!</h1>
+    </div>
+
+    <p class="subtitulo-repaso">Repasemos todo lo que aprendiste en esta aventura antes del gran desafío final.</p>
+
+    <div class="grid-resumen">
+        
+        <div class="tarjeta-resumen">
+            <div class="icono-resumen">
+                <img src="../../Web2/ampolleta.png" alt="Rayo">
+            </div>
+            <div class="texto-resumen">
+                <strong>Energía Eléctrica</strong>
+                <p>Movimiento de electrones que hacen funcionar todo a tu alrededor.</p>
+            </div>
+        </div>
+
+        <div class="tarjeta-resumen">
+            <div class="icono-resumen">
+                <img src="../../mapa_chile_visualizacion/modulo_4/imagenes/energia-renovable.png" alt="Sol">
+            </div>
+            <div class="texto-resumen">
+                <strong>Energía Solar</strong>
+                <p>Es una fuente limpia y renovable. ¡No se acaba nunca mientras exista el Sol!</p>
+            </div>
+        </div>
+
+        <div class="tarjeta-resumen">
+            <div class="icono-resumen">
+                <img src="../desafio-final/assets/Panel_Solar.png" alt="Paneles Solares">
+            </div>
+            <div class="texto-resumen">
+                <strong>Paneles + Baterías</strong>
+                <p>Los paneles transforman la luz y las baterías la guardan para todo el día.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="contenedor-final">
+        <button class="btn-desafio" onclick="window.location.href='desafio.html'">¡IR AL DESAFÍO FINAL! 🚀</button>
+    </div>
+
+</section>
+
+</body>
+</html>

@@ -92,8 +92,8 @@ body::before {
 
 /* Colores distintos por módulo */
 .modulo:nth-child(1) { border-top-color: #FF8F00; }
-.modulo:nth-child(2) { border-top-color: #0288D1; }
-.modulo:nth-child(3) { border-top-color: #43A047; }
+.modulo:nth-child(2) { border-top-color: #FFD54F; }
+.modulo:nth-child(3) { border-top-color: #FF8F00; }
 .modulo:nth-child(4) { border-top-color: #FFD54F; }
 
 /* ── NOMBRE DEL MÓDULO ───────────────────────── */
@@ -119,9 +119,9 @@ body::before {
     transition: transform 0.2s;
 }
 
-.modulo:nth-child(1) .circulo { border-color: #FF8F00; background: linear-gradient(135deg, #FFD54F, #FF8F00); }
-.modulo:nth-child(2) .circulo { border-color: #0288D1; background: linear-gradient(135deg, #81D4FA, #0288D1); }
-.modulo:nth-child(3) .circulo { border-color: #43A047; background: linear-gradient(135deg, #A5D6A7, #43A047); }
+.modulo:nth-child(1) .circulo { border-color: #FF8F00; background: linear-gradient(135deg, #fac074, #FF8F00); }
+.modulo:nth-child(2) .circulo { border-color: #FFD54F; background: linear-gradient(135deg, #FFE082, #FFD54F); }
+.modulo:nth-child(3) .circulo { border-color: #FF8F00; background: linear-gradient(135deg, #fac074, #FF8F00); }
 .modulo:nth-child(4) .circulo { border-color: #FFD54F; background: linear-gradient(135deg, #FFF3B0, #FFD54F); }
 
 .modulo-img {

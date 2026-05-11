@@ -43,7 +43,7 @@ function reproducirClikFlecha(n) {
     } catch(e) {}
 }
 
-/* ── TYPEWRITER ──────────────────────────────────────────────
+/* ── TYPEWRITER (VERSIÓN INTELIGENTE CON NEGRITAS) ─────────────
    Mientras escribe, la bandera `escribiendo = true` bloquea
    las flechas en cambiarSlide().
 ─────────────────────────────────────────────────────────────── */
@@ -63,6 +63,14 @@ function escribirTexto(elementId, texto, velocidad) {
     let i = 0;
     function tick() {
         if (i < texto.length) {
+            // ¡El truco para saltar las etiquetas HTML y no tipearlas letra por letra!
+            if (texto.charAt(i) === '<') {
+                let finEtiqueta = texto.indexOf('>', i);
+                if (finEtiqueta !== -1) {
+                    i = finEtiqueta;
+                }
+            }
+
             el.innerHTML = texto.slice(0, i + 1).replace(/\n/g, '<br>') +
                            '<span class="cursor">_</span>';
             i++;
@@ -77,14 +85,19 @@ function escribirTexto(elementId, texto, velocidad) {
     tick();
 }
 
-/* Textos de cada globo */
+/* ── TEXTOS DE CADA GLOBO (Con Negritas y Emojis) ── */
 const TEXTOS = {
-    slide1: "Usa las flechas para avanzar, la casita para volver a los módulos y la ampolleta si tienes alguna duda.",
-    slide2: "Chile recibe mucha radiación solar, que es la cantidad de energía del sol que llega a un lugar.\n¡Por eso es uno de los mejores países del mundo para generar energía solar!",
-    slide3: "En el desierto de Atacama el sol brilla casi todo el año y tiene muy poca nubosidad.\n¡Por eso hay muchas plantas solares en el norte de Chile!",
-    slide4: "En la siguiente pantalla haz clic en las regiones del mapa para conocer la radiación solar y la capacidad instalada de energía solar de cada una.",
-    slide6: "Con la energía solar, Chile podría convertirse en un líder mundial en energías renovables y exportar energía limpia a otros países.",
-    final:  "¡Muy bien! Completaste el cuarto y último módulo.\nPrepárate… ahora viene el resumen y el desafío final. ¡Aprieta la casa para continuar!"
+    slide1: "Usa las <b>flechas</b> ← y → para moverte por las páginas, la <b>casita 🏠</b> para volver a los módulos y la <b>ampolleta 💡</b> si tienes alguna duda.",
+    
+    slide2: "Chile recibe mucha <b>radiación solar</b>, que es la <b>cantidad</b> de energía del sol que <b>llega a un lugar</b>.\n¡Por eso es uno de los mejores países del mundo para <b>generar energía solar</b>!",
+    
+    slide3: "En el <b>Desierto de Atacama</b> el sol brilla casi todo el año y tiene muy poca nubosidad.\n¡Por eso hay muchas <b>plantas solares</b> en el <b>norte de Chile</b>!",
+    
+    slide4: "En la siguiente pantalla haz clic en las <b>regiones del mapa</b> para conocer su <b>radiación solar</b> y su <b>capacidad instalada</b> (¡es decir, cuánta energía pueden crear todos sus paneles juntos!).",
+    
+    slide6: "Con la energía solar, Chile podría convertirse en un <b>líder mundial</b> en energías renovables y <b>exportar energía limpia</b> a otros países.",
+    
+    final:  "¡Muy bien! Completaste el <b>cuarto y último módulo 🏆</b>.\nPrepárate… ahora viene el resumen y el <b>desafío final</b>. ¡Aprieta la <b>casita 🏠</b> para continuar!"
 };
 
 /* ── NAVEGACIÓN ──────────────────────────────────────────────*/

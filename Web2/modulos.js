@@ -158,9 +158,9 @@ function irModulo(num) {
 
     const urls = {
         1: 'estructura_web.html',
-        2: 'modulo2.html',
+        2: '../Proyecto-solar/modulo_2f/modulo2.html',
         3: 'modulo3.html',
-        4: 'modulo4.html'
+        4: '../mapa_chile_visualizacion/modulo_4.html'
     };
     setTimeout(() => { window.location.href = urls[num]; }, 110);
 }
