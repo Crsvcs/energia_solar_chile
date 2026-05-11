@@ -42,11 +42,12 @@ function cambiarSlide(n) {
     reproducirClikFlecha(n);
 
     let slides = document.querySelectorAll(".slide");
+    let total   = slides.length;
     let nuevaSlide = slideActual + n;
 
     /* Último slide: flecha derecha va al módulo 4 */
-    if (slideActual === slides.length - 1 && n === 1) {
-        window.location.href = 'modulo4.html';
+    if (slideActual === total - 1 && n === 1) {
+        setTimeout(() => { window.location.href = 'modulo4.html'; }, 110);
         return;
     }
 
