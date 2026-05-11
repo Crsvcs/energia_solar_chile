@@ -1,0 +1,676 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;700;800;900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Nunito', sans-serif;
+    background-color: white;
+}
+
+/* ── SLIDES ─────────────────────────────────────────────── */
+
+.slide {
+    display: none;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(160deg, #F5FAFF 0%, #FFFEF8 100%);
+}
+
+/* Franja lateral izquierda */
+.slide::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 14px;
+    background: linear-gradient(180deg, #FFD54F 0%, #FF8F00 100%);
+    z-index: 200;
+}
+
+/* Blob decorativo superior derecha */
+.slide::after {
+    content: "";
+    position: absolute;
+    top: -90px; right: -90px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255, 213, 79, 0.18) 35%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.slide.activo { display: block; }
+
+/* ── Cursor typewriter ── */
+.cursor {
+    display: inline-block;
+    font-weight: 900;
+    color: #FF8F00;
+    margin-left: 1px;
+    user-select: none;
+}
+.cursor.parpadeando {
+    animation: parpadeo .7s step-end infinite;
+}
+@keyframes parpadeo {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+/* Slide siguiente visible difuminado detrás del slide actual */
+.slide--preview {
+    display: block !important;
+    position: fixed;
+    inset: 0;
+    z-index: -1;              /* detrás del slide activo */
+    pointer-events: none;     /* no se puede interactuar */
+    opacity: 0.22;
+    filter: blur(6px) saturate(0.7);
+    transform: scale(1.03);   /* leve zoom para suavizar los bordes del blur */
+}
+
+/* Ocultar la franja naranja y el blob del slide preview para no distraer */
+.slide--preview::before,
+.slide--preview::after {
+    display: none;
+}
+
+/* El slide del mapa necesita flex-column para que el mapa ocupe el espacio restante */
+.slide-mapa.activo {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── ENCABEZADO ──────────────────────────────────────────── */
+
+.encabezado {
+    margin-left: 72px;
+    margin-top: 36px;
+    padding-left: 18px;
+    border-left: 5px solid #FF8F00;
+    flex-shrink: 0;
+}
+
+.encabezado h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    font-weight: normal;
+    color: #FF8F00;
+    letter-spacing: 2px;
+}
+
+.encabezado h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 92px;
+    font-weight: normal;
+    color: #01579B;
+    letter-spacing: 2px;
+    line-height: 0.93;
+}
+
+/* Versión compacta para el slide del mapa */
+.encabezado--compacto {
+    margin-top: 16px;
+}
+
+.encabezado--compacto h1 {
+    font-size: 52px;
+    line-height: 0.95;
+}
+
+/* ── ICONOS SUPERIORES ───────────────────────────────────── */
+
+.nav-top {
+    position: fixed;
+    top: 36px; right: 72px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 300;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(6px);
+    border-radius: 24px;
+    padding: 8px 14px;
+    box-shadow: 0 4px 18px rgba(1, 87, 155, 0.14);
+}
+
+.btn-nav {
+    background: none;
+    border: none;
+    font-size: 34px;
+    cursor: pointer;
+    padding: 4px;
+    transition: transform 0.15s;
+    line-height: 1;
+}
+
+.btn-nav:hover { transform: scale(1.2); }
+
+/* ── FLECHAS ─────────────────────────────────────────────── */
+
+.flechas {
+    position: fixed;
+    bottom: 36px; left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 72px;
+    z-index: 300;
+}
+
+.flechas button {
+    background: linear-gradient(135deg, #FFD54F, #FF8F00);
+    color: #01579B;
+    border: none;
+    font-size: 28px;
+    font-weight: 900;
+    width: 64px; height: 64px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    box-shadow: 0 6px 20px rgba(255, 143, 0, 0.38);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.flechas button:hover {
+    background: linear-gradient(135deg, #FFC107, #F57C00);
+    transform: scale(1.1);
+    box-shadow: 0 10px 28px rgba(255, 143, 0, 0.5);
+}
+
+/* ── SLIDE 1: PORTADA ────────────────────────────────────── */
+
+.subtitulo-portada {
+    position: absolute;
+    top: 40%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 100px;
+    font-weight: normal;
+    color: #01579B;
+    letter-spacing: 3px;
+    text-align: center;
+    width: 70%;
+    line-height: 1.0;
+}
+
+/* ── PANELÍN FIJO (slides generales) ────────────────────── */
+
+.panelin-fijo {
+    position: absolute;
+    left: 80px; bottom: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 20px;
+    z-index: 5;
+}
+
+.globo-fijo {
+    background-color: #FFD54F;
+    border: 3px solid #FF8F00;
+    border-radius: 30px;
+    padding: 24px 30px;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.55;
+    text-align: center;
+    max-width: 500px;
+    color: #424242;
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.globo-fijo::before {
+    content: "";
+    position: absolute;
+    left: -24px; bottom: 20px;
+    width: 0; height: 0;
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-right: 24px solid #FF8F00;
+}
+
+.globo-fijo::after {
+    content: "";
+    position: absolute;
+    left: -18px; bottom: 21px;
+    width: 0; height: 0;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-right: 19px solid #FFD54F;
+}
+
+.panelin-decorativo { width: 220px; filter: brightness(1.12); }
+.panelin-solo       { position: absolute; width: 200px; left: 80px; bottom: 60px; filter: brightness(1.12); }
+.panelin-derecha    { position: absolute; width: 200px; right: 80px; bottom: 60px; filter: brightness(1.12); transform: scaleX(-1); }
+
+/* ── BLOQUE TEXTO ────────────────────────────────────────── */
+
+.bloque-texto {
+    margin: 50px auto 0 auto;
+    max-width: 860px;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.75;
+    color: #333;
+    padding: 0 80px;
+}
+
+/* ── PANELÍN INTERACCIÓN ─────────────────────────────────── */
+
+.panelin-explica {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.panelin-explica::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(2px);
+}
+
+.panelin { position: absolute; width: 270px; left: 80px; bottom: 60px; z-index: 11; filter: brightness(1.12); }
+
+/* ── SLIDE FINAL ─────────────────────────────────────────── */
+
+.panelin-final {
+    position: absolute;
+    left: 80px; bottom: 120px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 30px;
+    z-index: 5;
+}
+
+.panelin-final-img { width: 300px; filter: brightness(1.12); }
+
+/* ══════════════════════════════════════════════════════════
+   MAPA INTEGRADO — SLIDE 5
+══════════════════════════════════════════════════════════ */
+
+/* Contenedor principal del mapa (ocupa el espacio restante del slide) */
+.mapa-layout {
+    flex: 1;
+    display: flex;
+    gap: 16px;
+    padding: 12px 80px 110px 56px; /* 56px = 14px franja + 42px gap */
+    overflow: hidden;
+    min-height: 0; /* necesario para que flex-child pueda shrink */
+}
+
+/* ── Panel izquierdo: tarjeta de info + leyenda ── */
+
+.mapa-panel-izq {
+    width: 290px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    /* Ocultar scrollbar visualmente */
+    scrollbar-width: thin;
+    scrollbar-color: #FFD54F transparent;
+}
+
+.mapa-info-card {
+    background: white;
+    border: 2.5px solid #01579B;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 4px 18px rgba(1, 87, 155, 0.12);
+    position: relative;
+    min-height: 160px;
+    flex-shrink: 0;
+}
+
+/* Instrucción inicial */
+.mapa-instruccion {
+    font-size: .92rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #333;
+    margin-bottom: 14px;
+}
+
+.globo-mapa {
+    background: #FFD54F;
+    border: 2px solid #FF8F00;
+    border-radius: 14px;
+    padding: 10px 14px;
+    font-size: .85rem;
+    font-weight: 700;
+    color: #424242;
+    line-height: 1.4;
+    box-shadow: 3px 3px 0 #FF8F00;
+}
+
+/* Detalle de región */
+.info-region {
+    animation: fadeSlideIn .3s ease both;
+}
+
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.hidden { display: none !important; }
+
+.close-btn-mapa {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: #01579B;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 26px; height: 26px;
+    font-size: .82rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s;
+}
+
+.close-btn-mapa:hover { background: #0277BD; }
+
+.region-nombre {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.25rem;
+    color: #01579B;
+    letter-spacing: .04em;
+    margin-bottom: 12px;
+    padding-right: 30px;
+    line-height: 1.1;
+}
+
+.region-datos {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.dato-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #F0F7FF;
+    border-radius: 10px;
+    padding: 8px 12px;
+    border-left: 3px solid #FFD54F;
+}
+
+.dato-icon { font-size: 1.25rem; }
+
+.dato-label {
+    font-size: .7rem;
+    color: #777;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.dato-valor {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.05rem;
+    color: #01579B;
+    letter-spacing: .03em;
+}
+
+/* Iconos de paneles solares */
+.paneles-titulo {
+    font-size: .78rem;
+    font-weight: 800;
+    color: #666;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.paneles-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-bottom: 8px;
+}
+
+.panel-svg {
+    width: 22px; height: 22px;
+    opacity: 0;
+    animation: popInPanel .3s ease forwards;
+}
+
+.panel-svg.parcial { opacity: .4; }
+
+@keyframes popInPanel {
+    from { opacity: 0; transform: scale(.5); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+.paneles-total {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: .95rem;
+    color: #01579B;
+    letter-spacing: .03em;
+}
+
+/* ── Leyenda ── */
+
+.mapa-leyenda {
+    background: white;
+    border: 2.5px solid #01579B;
+    border-radius: 16px;
+    padding: 14px 16px;
+    box-shadow: 0 4px 18px rgba(1, 87, 155, 0.10);
+    flex-shrink: 0;
+}
+
+.mapa-leyenda-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    color: #01579B;
+    letter-spacing: .06em;
+    margin-bottom: 10px;
+}
+
+.leyenda-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 7px;
+}
+
+.leyenda-item:last-child { margin-bottom: 0; }
+
+.leyenda-color {
+    width: 20px; height: 20px;
+    border-radius: 5px;
+    border: 2px solid rgba(0,0,0,.10);
+    flex-shrink: 0;
+}
+
+.leyenda-texto {
+    font-size: .82rem;
+    font-weight: 700;
+    color: #333;
+}
+
+/* Colores de nivel de radiación */
+.nivel-muy-alta   { background: #D62828; }
+.nivel-alta       { background: #F77F00; }
+.nivel-media-alta { background: #FCBF49; }
+.nivel-media      { background: #6DB33F; }
+.nivel-baja       { background: #5B8BDF; }
+
+/* ── Sección del mapa (columna derecha) ── */
+
+.mapa-seccion {
+    flex: 1;
+    display: flex;
+    flex-direction: row;          /* barra zoom izq | mapa der */
+    align-items: stretch;
+    background: linear-gradient(160deg, #E8F4FD 0%, #FFFBEE 100%);
+    border-radius: 22px;
+    border: 2.5px solid #01579B;
+    box-shadow: 0 8px 28px rgba(1, 87, 155, 0.14);
+    padding: 12px;
+    gap: 10px;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* ── Controles de zoom (barra vertical izquierda) ── */
+
+.zoom-controles {
+    display: flex;
+    flex-direction: column;       /* botones apilados verticalmente */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: white;
+    border: 2px solid #01579B;
+    border-radius: 30px;
+    padding: 12px 6px;
+    box-shadow: 0 2px 10px rgba(1, 87, 155, 0.12);
+    width: 48px;                  /* ancho fijo estrecho */
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.zoom-btn {
+    background: linear-gradient(135deg, #FFD54F, #FF8F00);
+    color: #01579B;
+    border: 2px solid #01579B;
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: transform .15s, box-shadow .15s;
+    flex-shrink: 0;
+}
+
+.zoom-btn:hover:not(:disabled) {
+    transform: scale(1.12);
+    box-shadow: 0 4px 12px rgba(255, 143, 0, 0.45);
+}
+
+.zoom-btn:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.zoom-btn--reset { font-size: .95rem; }
+
+/* Separador visual entre − y ⊙ */
+.zoom-separador {
+    width: 24px;
+    height: 2px;
+    background: rgba(1, 87, 155, 0.18);
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+/* Porcentaje rotado para caber en la barra estrecha */
+.zoom-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: .82rem;
+    color: #01579B;
+    letter-spacing: .04em;
+    text-align: center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    line-height: 1;
+}
+
+/* ── Wrapper y mapa de Chile ── */
+
+.mapa-wrapper {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;  /* el JS posiciona via transform */
+    overscroll-behavior: none;
+    min-height: 0;
+    min-width: 0;
+}
+
+.chile-map {
+    position: relative;
+    width: 300px;
+    height: 510px;
+    transform-origin: 0 0;
+    will-change: transform;
+    flex-shrink: 0;
+}
+
+/* ── Botones de región ── */
+
+.region-btn {
+    position: absolute;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.region-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    display: block;
+    /* Sin transition: el hover lo maneja JS con mouseenter/mouseleave */
+    pointer-events: auto;
+    user-select: none;
+}
+
+/* Hover y activa: el filter se aplica desde JS (mouseenter/mouseleave/click)
+   porque img.style.filter inline tiene mayor especificidad que CSS :hover.
+   Solo elevamos el z-index desde CSS. */
+.region-btn:hover  { z-index: 10; }
+.region-btn.activa { z-index: 20; }
+
+/* Tooltip al hacer hover */
+.region-btn::after {
+    content: attr(data-nombre);
+    position: absolute;
+    left: 50%; top: -34px;
+    transform: translateX(-50%);
+    background: #01579B;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: .74rem;
+    font-weight: 700;
+    white-space: nowrap;
+    padding: 4px 10px;
+    border-radius: 8px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .2s;
+    z-index: 50;
+    box-shadow: 0 2px 8px rgba(1, 87, 155, 0.3);
+}
+
+.region-btn:hover::after { opacity: 1; }

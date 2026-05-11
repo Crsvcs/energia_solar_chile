@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Módulo 4 – Sol en Chile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Black+Han+Sans&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════════ -->
+  <header class="mod-header">
+    <h1 class="mod-title">SOL EN CHILE</h1>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       MAIN LAYOUT
+  ═══════════════════════════════════════════════ -->
+  <main class="mod-main">
+
+    <!-- LEFT: info panel + leyenda -->
+    <section class="left-panel">
+
+      <!-- Panel de información -->
+      <div class="info-card" id="infoCard">
+        <div class="info-initial">
+          <p>
+            <strong>Pincha la región que quieras</strong><br/>
+            para saber la capacidad de paneles solares instalados.
+          </p>
+          <div class="panelin-tip">
+            <div class="tip-bubble">
+              ¡Cada región tiene diferente radiación solar!
+            </div>
+          </div>
+        </div>
+
+        <!-- Detalle de la región (oculto hasta clic) -->
+        <div class="info-region hidden" id="infoRegion">
+          <button class="close-btn" id="closeBtnRegion">✕</button>
+          <h2 class="region-nombre" id="regionNombre"></h2>
+          <div class="region-datos">
+            <div class="dato-item">
+              <span class="dato-icon">☀️</span>
+              <div>
+                <div class="dato-label">Radiación solar</div>
+                <div class="dato-valor" id="regionRadiacion"></div>
+              </div>
+            </div>
+            <div class="dato-item">
+              <span class="dato-icon">⚡</span>
+              <div>
+                <div class="dato-label">Capacidad instalada</div>
+                <div class="dato-valor" id="regionMW"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Iconos de paneles solares -->
+          <div class="paneles-titulo">Cada <span class="panel-icono">⊞</span> = 100 MW</div>
+          <div class="paneles-grid" id="panelesGrid"></div>
+          <div class="paneles-total" id="panelesTotal"></div>
+        </div>
+      </div>
+
+      <!-- Leyenda de radiación -->
+      <div class="leyenda">
+        <p class="leyenda-titulo">Radiación:</p>
+        <div class="leyenda-item">
+          <span class="leyenda-color nivel-muy-alta"></span>
+          <span class="leyenda-texto">Muy alta</span>
+        </div>
+        <div class="leyenda-item">
+          <span class="leyenda-color nivel-alta"></span>
+          <span class="leyenda-texto">Alta</span>
+        </div>
+        <div class="leyenda-item">
+          <span class="leyenda-color nivel-media-alta"></span>
+          <span class="leyenda-texto">Media alta</span>
+        </div>
+        <div class="leyenda-item">
+          <span class="leyenda-color nivel-media"></span>
+          <span class="leyenda-texto">Media</span>
+        </div>
+        <div class="leyenda-item">
+          <span class="leyenda-color nivel-baja"></span>
+          <span class="leyenda-texto">Baja</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT: mapa interactivo de Chile -->
+    <section class="map-section">
+
+      <!-- Controles de zoom -->
+      <div class="zoom-controls">
+        <button class="zoom-btn" id="zoomIn"    title="Acercar">+</button>
+        <span   class="zoom-badge" id="zoomBadge">100%</span>
+        <button class="zoom-btn" id="zoomOut"   title="Alejar">−</button>
+        <button class="zoom-btn zoom-btn--reset" id="zoomReset" title="Restablecer">⊙</button>
+      </div>
+
+      <!-- Contenedor con scroll/pan del mapa -->
+      <div class="map-wrapper" id="mapWrapper">
+        <div class="chile-map" id="chileMap">
+          <!-- Las regiones son insertadas por JavaScript -->
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- NAV -->
+  <nav class="mod-nav">
+    <button class="nav-btn" id="prevBtn" onclick="history.back()">←</button>
+    <button class="nav-btn" id="nextBtn" disabled>→</button>
+  </nav>
+
+  <script src="js/map.js"></script>
+</body>
+</html>

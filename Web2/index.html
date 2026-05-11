@@ -2,8 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Descubre la Energía Solar en Chile</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="index.css?v=3">
 </head>
 <body>
 
@@ -21,12 +22,39 @@
                 ¡Hola! Soy Panelín ¿Me acompañas a descubrir cómo funciona la energía solar?
             </div>
             <img src="panelin_feliz.png" class="portada-panelin-img">
-            <button class="btn-comenzar" onclick="window.location.href='modulos.html'">
+            <button class="btn-comenzar" type="button" id="btnComenzar">
                 Comenzar aventura &rarr;
             </button>
         </div>
 
     </div>
+
+<script>
+function reproducirClik() {
+    try {
+        const ctx  = new (window.AudioContext || window.webkitAudioContext)();
+        const t    = ctx.currentTime;
+        const osc  = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(520, t);
+        osc.frequency.exponentialRampToValueAtTime(340, t + 0.065);
+        gain.gain.setValueAtTime(0.20, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+        osc.start(t);
+        osc.stop(t + 0.09);
+    } catch(e) {}
+}
+
+document.getElementById('btnComenzar').addEventListener('click', function() {
+    reproducirClik();
+    setTimeout(function() {
+        window.location.href = 'modulos.html';
+    }, 150);
+});
+</script>
 
 </body>
 </html>

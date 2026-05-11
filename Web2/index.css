@@ -50,13 +50,13 @@ body::after {
     z-index: 1;
     background: rgba(255, 255, 255, 0.93);
     border-radius: 40px;
-    width: 94vw;
-    max-width: 1300px;
-    height: 82vh;
+    width: 90vw;
+    max-width: 1200px;
+    height: 78vh;
     display: flex;
     flex-direction: row;
-    padding: 50px 60px 50px 86px;
-    gap: 24px;
+    padding: clamp(24px, 2.78vw, 40px) clamp(28px, 3.47vw, 50px) clamp(24px, 2.78vw, 40px) clamp(40px, 4.86vw, 70px);
+    gap: clamp(12px, 1.67vw, 24px);
     box-shadow: 0 24px 70px rgba(1, 87, 155, 0.25);
     overflow: hidden;
 }
@@ -86,19 +86,19 @@ body::after {
 
 .portada-titulo {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 160px;
+    font-size: clamp(52px, 8.33vw, 120px);
     line-height: 0.91;
     color: #01579B;
     letter-spacing: 0px;
 }
 
 .portada-subtitulo {
-    font-size: 19px;
+    font-size: clamp(11px, 1.18vw, 17px);
     font-weight: 800;
     letter-spacing: 2px;
     color: #FF8F00;
     text-transform: uppercase;
-    margin-top: 18px;
+    margin-top: clamp(10px, 1.25vw, 18px);
 }
 
 /* ── COLUMNA DERECHA (contenedor de referencia) ── */
@@ -112,14 +112,14 @@ body::after {
 
 .globo-inicio {
     position: absolute;
-    top: 25%;
-    left: 25px;
-    width: 270px;
+    top: 8%;
+    left: clamp(14px, 1.74vw, 25px);
+    width: clamp(180px, 18.75vw, 270px);
     background: #FFD54F;
     border: 3px solid #FF8F00;
     border-radius: 22px;
-    padding: 14px 18px;
-    font-size: 16px;
+    padding: clamp(10px, 0.97vw, 14px) clamp(12px, 1.25vw, 18px);
+    font-size: clamp(12px, 1.11vw, 16px);
     font-weight: 800;
     line-height: 1.55;
     text-align: center;
@@ -153,9 +153,9 @@ body::after {
 
 .portada-panelin-img {
     position: absolute;
-    width: 280px;
+    width: clamp(160px, 19.44vw, 280px);
     bottom: 11%;
-    left: -190px;
+    left: clamp(-200px, -80vw, -100px);
 }
 
 /* ── BOTÓN COMENZAR (posición absoluta) ──────── */
@@ -163,13 +163,13 @@ body::after {
 .btn-comenzar {
     position: absolute;
     bottom: 3%;
-    left: 40px;
+    left: clamp(24px, 2.78vw, 40px);
     background: linear-gradient(135deg, #FFD54F, #FF8F00);
     border: none;
     border-radius: 50px;
-    padding: 18px 36px;
+    padding: clamp(12px, 1.25vw, 18px) clamp(22px, 2.5vw, 36px);
     font-family: 'Nunito', sans-serif;
-    font-size: 20px;
+    font-size: clamp(14px, 1.39vw, 20px);
     font-weight: 900;
     color: #01579B;
     cursor: pointer;
